@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="sportmatch_primary">#9CCBFF</color>
+    <color name="sportmatch_primary_container">#214C76</color>
+    <color name="sportmatch_on_primary_container">#D9EAFD</color>
+    <color name="sportmatch_accent">#9ED8A1</color>
+    <color name="sportmatch_background">#111820</color>
+    <color name="sportmatch_surface">#1D2731</color>
+    <color name="sportmatch_text_primary">#F0F4F7</color>
+    <color name="sportmatch_text_secondary">#B6C3CE</color>
+    <color name="sportmatch_stroke">#35434F</color>
+    <color name="sportmatch_football">#184F88</color>
+    <color name="sportmatch_badminton">#286432</color>
+</resources>

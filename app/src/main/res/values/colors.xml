@@ -2,4 +2,15 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="sportmatch_primary">#1565C0</color>
+    <color name="sportmatch_primary_container">#D9EAFD</color>
+    <color name="sportmatch_on_primary_container">#10385F</color>
+    <color name="sportmatch_accent">#2E7D32</color>
+    <color name="sportmatch_background">#F7F9FC</color>
+    <color name="sportmatch_surface">#FFFFFF</color>
+    <color name="sportmatch_text_primary">#17212B</color>
+    <color name="sportmatch_text_secondary">#526171</color>
+    <color name="sportmatch_stroke">#DDE4EB</color>
+    <color name="sportmatch_football">#1565C0</color>
+    <color name="sportmatch_badminton">#2E7D32</color>
 </resources>

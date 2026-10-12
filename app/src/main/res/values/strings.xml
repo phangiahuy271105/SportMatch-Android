@@ -1,3 +1,24 @@
 <resources>
     <string name="app_name">SportMatch</string>
+    <string name="app_slogan">Chạm là có sân – Cần là có đội.</string>
+    <string name="venue_list_title">Tìm sân</string>
+    <string name="filter_all_sports">Tất cả</string>
+    <string name="filter_district_label">Khu vực</string>
+    <string name="sport_football">Bóng đá mini</string>
+    <string name="sport_badminton">Cầu lông</string>
+    <string name="nav_venues">Sân</string>
+    <string name="nav_matches">Tìm người</string>
+    <string name="nav_profile">Cá nhân</string>
+    <string name="matches_empty_message">Chưa có bài tìm người. Hãy quay lại sau để xem các bài mới.</string>
+    <string name="profile_empty_message">Đăng nhập để xem hồ sơ và lịch hoạt động của bạn.</string>
+    <string name="empty_venues">Không có sân phù hợp. Hãy thử chọn môn hoặc khu vực khác.</string>
+    <string name="venue_count">%1$d sân phù hợp</string>
+    <string name="price_from">Từ %1$s/giờ</string>
+    <string-array name="district_filters">
+        <item>Tất cả khu vực</item>
+        <item>Bình Thạnh</item>
+        <item>Thủ Đức</item>
+        <item>Tân Bình</item>
+        <item>Quận 7</item>
+    </string-array>
 </resources>

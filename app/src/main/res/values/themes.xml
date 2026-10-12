@@ -1,9 +1,38 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
     <style name="Base.Theme.SportMatch" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="colorPrimary">@color/sportmatch_primary</item>
+        <item name="colorSecondary">@color/sportmatch_accent</item>
+        <item name="colorPrimaryContainer">@color/sportmatch_primary_container</item>
+        <item name="colorOnPrimaryContainer">@color/sportmatch_on_primary_container</item>
+        <item name="colorSecondaryContainer">@color/sportmatch_primary_container</item>
+        <item name="colorOnSecondaryContainer">@color/sportmatch_on_primary_container</item>
     </style>
 
     <style name="Theme.SportMatch" parent="Base.Theme.SportMatch" />
+
+    <style name="SportMatchEmptyPanel">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:gravity">center</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:padding">24dp</item>
+    </style>
+
+    <style name="SportMatchEmptyTitle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/sportmatch_text_primary</item>
+        <item name="android:textSize">24sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="SportMatchEmptyMessage">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">8dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/sportmatch_text_secondary</item>
+        <item name="android:textSize">15sp</item>
+    </style>
 </resources>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/nav_venues"
+        android:icon="@drawable/ic_venues"
+        android:title="@string/nav_venues" />
+    <item
+        android:id="@+id/nav_matches"
+        android:icon="@drawable/ic_matches"
+        android:title="@string/nav_matches" />
+    <item
+        android:id="@+id/nav_profile"
+        android:icon="@drawable/ic_profile"
+        android:title="@string/nav_profile" />
+</menu>
