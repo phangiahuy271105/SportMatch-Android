@@ -129,7 +129,7 @@
                             android:textColor="@color/sportmatch_primary"
                             android:textSize="22sp"
                             android:textStyle="bold"
-                            tools:text="SM-2026-8899" />
+                            tools:text="SM-AB12CD34" />
 
                         <!-- Badge trạng thái -->
                         <TextView
@@ -187,7 +187,7 @@
                             android:textColor="@color/sportmatch_text_primary"
                             android:textSize="15sp"
                             android:textStyle="bold"
-                            tools:text="Sân bóng đá Chảo Lửa" />
+                            tools:text="Sân bóng Bình Thạnh" />
 
                         <TextView
                             android:id="@+id/tv_detail_sport_badge"
@@ -420,6 +420,30 @@
                             android:textColor="@color/sportmatch_text_primary"
                             android:textSize="14sp"
                             tools:text="0901 234 567" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/booking_note_row"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:orientation="horizontal"
+                        android:visibility="gone">
+
+                        <TextView
+                            android:layout_width="120dp"
+                            android:layout_height="wrap_content"
+                            android:text="@string/booking_note_label"
+                            android:textColor="@color/sportmatch_text_secondary"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:id="@+id/tv_detail_booking_note"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:textColor="@color/sportmatch_text_primary"
+                            android:textSize="14sp" />
                     </LinearLayout>
 
                     <!-- Đường kẻ phân cách -->

@@ -16,198 +16,159 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.button.MaterialButton;
+import com.sportmatch.app.data.BookingStore;
+import com.sportmatch.app.data.BookingTime;
+import com.sportmatch.app.data.CurrentUser;
+import com.sportmatch.app.data.SampleData;
+import com.sportmatch.app.model.Booking;
+import com.sportmatch.app.model.Court;
+import com.sportmatch.app.model.Venue;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 
-/**
- * Màn hình 5: Lịch đặt của tôi
- * Trình độ sinh viên năm 3: Hiển thị danh sách vé đặt qua RecyclerView và lọc tab Sắp tới / Đã qua.
- */
+/** Hiển thị đúng các lịch đã lưu của người dùng demo. */
 public class MyBookingsActivity extends AppCompatActivity {
-
-    private TextView tabUpcoming;
-    private TextView tabPast;
-    private RecyclerView rvBookings;
-    private LinearLayout layoutEmpty;
-    private BookingSimpleAdapter adapter;
-
-    private final List<BookingItemModel> upcomingList = new ArrayList<>();
-    private final List<BookingItemModel> pastList = new ArrayList<>();
+    private final List<Booking> upcoming = new ArrayList<>();
+    private final List<Booking> past = new ArrayList<>();
+    private TextView upcomingTab;
+    private TextView pastTab;
+    private LinearLayout emptyLayout;
+    private BookingAdapter adapter;
+    private boolean showingUpcoming = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_bookings);
+        ((ImageButton) findViewById(R.id.btn_back)).setOnClickListener(v -> finish());
+        upcomingTab = findViewById(R.id.tab_upcoming);
+        pastTab = findViewById(R.id.tab_past);
+        emptyLayout = findViewById(R.id.layout_empty_bookings);
 
-        // 1. Nút quay lại
-        ImageButton btnBack = findViewById(R.id.btn_back);
-        if (btnBack != null) {
-            btnBack.setOnClickListener(v -> finish());
-        }
+        RecyclerView list = findViewById(R.id.rv_bookings);
+        list.setLayoutManager(new LinearLayoutManager(this));
+        adapter = new BookingAdapter();
+        list.setAdapter(adapter);
+        upcomingTab.setOnClickListener(v -> showTab(true));
+        pastTab.setOnClickListener(v -> showTab(false));
 
-        tabUpcoming = findViewById(R.id.tab_upcoming);
-        tabPast = findViewById(R.id.tab_past);
-        rvBookings = findViewById(R.id.rv_bookings);
-        layoutEmpty = findViewById(R.id.layout_empty_bookings);
-
-        MaterialButton btnExplore = findViewById(R.id.btn_explore_venues);
-        if (btnExplore != null) {
-            btnExplore.setOnClickListener(v -> finish());
-        }
-
-        // 2. Tạo dữ liệu mẫu lịch đặt
-        initSampleData();
-
-        // 3. Cài đặt RecyclerView
-        rvBookings.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new BookingSimpleAdapter(upcomingList);
-        rvBookings.setAdapter(adapter);
-
-        // 4. Bắt sự kiện chọn tab "Sắp tới" / "Đã qua"
-        tabUpcoming.setOnClickListener(v -> selectTab(true));
-        tabPast.setOnClickListener(v -> selectTab(false));
+        MaterialButton explore = findViewById(R.id.btn_explore_venues);
+        explore.setOnClickListener(v -> {
+            Intent intent = new Intent(this, MainActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            startActivity(intent);
+            finish();
+        });
+        showTab(true);
     }
 
-    private void selectTab(boolean isUpcoming) {
-        if (isUpcoming) {
-            tabUpcoming.setBackgroundResource(R.drawable.bg_tab_selected);
-            tabUpcoming.setTextColor(ContextCompat.getColor(this, R.color.white));
+    @Override
+    protected void onResume() {
+        super.onResume();
+        loadBookings();
+    }
 
-            tabPast.setBackgroundResource(R.drawable.bg_tab_unselected);
-            tabPast.setTextColor(ContextCompat.getColor(this, R.color.sportmatch_text_secondary));
-
-            adapter.updateData(upcomingList);
-            layoutEmpty.setVisibility(upcomingList.isEmpty() ? View.VISIBLE : View.GONE);
-        } else {
-            tabPast.setBackgroundResource(R.drawable.bg_tab_selected);
-            tabPast.setTextColor(ContextCompat.getColor(this, R.color.white));
-
-            tabUpcoming.setBackgroundResource(R.drawable.bg_tab_unselected);
-            tabUpcoming.setTextColor(ContextCompat.getColor(this, R.color.sportmatch_text_secondary));
-
-            adapter.updateData(pastList);
-            layoutEmpty.setVisibility(pastList.isEmpty() ? View.VISIBLE : View.GONE);
+    private void loadBookings() {
+        upcoming.clear();
+        past.clear();
+        BookingStore store = new BookingStore(this);
+        for (Booking booking : store.getBookingsForUser(CurrentUser.getId())) {
+            if (BookingTime.hasEnded(booking.getPlayDate(), booking.getStartHour())) {
+                past.add(booking);
+            } else {
+                upcoming.add(booking);
+            }
         }
+        // Ngày yyyy-MM-dd sắp theo chữ cũng là thứ tự thời gian.
+        Collections.sort(upcoming, (a, b) -> bookingKey(a).compareTo(bookingKey(b)));
+        Collections.sort(past, (a, b) -> bookingKey(b).compareTo(bookingKey(a)));
+        showTab(showingUpcoming);
     }
 
-    private void initSampleData() {
-        // Lịch sắp tới
-        upcomingList.add(new BookingItemModel(
-                "SM-2026-8899",
-                "Sân bóng đá Chảo Lửa",
-                "Sân số 1 (Bóng đá mini 5 người)",
-                "18:00 – 19:00 | Hôm nay, 18/10/2026",
-                "30 Phan Thúc Duyện, Tân Bình",
-                "180.000 đ",
-                "Đã xác nhận",
-                true
-        ));
-        upcomingList.add(new BookingItemModel(
-                "SM-2026-7712",
-                "Sân cầu lông Tân Bình",
-                "Sân số 2 (Thảm tiêu chuẩn)",
-                "09:00 – 10:00 | Ngày mai, 19/10/2026",
-                "Tân Bình, TP.HCM",
-                "90.000 đ",
-                "Đã xác nhận",
-                true
-        ));
-
-        // Lịch đã qua
-        pastList.add(new BookingItemModel(
-                "SM-2026-5520",
-                "Sân bóng Bình Thạnh",
-                "Sân số 1 (Cỏ nhân tạo 5 người)",
-                "19:00 – 20:00 | 12/10/2026",
-                "Bình Thạnh, TP.HCM",
-                "220.000 đ",
-                "Đã hoàn thành",
-                false
-        ));
+    private String bookingKey(Booking booking) {
+        return booking.getPlayDate() + String.format(Locale.US, "%02d", booking.getStartHour());
     }
 
-    // Model đơn giản cho thẻ lịch đặt
-    static class BookingItemModel {
-        String code, venueName, court, dateTime, address, price, status;
-        boolean isConfirmed;
-
-        BookingItemModel(String code, String venueName, String court, String dateTime, String address, String price, String status, boolean isConfirmed) {
-            this.code = code;
-            this.venueName = venueName;
-            this.court = court;
-            this.dateTime = dateTime;
-            this.address = address;
-            this.price = price;
-            this.status = status;
-            this.isConfirmed = isConfirmed;
+    private void showTab(boolean showUpcoming) {
+        showingUpcoming = showUpcoming;
+        upcomingTab.setBackgroundResource(showUpcoming
+                ? R.drawable.bg_tab_selected : R.drawable.bg_tab_unselected);
+        pastTab.setBackgroundResource(showUpcoming
+                ? R.drawable.bg_tab_unselected : R.drawable.bg_tab_selected);
+        upcomingTab.setTextColor(ContextCompat.getColor(this, showUpcoming
+                ? R.color.white : R.color.sportmatch_text_secondary));
+        pastTab.setTextColor(ContextCompat.getColor(this, showUpcoming
+                ? R.color.sportmatch_text_secondary : R.color.white));
+        if (adapter != null) {
+            adapter.setBookings(showUpcoming ? upcoming : past);
+            emptyLayout.setVisibility(adapter.getItemCount() == 0 ? View.VISIBLE : View.GONE);
         }
     }
 
-    // Adapter RecyclerView cơ bản cho sinh viên
-    private class BookingSimpleAdapter extends RecyclerView.Adapter<BookingSimpleAdapter.ViewHolder> {
-        private final List<BookingItemModel> list = new ArrayList<>();
+    private class BookingAdapter extends RecyclerView.Adapter<BookingAdapter.Holder> {
+        private final List<Booking> items = new ArrayList<>();
 
-        BookingSimpleAdapter(List<BookingItemModel> initial) {
-            this.list.addAll(initial);
-        }
-
-        void updateData(List<BookingItemModel> newList) {
-            this.list.clear();
-            this.list.addAll(newList);
+        void setBookings(List<Booking> bookings) {
+            items.clear();
+            items.addAll(bookings);
             notifyDataSetChanged();
         }
 
         @NonNull
         @Override
-        public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_booking, parent, false);
-            return new ViewHolder(view);
+        public Holder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            View row = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.item_booking, parent, false);
+            return new Holder(row);
         }
 
         @Override
-        public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-            BookingItemModel item = list.get(position);
-            holder.tvVenueName.setText(item.venueName);
-            holder.tvStatus.setText(item.status);
-            holder.tvStatus.setBackgroundResource(item.isConfirmed ? R.drawable.bg_status_confirmed : R.drawable.bg_status_completed);
-            holder.tvStatus.setTextColor(ContextCompat.getColor(MyBookingsActivity.this, item.isConfirmed ? R.color.sportmatch_accent_dark : R.color.sportmatch_text_secondary));
+        public void onBindViewHolder(@NonNull Holder holder, int position) {
+            Booking booking = items.get(position);
+            Court court = SampleData.getCourtById(booking.getCourtId());
+            Venue venue = court == null ? null : SampleData.getVenueById(court.getVenueId());
+            boolean ended = BookingTime.hasEnded(booking.getPlayDate(), booking.getStartHour());
 
-            holder.tvCourt.setText(item.court);
-            holder.tvDateTime.setText(item.dateTime);
-            holder.tvAddress.setText(item.address);
-            holder.tvCode.setText("Mã: " + item.code);
-            holder.tvPrice.setText(item.price);
-
-            // Bấm vào thẻ để mở Màn hình 6 (Chi tiết lịch đặt)
+            holder.venue.setText(venue == null ? "Sân mẫu đã thay đổi" : venue.getName());
+            holder.court.setText(court == null ? "Không tìm thấy sân con" : court.getName());
+            holder.address.setText(venue == null ? "" : venue.getAddress());
+            holder.dateTime.setText(BookingTime.displaySlot(booking.getStartHour())
+                    + " | " + BookingTime.displayDate(booking.getPlayDate()));
+            holder.code.setText("Mã: " + booking.getId());
+            holder.price.setText(BookingTime.displayPrice(booking.getTotalPrice()));
+            holder.status.setText(ended
+                    ? R.string.booking_status_completed : R.string.booking_status_confirmed);
+            holder.status.setBackgroundResource(ended
+                    ? R.drawable.bg_status_completed : R.drawable.bg_status_confirmed);
+            holder.status.setTextColor(ContextCompat.getColor(MyBookingsActivity.this, ended
+                    ? R.color.sportmatch_text_secondary : R.color.sportmatch_accent_dark));
             holder.itemView.setOnClickListener(v -> {
                 Intent intent = new Intent(MyBookingsActivity.this, BookingDetailActivity.class);
-                intent.putExtra("BOOKING_CODE", item.code);
-                intent.putExtra("VENUE_NAME", item.venueName);
-                intent.putExtra("COURT_NAME", item.court);
-                intent.putExtra("SELECTED_DATE", item.dateTime);
-                intent.putExtra("PRICE", 180000);
+                intent.putExtra("BOOKING_ID", booking.getId());
                 startActivity(intent);
             });
         }
 
         @Override
         public int getItemCount() {
-            return list.size();
+            return items.size();
         }
 
-        class ViewHolder extends RecyclerView.ViewHolder {
-            TextView tvVenueName, tvStatus, tvCourt, tvDateTime, tvAddress, tvCode, tvPrice;
+        class Holder extends RecyclerView.ViewHolder {
+            TextView venue, court, dateTime, address, code, price, status;
 
-            ViewHolder(@NonNull View v) {
-                super(v);
-                tvVenueName = v.findViewById(R.id.tv_booking_item_venue_name);
-                tvStatus = v.findViewById(R.id.tv_booking_item_status);
-                tvCourt = v.findViewById(R.id.tv_booking_item_court);
-                tvDateTime = v.findViewById(R.id.tv_booking_item_datetime);
-                tvAddress = v.findViewById(R.id.tv_booking_item_address);
-                tvCode = v.findViewById(R.id.tv_booking_item_code);
-                tvPrice = v.findViewById(R.id.tv_booking_item_price);
+            Holder(View row) {
+                super(row);
+                venue = row.findViewById(R.id.tv_booking_item_venue_name);
+                court = row.findViewById(R.id.tv_booking_item_court);
+                dateTime = row.findViewById(R.id.tv_booking_item_datetime);
+                address = row.findViewById(R.id.tv_booking_item_address);
+                code = row.findViewById(R.id.tv_booking_item_code);
+                price = row.findViewById(R.id.tv_booking_item_price);
+                status = row.findViewById(R.id.tv_booking_item_status);
             }
         }
     }

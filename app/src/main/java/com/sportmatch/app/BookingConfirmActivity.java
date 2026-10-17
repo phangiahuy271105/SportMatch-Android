@@ -11,115 +11,105 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.button.MaterialButton;
+import com.sportmatch.app.data.BookingStore;
+import com.sportmatch.app.data.BookingTime;
+import com.sportmatch.app.data.CurrentUser;
+import com.sportmatch.app.data.SampleData;
+import com.sportmatch.app.model.Booking;
+import com.sportmatch.app.model.Court;
+import com.sportmatch.app.model.Venue;
 
-import java.text.NumberFormat;
 import java.util.Locale;
+import java.util.UUID;
 
-/**
- * Màn hình 4: Xác nhận đặt sân
- * Trình độ sinh viên năm 3: Kiểm tra thông tin đặt sân, nhập thông tin khách hàng và hoàn tất.
- */
+/** Kiểm tra lại thông tin trước khi lưu một lịch đặt mẫu trên máy. */
 public class BookingConfirmActivity extends AppCompatActivity {
-
-    private String venueName = "Sân bóng Bình Thạnh";
-    private String courtName = "Sân số 1 (5 người)";
-    private String selectedDate = "Hôm nay, 18/10/2026";
-    private String selectedTime = "17:00 – 18:00";
-    private int price = 220000;
-
-    private EditText edtCustomerName;
-    private EditText edtCustomerPhone;
-    private EditText edtBookingNote;
+    private Venue venue;
+    private Court court;
+    private String playDate;
+    private int startHour;
+    private BookingStore bookingStore;
+    private EditText nameInput;
+    private EditText phoneInput;
+    private EditText noteInput;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_booking_confirm);
+        ((ImageButton) findViewById(R.id.btn_back)).setOnClickListener(v -> finish());
 
-        // 1. Nút quay lại
-        ImageButton btnBack = findViewById(R.id.btn_back);
-        if (btnBack != null) {
-            btnBack.setOnClickListener(v -> finish());
+        venue = SampleData.getVenueById(getIntent().getStringExtra("VENUE_ID"));
+        court = SampleData.getCourtById(getIntent().getStringExtra("COURT_ID"));
+        playDate = getIntent().getStringExtra("PLAY_DATE");
+        startHour = getIntent().getIntExtra("START_HOUR", -1);
+        if (venue == null || court == null || !court.getVenueId().equals(venue.getId())
+                || playDate == null || startHour < 16 || startHour > 21) {
+            Toast.makeText(this, "Thông tin đặt sân không hợp lệ", Toast.LENGTH_SHORT).show();
+            finish();
+            return;
+        }
+        bookingStore = new BookingStore(this);
+
+        ((TextView) findViewById(R.id.tv_confirm_venue_name)).setText(venue.getName());
+        ((TextView) findViewById(R.id.tv_confirm_court_name)).setText(court.getName());
+        ((TextView) findViewById(R.id.tv_confirm_date))
+                .setText(BookingTime.displayDate(playDate));
+        ((TextView) findViewById(R.id.tv_confirm_time))
+                .setText(BookingTime.displaySlot(startHour));
+        String price = BookingTime.displayPrice(court.getPricePerHour());
+        ((TextView) findViewById(R.id.tv_confirm_court_fee)).setText(price);
+        ((TextView) findViewById(R.id.tv_confirm_total_price)).setText(price);
+
+        nameInput = findViewById(R.id.edt_customer_name);
+        phoneInput = findViewById(R.id.edt_customer_phone);
+        noteInput = findViewById(R.id.edt_booking_note);
+        // Địa điểm đều hư cấu nên không hiển thị số điện thoại chủ sân.
+        findViewById(R.id.btn_support_call).setVisibility(View.GONE);
+        MaterialButton confirmButton = findViewById(R.id.btn_confirm_booking);
+        confirmButton.setOnClickListener(v -> saveBooking(confirmButton));
+    }
+
+    private void saveBooking(MaterialButton button) {
+        String name = nameInput.getText().toString().trim();
+        String phone = phoneInput.getText().toString().replace(" ", "").trim();
+        String note = noteInput.getText().toString().trim();
+        if (name.length() < 2) {
+            nameInput.setError("Nhập họ tên người đặt");
+            nameInput.requestFocus();
+            return;
+        }
+        if (!phone.matches("0[0-9]{9}")) {
+            phoneInput.setError("Nhập số điện thoại gồm 10 chữ số, bắt đầu bằng 0");
+            phoneInput.requestFocus();
+            return;
+        }
+        if (BookingTime.hasStarted(playDate, startHour)) {
+            Toast.makeText(this, "Khung giờ này đã qua", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (bookingStore.isSlotBooked(court.getId(), playDate, startHour)) {
+            Toast.makeText(this, "Khung giờ này đã có lịch đặt", Toast.LENGTH_SHORT).show();
+            return;
         }
 
-        // 2. Nhận dữ liệu truyền từ Màn 3
-        if (getIntent().hasExtra("VENUE_NAME")) {
-            venueName = getIntent().getStringExtra("VENUE_NAME");
-        }
-        if (getIntent().hasExtra("COURT_NAME")) {
-            courtName = getIntent().getStringExtra("COURT_NAME");
-        }
-        if (getIntent().hasExtra("SELECTED_DATE")) {
-            selectedDate = getIntent().getStringExtra("SELECTED_DATE");
-        }
-        if (getIntent().hasExtra("SELECTED_TIME")) {
-            selectedTime = getIntent().getStringExtra("SELECTED_TIME");
-        }
-        if (getIntent().hasExtra("PRICE")) {
-            price = getIntent().getIntExtra("PRICE", 220000);
+        // UUID tạo mã khác nhau cho các lượt đặt mẫu.
+        String id = "SM-" + UUID.randomUUID().toString().substring(0, 8)
+                .toUpperCase(Locale.ROOT);
+        Booking booking = new Booking(id, CurrentUser.getId(), court.getId(), playDate,
+                startHour, name, phone, note, court.getPricePerHour(), Booking.CONFIRMED);
+        button.setEnabled(false);
+        if (!bookingStore.save(booking)) {
+            button.setEnabled(true);
+            Toast.makeText(this, "Không lưu được lịch. Hãy kiểm tra lại khung giờ.",
+                    Toast.LENGTH_SHORT).show();
+            return;
         }
 
-        // 3. Đổ dữ liệu lên các View
-        TextView tvVenue = findViewById(R.id.tv_confirm_venue_name);
-        if (tvVenue != null) tvVenue.setText(venueName);
-
-        TextView tvCourt = findViewById(R.id.tv_confirm_court_name);
-        if (tvCourt != null) tvCourt.setText(courtName);
-
-        TextView tvDate = findViewById(R.id.tv_confirm_date);
-        if (tvDate != null) tvDate.setText(selectedDate);
-
-        TextView tvTime = findViewById(R.id.tv_confirm_time);
-        if (tvTime != null) tvTime.setText(selectedTime);
-
-        String priceStr = NumberFormat.getNumberInstance(Locale.forLanguageTag("vi-VN")).format(price) + " đ";
-        TextView tvCourtFee = findViewById(R.id.tv_confirm_court_fee);
-        if (tvCourtFee != null) tvCourtFee.setText(priceStr);
-
-        TextView tvTotal = findViewById(R.id.tv_confirm_total_price);
-        if (tvTotal != null) tvTotal.setText(priceStr);
-
-        edtCustomerName = findViewById(R.id.edt_customer_name);
-        edtCustomerPhone = findViewById(R.id.edt_customer_phone);
-        edtBookingNote = findViewById(R.id.edt_booking_note);
-
-        // 4. Nút bấm gọi hotline hỗ trợ khách hàng
-        View btnSupport = findViewById(R.id.btn_support_call);
-        if (btnSupport != null) {
-            btnSupport.setOnClickListener(v -> {
-                Toast.makeText(this, "Đang kết nối hotline chủ sân: 0901 234 567", Toast.LENGTH_SHORT).show();
-            });
-        }
-
-        // 5. Nút "Xác nhận đặt sân" -> Chuyển sang Màn hình 6 (Chi tiết lịch đặt thành công)
-        MaterialButton btnConfirm = findViewById(R.id.btn_confirm_booking);
-        if (btnConfirm != null) {
-            btnConfirm.setOnClickListener(v -> {
-                String name = edtCustomerName != null ? edtCustomerName.getText().toString().trim() : "";
-                String phone = edtCustomerPhone != null ? edtCustomerPhone.getText().toString().trim() : "";
-
-                if (name.isEmpty()) {
-                    Toast.makeText(this, "Vui lòng nhập họ tên người đặt sân!", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                if (phone.isEmpty()) {
-                    Toast.makeText(this, "Vui lòng nhập số điện thoại liên hệ!", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-                Toast.makeText(BookingConfirmActivity.this, "Đặt sân thành công!", Toast.LENGTH_SHORT).show();
-
-                Intent intent = new Intent(BookingConfirmActivity.this, BookingDetailActivity.class);
-                intent.putExtra("VENUE_NAME", venueName);
-                intent.putExtra("COURT_NAME", courtName);
-                intent.putExtra("SELECTED_DATE", selectedDate);
-                intent.putExtra("SELECTED_TIME", selectedTime);
-                intent.putExtra("CUSTOMER_NAME", name);
-                intent.putExtra("CUSTOMER_PHONE", phone);
-                intent.putExtra("PRICE", price);
-                intent.putExtra("BOOKING_CODE", "SM-2026-" + (1000 + (int)(Math.random() * 8999)));
-                startActivity(intent);
-            });
-        }
+        Toast.makeText(this, "Đã lưu lịch đặt mẫu trên máy", Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(this, BookingDetailActivity.class);
+        intent.putExtra("BOOKING_ID", booking.getId());
+        startActivity(intent);
+        finish();
     }
 }

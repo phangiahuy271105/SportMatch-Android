@@ -40,9 +40,9 @@
                 android:textColor="@color/sportmatch_text_primary"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                tools:text="Sân bóng đá Chảo Lửa" />
+                tools:text="Sân bóng Bình Thạnh" />
 
-            <!-- Trạng thái: [Đã xác nhận] hoặc [Đã hoàn thành] -->
+            <!-- Trạng thái: đã lưu mẫu hoặc đã qua giờ -->
             <TextView
                 android:id="@+id/tv_booking_item_status"
                 android:layout_width="wrap_content"

@@ -1,6 +1,6 @@
 # SportMatch Android — bản nháp UI/UX
 
-**Trạng thái:** Chờ cả nhóm duyệt. Thiết kế cho app Java + XML Views, tham khảo nghiệp vụ website cũ nhưng bố cục dành riêng cho điện thoại. Chưa sửa màn hình app trong code.
+**Trạng thái:** Bản định hướng UI/UX. Sáu màn sân/đặt sân đã có XML và luồng mẫu; các màn tài khoản và tìm người vẫn chờ nhóm triển khai.
 
 ## Mục tiêu trải nghiệm
 

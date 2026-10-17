@@ -1,12 +1,12 @@
 # SportMatch Android — bản nháp thiết kế MVP
 
-**Trạng thái:** Chờ ba thành viên duyệt. Tài liệu này là đề xuất chung trước khi viết chức năng.
+**Trạng thái:** Bản thiết kế chung. Phần sân/đặt sân mẫu đã triển khai cục bộ; tài khoản, tìm người và dữ liệu chung vẫn chờ nhóm hoàn thiện.
 
 ## 1. Phạm vi và giả định
 
 - Đã chốt cho bản đầu: bóng đá mini và cầu lông; dữ liệu sân mẫu tại TP.HCM; Android native bằng Java và XML Views.
 - Chưa có đề bài chi tiết, tiêu chí chấm và hạn nộp của giảng viên. Khi có, nhóm đối chiếu lại phạm vi.
-- Giai đoạn giao diện dùng chung một nguồn dữ liệu mẫu trong app. Khi chọn cách lưu/kết nối thật, nhóm sẽ bàn phương án và phân quyền trước khi triển khai.
+- Phần sân dùng một nguồn dữ liệu mẫu trong app; booking tạm lưu trên thiết bị bằng SharedPreferences. Khi chọn cách lưu/kết nối chung, nhóm sẽ bàn phương án và phân quyền trước khi triển khai.
 - Chưa làm thanh toán thật, chat trực tiếp, bản đồ, OTP hoặc quản trị chủ sân đầy đủ. Bài tìm người được tạo độc lập với booking trong bản đầu.
 - Quên mật khẩu có màn hình và kiểm tra dữ liệu nhập; cách gửi liên kết khôi phục thật sẽ chốt cùng phương án xác thực.
 
@@ -52,7 +52,7 @@ Tên trường dùng tiếng Anh trong Java; nhãn trên giao diện dùng tiế
 
 Trạng thái dự kiến: `Booking.status`: `CONFIRMED` (thêm `CANCELLED` khi có chức năng hủy); `MatchPost.status`: `OPEN`, `CLOSED`; `JoinRequest.status`: `PENDING`, `APPROVED`, `REJECTED`, `WITHDRAWN`.
 
-Đề xuất dữ liệu mẫu: bốn địa điểm hư cấu, hai sân bóng đá mini và hai sân cầu lông ở vài khu vực TP.HCM; mỗi sân có vài khung giờ. Dùng hai người dùng mẫu để thử vai chủ bài và người xin tham gia. Không dùng thông tin liên hệ thật trong dữ liệu mẫu.
+Dữ liệu sân mẫu: bốn địa điểm hư cấu (hai địa điểm bóng đá mini, hai địa điểm cầu lông), mỗi địa điểm có hai sân con, giá và mô tả riêng. Phần tìm người sẽ dùng người dùng mẫu sau. Không dùng thông tin liên hệ thật trong dữ liệu mẫu.
 
 ## 4. Quy tắc cần kiểm tra
 

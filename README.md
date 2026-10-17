@@ -10,7 +10,7 @@ Hai môn của bản đầu: **bóng đá mini** và **cầu lông**.
 2. Đợi Gradle đồng bộ xong. Nếu Studio yêu cầu Gradle JDK, chọn JDK đi kèm Android Studio.
 3. Chọn Android Emulator và bấm **Run app**.
 
-Project gốc đã chạy màn hình mặc định trên emulator. Chức năng SportMatch sẽ được thêm sau khi nhóm duyệt [bản nháp thiết kế MVP](docs/01-thiet-ke-mvp.md) và [bản nháp UI/UX](docs/02-ui-ux-android.md).
+Phần sân và đặt sân mẫu đã có 6 màn, lọc sân, chọn sân con/giờ, lưu lịch trên máy và xem lại lịch. Xem [hướng dẫn thử luồng sân](docs/UI_HANDOVER_GUIDE.md). Phần tài khoản và tìm người vẫn do hai thành viên còn lại thực hiện.
 
 ## Làm việc nhóm
 

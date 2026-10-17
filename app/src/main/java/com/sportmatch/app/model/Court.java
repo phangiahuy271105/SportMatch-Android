@@ -5,13 +5,16 @@ public final class Court {
     private final String venueId;
     private final String sportId;
     private final String name;
+    private final String description;
     private final int pricePerHour;
 
-    public Court(String id, String venueId, String sportId, String name, int pricePerHour) {
+    public Court(String id, String venueId, String sportId, String name,
+                 String description, int pricePerHour) {
         this.id = id;
         this.venueId = venueId;
         this.sportId = sportId;
         this.name = name;
+        this.description = description;
         this.pricePerHour = pricePerHour;
     }
 
@@ -29,6 +32,10 @@ public final class Court {
 
     public String getName() {
         return name;
+    }
+
+    public String getDescription() {
+        return description;
     }
 
     public int getPricePerHour() {

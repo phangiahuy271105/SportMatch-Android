@@ -61,6 +61,14 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        // Từ lịch đặt quay lại đúng tab Sân.
+        NavigationBarView navigation = findViewById(R.id.bottom_navigation);
+        navigation.setSelectedItemId(R.id.nav_venues);
+    }
+
     private void setupNavigation() {
         NavigationBarView navigation = findViewById(R.id.bottom_navigation);
         navigation.setOnItemSelectedListener(item -> {
@@ -148,10 +156,6 @@ public class MainActivity extends AppCompatActivity {
         card.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this, VenueDetailActivity.class);
             intent.putExtra("VENUE_ID", venue.getId());
-            intent.putExtra("VENUE_NAME", venue.getName());
-            intent.putExtra("VENUE_ADDRESS", venue.getAddress());
-            intent.putExtra("PRICE", court.getPricePerHour());
-            intent.putExtra("SPORT_ID", court.getSportId());
             startActivity(intent);
         });
     }

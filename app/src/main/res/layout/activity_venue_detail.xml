@@ -121,7 +121,7 @@
                         android:paddingTop="5dp"
                         android:paddingEnd="12dp"
                         android:paddingBottom="5dp"
-                        android:text="⭐ 4.8 (120+ đánh giá)"
+                        android:text="@string/sample_venue_badge"
                         android:textColor="@color/white"
                         android:textSize="12sp"
                         android:textStyle="bold" />
@@ -252,6 +252,7 @@
                             android:paddingTop="10dp"
                             android:paddingEnd="8dp"
                             android:paddingBottom="10dp"
+                            android:id="@+id/amenity_1"
                             android:text="@string/amenity_lighting"
                             android:textColor="@color/sportmatch_text_primary"
                             android:textSize="13sp" />
@@ -268,6 +269,7 @@
                             android:paddingTop="10dp"
                             android:paddingEnd="8dp"
                             android:paddingBottom="10dp"
+                            android:id="@+id/amenity_2"
                             android:text="@string/amenity_parking"
                             android:textColor="@color/sportmatch_text_primary"
                             android:textSize="13sp" />
@@ -283,6 +285,7 @@
                             android:paddingTop="10dp"
                             android:paddingEnd="8dp"
                             android:paddingBottom="10dp"
+                            android:id="@+id/amenity_3"
                             android:text="@string/amenity_canteen"
                             android:textColor="@color/sportmatch_text_primary"
                             android:textSize="13sp" />
@@ -305,6 +308,7 @@
                             android:paddingTop="10dp"
                             android:paddingEnd="8dp"
                             android:paddingBottom="10dp"
+                            android:id="@+id/amenity_4"
                             android:text="@string/amenity_wifi"
                             android:textColor="@color/sportmatch_text_primary"
                             android:textSize="13sp" />
@@ -320,6 +324,7 @@
                             android:paddingTop="10dp"
                             android:paddingEnd="8dp"
                             android:paddingBottom="10dp"
+                            android:id="@+id/amenity_5"
                             android:text="@string/amenity_rental"
                             android:textColor="@color/sportmatch_text_primary"
                             android:textSize="13sp" />
