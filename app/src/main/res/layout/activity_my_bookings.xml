@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- MÀN HÌNH 5: LỊCH ĐẶT CỦA TÔI (My Bookings) -->
+<!-- Thiết kế phân biệt lịch sắp tới và đã qua, hỗ trợ trạng thái danh sách trống -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/my_bookings_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/sportmatch_background"
+    android:orientation="vertical">
+
+    <!-- ========================================== -->
+    <!-- 1. THANH TIÊU ĐỀ TRÊN CÙNG (TOP TOOLBAR)    -->
+    <!-- ========================================== -->
+    <LinearLayout
+        android:id="@+id/top_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:background="@color/sportmatch_surface"
+        android:elevation="2dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingStart="8dp"
+        android:paddingEnd="16dp">
+
+        <ImageButton
+            android:id="@+id/btn_back"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/btn_back_description"
+            android:src="@drawable/ic_arrow_back"
+            app:tint="@color/sportmatch_text_primary" />
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_weight="1"
+            android:text="@string/my_bookings_title"
+            android:textColor="@color/sportmatch_text_primary"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <!-- ========================================== -->
+    <!-- 2. THANH CHỌN TAB LỌC: SẮP TỚI / ĐÃ QUA    -->
+    <!-- ========================================== -->
+    <LinearLayout
+        android:id="@+id/layout_booking_tabs"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/sportmatch_surface"
+        android:orientation="horizontal"
+        android:paddingStart="16dp"
+        android:paddingTop="12dp"
+        android:paddingEnd="16dp"
+        android:paddingBottom="12dp">
+
+        <!-- Tab 1: Sắp tới (Mặc định đang chọn) -->
+        <TextView
+            android:id="@+id/tab_upcoming"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_marginEnd="8dp"
+            android:layout_weight="1"
+            android:background="@drawable/bg_tab_selected"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center"
+            android:text="@string/tab_upcoming"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <!-- Tab 2: Đã qua -->
+        <TextView
+            android:id="@+id/tab_past"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="8dp"
+            android:layout_weight="1"
+            android:background="@drawable/bg_tab_unselected"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center"
+            android:text="@string/tab_past"
+            android:textColor="@color/sportmatch_text_secondary"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+    <!-- ĐƯỜNG PHÂN CÁCH NHẸ DƯỚI TAB -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/sportmatch_divider" />
+
+    <!-- ========================================== -->
+    <!-- 3. KHU VỰC DANH SÁCH LỊCH ĐẶT HOẶC TRỐNG   -->
+    <!-- ========================================== -->
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <!-- DANH SÁCH LỊCH ĐẶT (RecyclerView) -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_bookings"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:paddingTop="12dp"
+            android:paddingBottom="24dp"
+            tools:listitem="@layout/item_booking" />
+
+        <!-- GIAO DIỆN KHI DANH SÁCH TRỐNG (Empty State) -->
+        <LinearLayout
+            android:id="@+id/layout_empty_bookings"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="24dp"
+            android:visibility="gone"
+            tools:visibility="visible">
+
+            <ImageView
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:contentDescription="@null"
+                android:src="@drawable/ic_calendar"
+                app:tint="@color/sportmatch_text_tertiary" />
+
+            <TextView
+                android:id="@+id/tv_empty_booking_title"
+                style="@style/SportMatchEmptyTitle"
+                android:layout_marginTop="16dp"
+                android:text="@string/empty_bookings_title" />
+
+            <TextView
+                android:id="@+id/tv_empty_booking_hint"
+                style="@style/SportMatchEmptyMessage"
+                android:text="@string/empty_bookings_hint" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_explore_venues"
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                android:layout_marginTop="20dp"
+                android:backgroundTint="@color/sportmatch_primary"
+                android:text="@string/btn_explore_venues"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="14sp"
+                app:cornerRadius="12dp" />
+        </LinearLayout>
+
+    </FrameLayout>
+
+</LinearLayout>

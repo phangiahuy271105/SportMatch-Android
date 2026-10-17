@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="64dp"
+    android:height="64dp"
+    android:viewportWidth="64"
+    android:viewportHeight="64">
+    <!-- Outer magnifying glass circle -->
+    <path
+        android:fillColor="@color/sportmatch_primary_container"
+        android:pathData="M30,8A22,22 0 1,0 52,30A22,22 0 0,0 30,8Z" />
+    <path
+        android:fillColor="@color/sportmatch_primary"
+        android:pathData="M30,12A18,18 0 1,0 48,30A18,18 0 0,0 30,12ZM30,44A14,14 0 1,1 44,30A14,14 0 0,1 30,44Z" />
+    <!-- Glass handle -->
+    <path
+        android:fillColor="@color/sportmatch_primary"
+        android:pathData="M43,40.17L52.17,49.34C52.95,50.12 52.95,51.38 52.17,52.17L50.76,53.58C49.98,54.36 48.72,54.36 47.93,53.58L38.76,44.41Z" />
+    <!-- Center sports question / search dot -->
+    <path
+        android:fillColor="@color/sportmatch_primary"
+        android:pathData="M28,22h4v8h-4zM28,34h4v4h-4z" />
+</vector>

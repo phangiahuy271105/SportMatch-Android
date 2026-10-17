@@ -14,27 +14,34 @@
         android:layout_height="0dp"
         android:layout_weight="1">
 
+        <!-- ========================================== -->
+        <!-- TAB 1: VENUES PANEL (Danh sách sân)        -->
+        <!-- ========================================== -->
         <LinearLayout
             android:id="@+id/venues_panel"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
 
+            <!-- Header and Filter Section -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@color/sportmatch_surface"
+                android:elevation="1dp"
                 android:orientation="vertical"
                 android:paddingStart="20dp"
                 android:paddingTop="20dp"
                 android:paddingEnd="20dp"
-                android:paddingBottom="12dp">
+                android:paddingBottom="16dp">
 
+                <!-- Title & Brand Slogan -->
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/venue_list_title"
                     android:textColor="@color/sportmatch_text_primary"
-                    android:textSize="28sp"
+                    android:textSize="26sp"
                     android:textStyle="bold" />
 
                 <TextView
@@ -45,11 +52,12 @@
                     android:textColor="@color/sportmatch_text_secondary"
                     android:textSize="14sp" />
 
+                <!-- Sport Category Chips Filter -->
                 <com.google.android.material.chip.ChipGroup
                     android:id="@+id/sport_filters"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="16dp"
                     app:selectionRequired="true"
                     app:singleSelection="true">
 
@@ -68,7 +76,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="48dp"
                         android:checkable="true"
-                        android:text="@string/sport_football" />
+                        android:text="@string/sport_football"
+                        app:chipIcon="@drawable/ic_football"
+                        app:chipIconSize="18dp" />
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/filter_badminton"
@@ -76,36 +86,59 @@
                         android:layout_width="wrap_content"
                         android:layout_height="48dp"
                         android:checkable="true"
-                        android:text="@string/sport_badminton" />
+                        android:text="@string/sport_badminton"
+                        app:chipIcon="@drawable/ic_badminton"
+                        app:chipIconSize="18dp" />
                 </com.google.android.material.chip.ChipGroup>
 
+                <!-- District Location Filter -->
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="12dp"
                     android:labelFor="@id/district_filter"
                     android:text="@string/filter_district_label"
                     android:textColor="@color/sportmatch_text_secondary"
-                    android:textSize="13sp" />
+                    android:textSize="13sp"
+                    android:textStyle="bold" />
 
-                <Spinner
-                    android:id="@+id/district_filter"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="48dp"
-                    android:contentDescription="@string/filter_district_label"
-                    android:entries="@array/district_filters" />
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:background="@drawable/bg_spinner_district"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingStart="12dp"
+                    android:paddingEnd="8dp">
 
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:contentDescription="@null"
+                        android:src="@drawable/ic_filter_alt" />
+
+                    <Spinner
+                        android:id="@+id/district_filter"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:contentDescription="@string/filter_district_label"
+                        android:entries="@array/district_filters" />
+                </LinearLayout>
+
+                <!-- Result count header -->
                 <TextView
                     android:id="@+id/result_count"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
+                    android:layout_marginTop="14dp"
                     android:textColor="@color/sportmatch_text_primary"
                     android:textSize="16sp"
                     android:textStyle="bold"
                     tools:text="4 sân phù hợp" />
             </LinearLayout>
 
+            <!-- Scrollable Venue List Container -->
             <ScrollView
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
@@ -117,15 +150,20 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:paddingStart="20dp"
-                    android:paddingTop="4dp"
+                    android:paddingTop="16dp"
                     android:paddingEnd="20dp"
-                    android:paddingBottom="16dp">
+                    android:paddingBottom="20dp">
 
+                    <!-- Empty state text view with vector icon -->
                     <TextView
                         android:id="@+id/empty_venues"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:padding="24dp"
+                        android:drawableTop="@drawable/ic_empty_venues"
+                        android:drawablePadding="20dp"
+                        android:gravity="center"
+                        android:lineSpacingExtra="4dp"
+                        android:padding="32dp"
                         android:text="@string/empty_venues"
                         android:textColor="@color/sportmatch_text_secondary"
                         android:textSize="15sp"
@@ -140,28 +178,50 @@
             </ScrollView>
         </LinearLayout>
 
+        <!-- ========================================== -->
+        <!-- TAB 2: MATCHES PANEL (Tìm người chơi)      -->
+        <!-- ========================================== -->
         <LinearLayout
             android:id="@+id/matches_panel"
             style="@style/SportMatchEmptyPanel"
             android:visibility="gone">
 
+            <ImageView
+                android:layout_width="72dp"
+                android:layout_height="72dp"
+                android:contentDescription="@null"
+                android:src="@drawable/ic_matches"
+                app:tint="@color/sportmatch_accent" />
+
             <TextView
                 style="@style/SportMatchEmptyTitle"
-                android:text="@string/nav_matches" />
+                android:layout_marginTop="16dp"
+                android:text="@string/matches_feature_preview_title" />
 
             <TextView
                 style="@style/SportMatchEmptyMessage"
                 android:text="@string/matches_empty_message" />
         </LinearLayout>
 
+        <!-- ========================================== -->
+        <!-- TAB 3: PROFILE PANEL (Cá nhân)             -->
+        <!-- ========================================== -->
         <LinearLayout
             android:id="@+id/profile_panel"
             style="@style/SportMatchEmptyPanel"
             android:visibility="gone">
 
+            <ImageView
+                android:layout_width="72dp"
+                android:layout_height="72dp"
+                android:contentDescription="@null"
+                android:src="@drawable/ic_profile"
+                app:tint="@color/sportmatch_primary" />
+
             <TextView
                 style="@style/SportMatchEmptyTitle"
-                android:text="@string/nav_profile" />
+                android:layout_marginTop="16dp"
+                android:text="@string/profile_feature_preview_title" />
 
             <TextView
                 style="@style/SportMatchEmptyMessage"
@@ -169,11 +229,13 @@
         </LinearLayout>
     </FrameLayout>
 
+    <!-- Bottom Navigation Bar (Sân - Tìm người - Cá nhân) -->
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/sportmatch_surface"
+        android:background="@drawable/bg_bottom_bar"
+        app:elevation="4dp"
         app:labelVisibilityMode="labeled"
         app:menu="@menu/main_navigation" />
 </LinearLayout>

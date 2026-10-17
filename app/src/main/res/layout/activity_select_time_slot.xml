@@ -1,0 +1,545 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- MÀN HÌNH 3: CHỌN NGÀY VÀ KHUNG GIỜ (Select Time Slot) -->
+<!-- Thiết kế rõ ràng, dùng LinearLayout và CardView cơ bản, dễ giải thích tiểu luận -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/select_time_slot_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/sportmatch_background"
+    android:orientation="vertical">
+
+    <!-- ========================================== -->
+    <!-- 1. THANH TIÊU ĐỀ TRÊN CÙNG (TOP TOOLBAR)    -->
+    <!-- ========================================== -->
+    <LinearLayout
+        android:id="@+id/top_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:background="@color/sportmatch_surface"
+        android:elevation="2dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingStart="8dp"
+        android:paddingEnd="16dp">
+
+        <!-- Nút quay lại (Back Button) -->
+        <ImageButton
+            android:id="@+id/btn_back"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/btn_back_description"
+            android:src="@drawable/ic_arrow_back"
+            app:tint="@color/sportmatch_text_primary" />
+
+        <!-- Tiêu đề trang -->
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_weight="1"
+            android:text="@string/select_slot_title"
+            android:textColor="@color/sportmatch_text_primary"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <!-- ========================================== -->
+    <!-- 2. PHẦN CUỘN NỘI DUNG (SCROLL CONTENT)     -->
+    <!-- ========================================== -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <!-- THẺ 1: THÔNG TIN SÂN VÀ SÂN CON ĐANG CHỌN -->
+            <com.google.android.material.card.MaterialCardView
+                style="@style/SportMatchCard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:id="@+id/tv_venue_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/sportmatch_text_primary"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        tools:text="Sân bóng Bình Thạnh" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
+                            android:contentDescription="@null"
+                            android:src="@drawable/ic_court"
+                            app:tint="@color/sportmatch_primary" />
+
+                        <TextView
+                            android:id="@+id/tv_court_name"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="6dp"
+                            android:layout_weight="1"
+                            android:textColor="@color/sportmatch_text_secondary"
+                            android:textSize="14sp"
+                            tools:text="Sân đang chọn: Sân số 1 (5 người)" />
+
+                        <TextView
+                            android:id="@+id/tv_court_price_rate"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/sportmatch_primary"
+                            android:textSize="14sp"
+                            android:textStyle="bold"
+                            tools:text="220.000đ/giờ" />
+                    </LinearLayout>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- THẺ 2: CHỌN NGÀY THI ĐẤU -->
+            <com.google.android.material.card.MaterialCardView
+                style="@style/SportMatchCard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView
+                        style="@style/SportMatchSectionTitle"
+                        android:text="@string/select_slot_date_label" />
+
+                    <!-- Bộ chọn ngày dạng ChipGroup dễ bấm -->
+                    <com.google.android.material.chip.ChipGroup
+                        android:id="@+id/date_chips"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        app:selectionRequired="true"
+                        app:singleSelection="true">
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/chip_today"
+                            style="@style/Widget.Material3.Chip.Filter"
+                            android:layout_width="wrap_content"
+                            android:layout_height="48dp"
+                            android:checkable="true"
+                            android:checked="true"
+                            app:chipIcon="@drawable/ic_calendar"
+                            android:text="@string/select_slot_today" />
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/chip_tomorrow"
+                            style="@style/Widget.Material3.Chip.Filter"
+                            android:layout_width="wrap_content"
+                            android:layout_height="48dp"
+                            android:checkable="true"
+                            app:chipIcon="@drawable/ic_calendar"
+                            android:text="@string/select_slot_tomorrow" />
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/chip_other_date"
+                            style="@style/Widget.Material3.Chip.Filter"
+                            android:layout_width="wrap_content"
+                            android:layout_height="48dp"
+                            android:checkable="true"
+                            android:text="@string/select_slot_other_date" />
+                    </com.google.android.material.chip.ChipGroup>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- THẺ 3: DANH SÁCH CÁC KHUNG GIỜ VÀ CHÚ THÍCH TRẠNG THÁI -->
+            <com.google.android.material.card.MaterialCardView
+                style="@style/SportMatchCard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView
+                        style="@style/SportMatchSectionTitle"
+                        android:text="@string/select_slot_time_label" />
+
+                    <!-- Chú thích 3 trạng thái trực quan -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <!-- Chú thích: Còn trống -->
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+
+                            <View
+                                android:layout_width="14dp"
+                                android:layout_height="14dp"
+                                android:background="@drawable/bg_slot_available" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="6dp"
+                                android:text="@string/status_available"
+                                android:textColor="@color/sportmatch_text_secondary"
+                                android:textSize="12sp" />
+                        </LinearLayout>
+
+                        <!-- Chú thích: Đang chọn -->
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="14dp"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+
+                            <View
+                                android:layout_width="14dp"
+                                android:layout_height="14dp"
+                                android:background="@drawable/bg_slot_selected" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="6dp"
+                                android:text="@string/status_selected"
+                                android:textColor="@color/sportmatch_text_primary"
+                                android:textSize="12sp"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+
+                        <!-- Chú thích: Hết chỗ -->
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="14dp"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+
+                            <View
+                                android:layout_width="14dp"
+                                android:layout_height="14dp"
+                                android:background="@drawable/bg_slot_booked" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="6dp"
+                                android:text="@string/status_booked"
+                                android:textColor="@color/sportmatch_text_secondary"
+                                android:textSize="12sp" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <!-- Vạch ngăn cách nhẹ -->
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="12dp"
+                        android:layout_marginBottom="12dp"
+                        android:background="@color/sportmatch_divider" />
+
+                    <!-- Container để Java có thể đổ dữ liệu khung giờ linh hoạt -->
+                    <LinearLayout
+                        android:id="@+id/slots_container"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <!-- HÀNG 1: 16:00-17:00 (Còn trống) & 17:00-18:00 (Đang chọn) -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <!-- Ô 1: 16:00 - 17:00 (Còn trống) -->
+                            <LinearLayout
+                                android:id="@+id/slot_16_17"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="6dp"
+                                android:layout_weight="1"
+                                android:background="@drawable/bg_slot_available"
+                                android:gravity="center"
+                                android:orientation="vertical"
+                                android:padding="12dp">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="16:00 – 17:00"
+                                    android:textColor="@color/sportmatch_text_primary"
+                                    android:textSize="15sp"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="3dp"
+                                    android:text="@string/status_available"
+                                    android:textColor="@color/sportmatch_success"
+                                    android:textSize="12sp" />
+                            </LinearLayout>
+
+                            <!-- Ô 2: 17:00 - 18:00 (Đang chọn - Mẫu) -->
+                            <LinearLayout
+                                android:id="@+id/slot_17_18"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="6dp"
+                                android:layout_weight="1"
+                                android:background="@drawable/bg_slot_selected"
+                                android:gravity="center"
+                                android:orientation="vertical"
+                                android:padding="12dp">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="17:00 – 18:00"
+                                    android:textColor="@color/white"
+                                    android:textSize="15sp"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="3dp"
+                                    android:text="@string/status_selected"
+                                    android:textColor="@color/white"
+                                    android:textSize="12sp"
+                                    android:textStyle="bold" />
+                            </LinearLayout>
+                        </LinearLayout>
+
+                        <!-- HÀNG 2: 18:00-19:00 (Hết chỗ) & 19:00-20:00 (Hết chỗ) -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:orientation="horizontal">
+
+                            <!-- Ô 3: 18:00 - 19:00 (Hết chỗ) -->
+                            <LinearLayout
+                                android:id="@+id/slot_18_19"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="6dp"
+                                android:layout_weight="1"
+                                android:background="@drawable/bg_slot_booked"
+                                android:gravity="center"
+                                android:orientation="vertical"
+                                android:padding="12dp">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="18:00 – 19:00"
+                                    android:textColor="@color/sportmatch_text_secondary"
+                                    android:textSize="15sp"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="3dp"
+                                    android:text="@string/status_booked"
+                                    android:textColor="@color/sportmatch_text_secondary"
+                                    android:textSize="12sp" />
+                            </LinearLayout>
+
+                            <!-- Ô 4: 19:00 - 20:00 (Hết chỗ) -->
+                            <LinearLayout
+                                android:id="@+id/slot_19_20"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="6dp"
+                                android:layout_weight="1"
+                                android:background="@drawable/bg_slot_booked"
+                                android:gravity="center"
+                                android:orientation="vertical"
+                                android:padding="12dp">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="19:00 – 20:00"
+                                    android:textColor="@color/sportmatch_text_secondary"
+                                    android:textSize="15sp"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="3dp"
+                                    android:text="@string/status_booked"
+                                    android:textColor="@color/sportmatch_text_secondary"
+                                    android:textSize="12sp" />
+                            </LinearLayout>
+                        </LinearLayout>
+
+                        <!-- HÀNG 3: 20:00-21:00 (Còn trống) & 21:00-22:00 (Còn trống) -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:orientation="horizontal">
+
+                            <!-- Ô 5: 20:00 - 21:00 (Còn trống) -->
+                            <LinearLayout
+                                android:id="@+id/slot_20_21"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="6dp"
+                                android:layout_weight="1"
+                                android:background="@drawable/bg_slot_available"
+                                android:gravity="center"
+                                android:orientation="vertical"
+                                android:padding="12dp">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="20:00 – 21:00"
+                                    android:textColor="@color/sportmatch_text_primary"
+                                    android:textSize="15sp"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="3dp"
+                                    android:text="@string/status_available"
+                                    android:textColor="@color/sportmatch_success"
+                                    android:textSize="12sp" />
+                            </LinearLayout>
+
+                            <!-- Ô 6: 21:00 - 22:00 (Còn trống) -->
+                            <LinearLayout
+                                android:id="@+id/slot_21_22"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="6dp"
+                                android:layout_weight="1"
+                                android:background="@drawable/bg_slot_available"
+                                android:gravity="center"
+                                android:orientation="vertical"
+                                android:padding="12dp">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="21:00 – 22:00"
+                                    android:textColor="@color/sportmatch_text_primary"
+                                    android:textSize="15sp"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="3dp"
+                                    android:text="@string/status_available"
+                                    android:textColor="@color/sportmatch_success"
+                                    android:textSize="12sp" />
+                            </LinearLayout>
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+        </LinearLayout>
+    </ScrollView>
+
+    <!-- ========================================== -->
+    <!-- 3. THANH HÀNH ĐỘNG CỐ ĐỊNH Ở ĐÁY (BOTTOM)  -->
+    <!-- ========================================== -->
+    <LinearLayout
+        android:id="@+id/bottom_action_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_bottom_bar"
+        android:elevation="8dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingStart="16dp"
+        android:paddingTop="12dp"
+        android:paddingEnd="16dp"
+        android:paddingBottom="12dp">
+
+        <!-- Dòng tóm tắt lựa chọn -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/slot_summary_prefix"
+                android:textColor="@color/sportmatch_text_secondary"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/tv_selection_summary"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:textColor="@color/sportmatch_primary"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                tools:text="17:00 – 18:00 · 220.000đ" />
+        </LinearLayout>
+
+        <!-- Nút Tiếp tục -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_continue"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:backgroundTint="@color/sportmatch_primary"
+            android:minWidth="140dp"
+            android:text="@string/btn_continue"
+            android:textColor="@color/white"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            app:cornerRadius="12dp"
+            app:icon="@drawable/ic_arrow_forward"
+            app:iconGravity="textEnd"
+            app:iconTint="@color/white" />
+    </LinearLayout>
+</LinearLayout>
