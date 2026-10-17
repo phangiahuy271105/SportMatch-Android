@@ -226,6 +226,20 @@
             <TextView
                 style="@style/SportMatchEmptyMessage"
                 android:text="@string/profile_empty_message" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_open_my_bookings"
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                android:layout_marginTop="20dp"
+                android:backgroundTint="@color/sportmatch_primary"
+                android:text="@string/my_bookings_title"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="14sp"
+                app:cornerRadius="12dp"
+                app:icon="@drawable/ic_calendar"
+                app:iconTint="@color/white" />
         </LinearLayout>
     </FrameLayout>
 

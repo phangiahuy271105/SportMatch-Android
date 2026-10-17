@@ -1,5 +1,6 @@
 package com.sportmatch.app;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -50,6 +51,14 @@ public class MainActivity extends AppCompatActivity {
         setupNavigation();
         setupFilters();
         renderVenues();
+
+        View btnMyBookings = findViewById(R.id.btn_open_my_bookings);
+        if (btnMyBookings != null) {
+            btnMyBookings.setOnClickListener(v -> {
+                Intent intent = new Intent(MainActivity.this, MyBookingsActivity.class);
+                startActivity(intent);
+            });
+        }
     }
 
     private void setupNavigation() {
@@ -134,5 +143,15 @@ public class MainActivity extends AppCompatActivity {
         String formattedPrice = NumberFormat.getNumberInstance(Locale.forLanguageTag("vi-VN"))
                 .format(court.getPricePerHour()) + "đ";
         price.setText(getString(R.string.price_from, formattedPrice));
+
+        // Bấm vào thẻ sân để mở Màn hình 2: Chi tiết sân
+        card.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, VenueDetailActivity.class);
+            intent.putExtra("VENUE_ID", venue.getId());
+            intent.putExtra("VENUE_NAME", venue.getName());
+            intent.putExtra("VENUE_ADDRESS", venue.getAddress());
+            intent.putExtra("PRICE", court.getPricePerHour());
+            startActivity(intent);
+        });
     }
 }
