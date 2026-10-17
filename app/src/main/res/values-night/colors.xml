@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Brand & Sports Identity -->
+    <color name="sportmatch_primary">#9CCBFF</color>
+    <color name="sportmatch_primary_dark">#1565C0</color>
+    <color name="sportmatch_primary_container">#214C76</color>
+    <color name="sportmatch_on_primary_container">#D9EAFD</color>
+    <color name="sportmatch_accent">#9ED8A1</color>
+    <color name="sportmatch_accent_dark">#2E7D32</color>
+    <color name="sportmatch_accent_container">#1E3F24</color>
+    <color name="sportmatch_football">#184F88</color>
+    <color name="sportmatch_badminton">#286432</color>
+
+    <!-- Surfaces & Neutrals -->
+    <color name="sportmatch_background">#111820</color>
+    <color name="sportmatch_surface">#1D2731</color>
+    <color name="sportmatch_surface_variant">#24323F</color>
+    <color name="sportmatch_text_primary">#F0F4F7</color>
+    <color name="sportmatch_text_secondary">#B6C3CE</color>
+    <color name="sportmatch_text_tertiary">#7E8E9B</color>
+    <color name="sportmatch_stroke">#35434F</color>
+    <color name="sportmatch_divider">#2A3845</color>
+
+    <!-- Status & Alerts -->
+    <color name="sportmatch_success">#9ED8A1</color>
+    <color name="sportmatch_warning">#FFB74D</color>
+    <color name="sportmatch_error">#EF9A9A</color>
+
+    <!-- Badges & Chips Backgrounds -->
+    <color name="sportmatch_badge_open_bg">#1E3825</color>
+    <color name="sportmatch_badge_open_text">#A5D6A7</color>
+    <color name="sportmatch_badge_pending_bg">#3D2E14</color>
+    <color name="sportmatch_badge_pending_text">#FFE082</color>
+    <color name="sportmatch_badge_closed_bg">#2A353E</color>
+    <color name="sportmatch_badge_closed_text">#B0BEC5</color>
+</resources>

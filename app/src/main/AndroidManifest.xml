@@ -21,6 +21,26 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".VenueDetailActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".SelectTimeSlotActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".BookingConfirmActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".BookingDetailActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".MyBookingsActivity"
+            android:exported="false" />
     </application>
 
 </manifest>

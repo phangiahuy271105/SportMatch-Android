@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Lớp phủ bóng mờ nhẹ ở đáy banner để chữ và huy hiệu dễ đọc, không che mất hình vẽ sân -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <gradient
+        android:angle="270"
+        android:startColor="#00000000"
+        android:centerColor="#20000000"
+        android:endColor="#8A000000"
+        android:type="linear" />
+</shape>

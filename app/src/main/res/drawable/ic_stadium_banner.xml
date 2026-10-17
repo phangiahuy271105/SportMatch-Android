@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Vector đồ họa mô phỏng sân thi đấu thể thao hiện đại, thu hút cho banner -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="360dp"
+    android:height="160dp"
+    android:viewportWidth="360"
+    android:viewportHeight="160">
+
+    <!-- Nền dốc thể thao năng động -->
+    <path
+        android:fillColor="#1565C0"
+        android:pathData="M0,0h360v160h-360z" />
+
+    <!-- Đồ họa dải màu chuyển nhẹ -->
+    <path
+        android:fillAlpha="0.15"
+        android:fillColor="#FFFFFF"
+        android:pathData="M0,0 L360,60 L360,160 L0,160 Z" />
+
+    <!-- Vòng tròn trung tâm sân thể thao -->
+    <path
+        android:fillAlpha="0.12"
+        android:pathData="M240,80 m-45,0 a45,45 0,1,1 90,0 a45,45 0,1,1 -90,0"
+        android:strokeWidth="2.5"
+        android:strokeColor="#FFFFFF" />
+
+    <path
+        android:fillAlpha="0.1"
+        android:pathData="M240,80 m-6,0 a6,6 0,1,1 12,0 a6,6 0,1,1 -12,0"
+        android:fillColor="#FFFFFF" />
+
+    <!-- Đường vạch kẻ sân bóng & cầu lông -->
+    <path
+        android:pathData="M-20,130 L380,130"
+        android:strokeWidth="2"
+        android:strokeColor="#33FFFFFF" />
+
+    <path
+        android:pathData="M240,20 L240,150"
+        android:strokeWidth="2"
+        android:strokeColor="#33FFFFFF" />
+
+    <!-- Khu vực cấm địa / vùng phát bóng -->
+    <path
+        android:pathData="M310,40 L310,120 L360,120 L360,40 Z"
+        android:strokeWidth="2"
+        android:strokeColor="#33FFFFFF" />
+
+    <!-- Hiệu ứng ánh đèn sân vận động (stadium spotlight) -->
+    <path
+        android:fillAlpha="0.08"
+        android:fillColor="#FFFFFF"
+        android:pathData="M60,0 L180,160 L0,160 Z" />
+</vector>

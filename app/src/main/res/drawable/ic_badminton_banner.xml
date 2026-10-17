@@ -1,0 +1,85 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="400dp"
+    android:height="180dp"
+    android:viewportWidth="400"
+    android:viewportHeight="180">
+
+    <!-- Nền sân cầu lông trong nhà (Thảm xanh thi đấu) -->
+    <path
+        android:fillColor="#0D5C3A"
+        android:pathData="M0,0h400v180h-400z" />
+
+    <!-- Đường biên ngoài sân cầu lông (Vạch trắng) -->
+    <path
+        android:strokeColor="#FFFFFF"
+        android:strokeWidth="2.5"
+        android:strokeAlpha="0.85"
+        android:pathData="M40,25 L360,25 L360,155 L40,155 Z" />
+
+    <!-- Đường biên dọc đánh đơn (Singles Sidelines) -->
+    <path
+        android:strokeColor="#FFFFFF"
+        android:strokeWidth="1.8"
+        android:strokeAlpha="0.75"
+        android:pathData="M40,38 L360,38 M40,142 L360,142" />
+
+    <!-- Vạch giao cầu gần (Short Service Lines) -->
+    <path
+        android:strokeColor="#FFFFFF"
+        android:strokeWidth="2"
+        android:strokeAlpha="0.8"
+        android:pathData="M140,25 L140,155 M260,25 L260,155" />
+
+    <!-- Vạch giao cầu dài đánh đôi (Long Service Lines) -->
+    <path
+        android:strokeColor="#FFFFFF"
+        android:strokeWidth="1.8"
+        android:strokeAlpha="0.75"
+        android:pathData="M65,25 L65,155 M335,25 L335,155" />
+
+    <!-- Đường trung tâm (Center Line) -->
+    <path
+        android:strokeColor="#FFFFFF"
+        android:strokeWidth="1.8"
+        android:strokeAlpha="0.75"
+        android:pathData="M40,90 L140,90 M260,90 L360,90" />
+
+    <!-- Trụ lưới và Lưới thi đấu ở giữa sân -->
+    <path
+        android:fillColor="#FFD54F"
+        android:pathData="M198,16 h4 v148 h-4 z" />
+
+    <!-- Dây cáp lưới trắng -->
+    <path
+        android:strokeColor="#FFFFFF"
+        android:strokeWidth="3"
+        android:pathData="M200,18 L200,162" />
+
+    <!-- Mắt lưới cầu lông -->
+    <path
+        android:strokeColor="#FFFFFF"
+        android:strokeWidth="1"
+        android:strokeAlpha="0.4"
+        android:pathData="M195,25 h10 M195,35 h10 M195,45 h10 M195,55 h10 M195,65 h10 M195,75 h10 M195,85 h10 M195,95 h10 M195,105 h10 M195,115 h10 M195,125 h10 M195,135 h10 M195,145 h10 M195,155 h10" />
+
+    <!-- Ánh đèn thi đấu rọi từ trần nhà xuống -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:fillAlpha="0.08"
+        android:pathData="M160,0 L240,0 L310,180 L90,180 Z" />
+
+    <!-- Quả cầu lông đang bay qua lưới (Shuttlecock) -->
+    <!-- Lông vũ cầu -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:fillAlpha="0.95"
+        android:pathData="M280,65 L298,52 L295,78 Z" />
+    <path
+        android:strokeColor="#CFD8DC"
+        android:strokeWidth="1"
+        android:pathData="M280,65 L298,58 M280,65 L296,72" />
+    <!-- Đế bần quả cầu -->
+    <path
+        android:fillColor="#FFB74D"
+        android:pathData="M276,64 a4,4 0 1,0 6,4 a4,4 0 1,0 -6,-4" />
+</vector>

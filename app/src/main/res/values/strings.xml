@@ -1,3 +1,137 @@
 <resources>
+    <!-- Tên ứng dụng và khẩu hiệu -->
     <string name="app_name">SportMatch</string>
+    <string name="app_slogan">Chạm là có sân – Cần là có đội.</string>
+
+    <!-- Điều hướng thanh dưới và nút quay lại -->
+    <string name="nav_venues">Sân</string>
+    <string name="nav_matches">Tìm người</string>
+    <string name="nav_profile">Cá nhân</string>
+    <string name="btn_back_description">Quay lại</string>
+
+    <!-- Màn 1: Danh sách sân -->
+    <string name="venue_list_title">Tìm sân</string>
+    <string name="venue_list_subtitle">Khám phá sân bóng và cầu lông gần bạn tại TP.HCM</string>
+    <string name="filter_all_sports">Tất cả</string>
+    <string name="filter_district_label">Khu vực</string>
+    <string name="sport_football">Bóng đá mini</string>
+    <string name="sport_badminton">Cầu lông</string>
+    <string name="empty_venues">Không có sân phù hợp. Hãy thử chọn môn hoặc khu vực khác.</string>
+    <string name="empty_venues_title">Không tìm thấy sân phù hợp</string>
+    <string name="empty_venues_hint">Thử đổi môn thể thao hoặc chọn khu vực khác bạn nhé.</string>
+    <string name="venue_count">%1$d sân phù hợp</string>
+    <string name="price_from">Từ %1$s/giờ</string>
+    <string name="venue_view_detail">Xem chi tiết</string>
+
+    <string-array name="district_filters">
+        <item>Tất cả khu vực</item>
+        <item>Bình Thạnh</item>
+        <item>Thủ Đức</item>
+        <item>Tân Bình</item>
+        <item>Quận 7</item>
+    </string-array>
+
+    <!-- Màn 2: Chi tiết sân -->
+    <string name="venue_detail_title">Chi tiết sân</string>
+    <string name="sample_venue_badge">Sân mẫu</string>
+    <string name="venue_detail_overview_title">Thông tin tổng quan</string>
+    <string name="venue_detail_hours_label">Giờ mở cửa:</string>
+    <string name="venue_detail_hours_val">06:00 – 23:00 hàng ngày</string>
+    <string name="venue_detail_amenities_title">Tiện ích &amp; Dịch vụ</string>
+    <string name="venue_detail_courts_title">Danh sách sân con &amp; Bảng giá</string>
+    <string name="venue_detail_rules_title">Quy định &amp; Lưu ý khi đặt</string>
+    <string name="venue_detail_rules_content">Lưu ý riêng của từng địa điểm sẽ hiển thị tại đây.</string>
+    <string name="venue_detail_court_status_ready">Đang hoạt động</string>
+    <string name="venue_detail_select_slot_btn">Chọn ngày và giờ</string>
+    <string name="venue_detail_price_prefix">Giá sân đã chọn</string>
+    <string name="venue_detail_price_unit">/giờ</string>
+
+    <!-- Tiện ích sân -->
+    <string name="amenity_lighting">Đèn chiếu sáng</string>
+    <string name="amenity_parking">Bãi giữ xe</string>
+    <string name="amenity_canteen">Căn tin giải khát</string>
+    <string name="amenity_wifi">Wifi miễn phí</string>
+    <string name="amenity_rental">Thuê đồ tập</string>
+
+    <!-- Nhãn sân con mẫu -->
+    <string name="court_label_pitch_1">Sân số 1 (Sân cỏ nhân tạo 5 người)</string>
+    <string name="court_label_pitch_2">Sân số 2 (Sân cỏ nhân tạo 7 người)</string>
+    <string name="court_label_badminton_1">Sân số 1 (Thảm tiêu chuẩn thi đấu)</string>
+    <string name="court_label_badminton_2">Sân số 2 (Thảm tiêu chuẩn thi đấu)</string>
+
+    <!-- Màn 3: Chọn ngày và khung giờ -->
+    <string name="select_slot_title">Chọn ngày và khung giờ</string>
+    <string name="select_slot_venue_label">Địa điểm &amp; Sân con</string>
+    <string name="select_slot_date_label">Chọn ngày thi đấu</string>
+    <string name="select_slot_today">Hôm nay</string>
+    <string name="select_slot_tomorrow">Ngày mai</string>
+    <string name="select_slot_other_date">Ngày khác</string>
+    <string name="select_slot_time_label">Chọn khung giờ (1 tiếng/lượt)</string>
+    <string name="status_available">Còn trống</string>
+    <string name="status_selected">Đang chọn</string>
+    <string name="status_booked">Hết chỗ</string>
+    <string name="slot_summary_prefix">Đã chọn:</string>
+    <string name="slot_summary_default">Vui lòng chọn 1 khung giờ</string>
+    <string name="btn_continue">Tiếp tục</string>
+
+    <!-- Màn 4: Xác nhận đặt sân -->
+    <string name="booking_confirm_title">Xác nhận đặt sân</string>
+    <string name="booking_summary_title">Tóm tắt thông tin đặt sân</string>
+    <string name="booking_label_venue">Địa điểm:</string>
+    <string name="booking_label_court">Sân con:</string>
+    <string name="booking_label_date">Ngày chơi:</string>
+    <string name="booking_label_time">Khung giờ:</string>
+    <string name="booking_label_duration">Thời lượng:</string>
+    <string name="booking_label_duration_val">1 giờ (60 phút)</string>
+    <string name="booking_payment_title">Chi tiết chi phí</string>
+    <string name="booking_label_court_fee">Tiền thuê sân:</string>
+    <string name="booking_label_service_fee">Phí dịch vụ:</string>
+    <string name="booking_label_free">Miễn phí</string>
+    <string name="booking_label_total">Tổng chi phí:</string>
+    <string name="booking_customer_title">Thông tin người đặt</string>
+    <string name="booking_label_customer_name">Họ và tên:</string>
+    <string name="booking_label_customer_phone">Số điện thoại:</string>
+    <string name="booking_note_label">Ghi chú:</string>
+    <string name="booking_notice_title">Lưu ý thử nghiệm (MVP)</string>
+    <string name="booking_notice_content">Đây là dữ liệu thử nghiệm. Nên dùng tên và số giả khi demo. Lịch chỉ lưu trên máy này, chưa gửi tới sân và chưa có thanh toán thật.</string>
+    <string name="btn_confirm_booking">Lưu lịch đặt mẫu</string>
+
+    <!-- Màn 5: Lịch đặt của tôi -->
+    <string name="my_bookings_title">Lịch đặt của tôi</string>
+    <string name="tab_upcoming">Sắp tới</string>
+    <string name="tab_past">Đã qua</string>
+    <string name="booking_status_confirmed">Đã lưu (mẫu)</string>
+    <string name="booking_status_completed">Đã qua giờ</string>
+    <string name="booking_status_cancelled">Đã hủy</string>
+    <string name="empty_bookings_title">Chưa có lịch đặt nào</string>
+    <string name="empty_bookings_hint">Bạn chưa có lịch đặt sân nào ở mục này. Hãy tìm sân và lên kèo ngay nhé!</string>
+    <string name="btn_explore_venues">Khám phá sân ngay</string>
+    <string name="booking_item_code_prefix">Mã đặt:</string>
+    <string name="booking_view_detail_action">Xem chi tiết →</string>
+
+    <!-- Màn 6: Chi tiết lịch đặt -->
+    <string name="booking_detail_title">Chi tiết lịch đặt</string>
+    <string name="booking_detail_status_banner_title">ĐÃ LƯU LỊCH ĐẶT MẪU</string>
+    <string name="booking_detail_past_title">LỊCH ĐẶT ĐÃ QUA GIỜ</string>
+    <string name="booking_detail_status_banner_desc">Lịch này chỉ dùng để thử app, chưa được gửi tới sân.</string>
+    <string name="booking_detail_code_label">MÃ LỊCH ĐẶT MẪU</string>
+    <string name="booking_detail_venue_info_title">Thông tin sân</string>
+    <string name="booking_detail_time_info_title">Thời gian đặt</string>
+    <string name="booking_detail_payment_info_title">Chi phí dự kiến &amp; Người đặt</string>
+    <string name="booking_detail_payment_method_label">Hình thức thanh toán:</string>
+    <string name="booking_detail_payment_method_val">Chưa có thanh toán trong bản mẫu</string>
+    <string name="booking_detail_status_label">Trạng thái:</string>
+    <string name="booking_detail_guide_title">Lưu ý về lịch mẫu</string>
+    <string name="booking_detail_guide_content">• Đây là lịch đặt mẫu lưu trên thiết bị để nhóm thử luồng app.\n• Bản đầu chưa kết nối chủ sân, chưa có thanh toán và chưa hỗ trợ hủy lịch.</string>
+    <string name="btn_back_to_home">Về trang chủ tìm sân</string>
+    <string name="btn_contact_venue">Gọi điện cho sân</string>
+
+
+    <!-- Giữ chỗ cho các tab khác -->
+    <string name="matches_empty_message">Chưa có bài tìm người. Hãy quay lại sau để xem các bài mới.</string>
+    <string name="profile_empty_message">Bản demo chưa có đăng nhập. Lịch đặt mẫu được lưu trên máy này.</string>
+    <string name="matches_feature_preview_title">Kết nối đồng đội thể thao</string>
+    <string name="matches_feature_preview_desc">Tìm đối tác tập luyện hoặc tạo đội bóng đá, cầu lông nhanh chóng.</string>
+    <string name="profile_feature_preview_title">Tài khoản &amp; Lịch đặt cá nhân</string>
+    <string name="profile_feature_preview_desc">Quản lý lịch đặt mẫu và lịch sử bài tìm người của bạn.</string>
 </resources>
