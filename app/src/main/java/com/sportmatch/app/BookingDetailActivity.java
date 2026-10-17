@@ -68,6 +68,13 @@ public class BookingDetailActivity extends AppCompatActivity {
         TextView tvCourt = findViewById(R.id.tv_detail_court_name);
         if (tvCourt != null) tvCourt.setText(courtName);
 
+        TextView tvSportBadge = findViewById(R.id.tv_detail_sport_badge);
+        if (tvSportBadge != null) {
+            boolean isBadminton = (courtName != null && (courtName.toLowerCase().contains("thảm") || courtName.toLowerCase().contains("gỗ")))
+                    || (venueName != null && venueName.toLowerCase().contains("cầu lông"));
+            tvSportBadge.setText(isBadminton ? "Cầu lông" : "Bóng đá mini");
+        }
+
         TextView tvDate = findViewById(R.id.tv_detail_booking_date);
         if (tvDate != null) tvDate.setText(selectedDate);
 

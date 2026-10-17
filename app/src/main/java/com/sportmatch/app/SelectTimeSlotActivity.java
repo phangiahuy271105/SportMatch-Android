@@ -14,33 +14,46 @@ import androidx.core.content.ContextCompat;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.chip.Chip;
+import com.google.android.material.chip.ChipGroup;
 
 import java.text.NumberFormat;
 import java.util.Calendar;
-import java.util.HashMap;
 import java.util.Locale;
-import java.util.Map;
 
 /**
  * Màn hình 3: Chọn ngày và khung giờ
- * Trình độ sinh viên năm 3: Chọn ngày thi đấu (kèm DatePickerDialog), chọn giờ rõ ràng không bị lỗi màu.
+ * Trình độ sinh viên năm 3:
+ * - Tự động so sánh với giờ hiện tại của hệ thống (Calendar): Khung giờ đã qua trong ngày hôm nay sẽ không cho đặt.
+ * - Cho phép chọn Ngày mai hoặc Ngày khác qua DatePickerDialog để mở lại các khung giờ hợp lệ.
  */
 public class SelectTimeSlotActivity extends AppCompatActivity {
 
     private String venueName = "Sân bóng Bình Thạnh";
     private String courtName = "Sân số 1 (Sân 5 người)";
     private int price = 220000;
-    private String selectedTime = "17:00 – 18:00";
-    private String selectedDate = "Hôm nay, 18/10/2026";
+    private String selectedTime = "";
+    private String selectedDate = "";
 
     private TextView tvSummary;
     private ViewGroup currentSelectedSlot = null;
 
-    private static final int STATE_AVAILABLE = 1;
-    private static final int STATE_SELECTED = 2;
-    private static final int STATE_BOOKED = 3;
+    // Các trạng thái của một ô khung giờ
+    private static final int STATE_AVAILABLE = 1; // Còn trống
+    private static final int STATE_SELECTED = 2;  // Đang chọn
+    private static final int STATE_BOOKED = 3;    // Hết chỗ (đã có người đặt)
+    private static final int STATE_PAST = 4;      // Đã qua giờ (trong ngày hôm nay)
 
-    private final Map<ViewGroup, String> availableSlotsMap = new HashMap<>();
+    // Danh sách 6 khung giờ thi đấu phổ biến
+    private ViewGroup[] slotViews;
+    private final int[] startHours = {16, 17, 18, 19, 20, 21};
+    private final String[] timeTexts = {
+            "16:00 – 17:00",
+            "17:00 – 18:00",
+            "18:00 – 19:00",
+            "19:00 – 20:00",
+            "20:00 – 21:00",
+            "21:00 – 22:00"
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,18 +90,21 @@ public class SelectTimeSlotActivity extends AppCompatActivity {
         }
 
         tvSummary = findViewById(R.id.tv_selection_summary);
-        updateSummaryText();
+
+        // Khởi tạo danh sách các ô khung giờ trên giao diện
+        initSlotViews();
 
         // 3. Cài đặt chọn ngày thi đấu (Hôm nay, Ngày mai, Ngày khác)
         setupDateChips();
 
-        // 4. Cài đặt các khung giờ thi đấu (Còn trống, Đang chọn, Hết chỗ)
-        setupTimeSlots();
-
-        // 5. Nút "Tiếp tục" -> Chuyển sang Màn hình 4 (Xác nhận đặt sân)
+        // 4. Nút "Tiếp tục" -> Chuyển sang Màn hình 4 (Xác nhận đặt sân)
         MaterialButton btnContinue = findViewById(R.id.btn_continue);
         if (btnContinue != null) {
             btnContinue.setOnClickListener(v -> {
+                if (currentSelectedSlot == null || selectedTime.isEmpty() || selectedTime.startsWith("Đã hết")) {
+                    Toast.makeText(this, "Vui lòng chọn một khung giờ còn trống!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 Intent intent = new Intent(SelectTimeSlotActivity.this, BookingConfirmActivity.class);
                 intent.putExtra("VENUE_NAME", venueName);
                 intent.putExtra("COURT_NAME", courtName);
@@ -100,99 +116,177 @@ public class SelectTimeSlotActivity extends AppCompatActivity {
         }
     }
 
+    private void initSlotViews() {
+        slotViews = new ViewGroup[]{
+                findViewById(R.id.slot_16_17),
+                findViewById(R.id.slot_17_18),
+                findViewById(R.id.slot_18_19),
+                findViewById(R.id.slot_19_20),
+                findViewById(R.id.slot_20_21),
+                findViewById(R.id.slot_21_22)
+        };
+    }
+
     private void setupDateChips() {
         Chip chipToday = findViewById(R.id.chip_today);
         Chip chipTomorrow = findViewById(R.id.chip_tomorrow);
         Chip chipOther = findViewById(R.id.chip_other_date);
 
+        // Lấy ngày hiện tại thực tế trên máy
+        Calendar now = Calendar.getInstance();
+        int day = now.get(Calendar.DAY_OF_MONTH);
+        int month = now.get(Calendar.MONTH) + 1;
+        int year = now.get(Calendar.YEAR);
+        String todayString = String.format(Locale.getDefault(), "Hôm nay, %02d/%02d/%d", day, month, year);
+
+        // Tính ngày mai
+        Calendar tmw = Calendar.getInstance();
+        tmw.add(Calendar.DAY_OF_YEAR, 1);
+        int tmwDay = tmw.get(Calendar.DAY_OF_MONTH);
+        int tmwMonth = tmw.get(Calendar.MONTH) + 1;
+        int tmwYear = tmw.get(Calendar.YEAR);
+        String tomorrowString = String.format(Locale.getDefault(), "Ngày mai, %02d/%02d/%d", tmwDay, tmwMonth, tmwYear);
+
+        // Mặc định ban đầu chọn "Hôm nay"
+        selectedDate = todayString;
+        updateTimeSlots(true);
+
+        ChipGroup dateChips = findViewById(R.id.date_chips);
+        if (dateChips != null) {
+            dateChips.setOnCheckedStateChangeListener((group, checkedIds) -> {
+                if (checkedIds.isEmpty()) return;
+                int id = checkedIds.get(0);
+                if (id == R.id.chip_today) {
+                    selectedDate = todayString;
+                    updateTimeSlots(true);
+                } else if (id == R.id.chip_tomorrow) {
+                    selectedDate = tomorrowString;
+                    updateTimeSlots(false);
+                }
+            });
+        }
+
         if (chipToday != null) {
             chipToday.setOnClickListener(v -> {
-                selectedDate = "Hôm nay, 18/10/2026";
-                updateSummaryText();
+                selectedDate = todayString;
+                updateTimeSlots(true);
             });
         }
 
         if (chipTomorrow != null) {
             chipTomorrow.setOnClickListener(v -> {
-                selectedDate = "Ngày mai, 19/10/2026";
-                updateSummaryText();
+                selectedDate = tomorrowString;
+                updateTimeSlots(false);
             });
         }
 
         if (chipOther != null) {
             chipOther.setOnClickListener(v -> {
                 // Mở hộp thoại chọn ngày chuẩn của Android
-                Calendar calendar = Calendar.getInstance();
                 DatePickerDialog datePicker = new DatePickerDialog(this,
-                        (view, year, month, dayOfMonth) -> {
-                            selectedDate = String.format(Locale.getDefault(), "%02d/%02d/%d", dayOfMonth, month + 1, year);
+                        (view, y, m, d) -> {
+                            boolean isChosenToday = (d == day && (m + 1) == month && y == year);
+                            selectedDate = String.format(Locale.getDefault(), "%02d/%02d/%d", d, m + 1, y);
                             chipOther.setText(selectedDate);
                             chipOther.setChecked(true);
-                            updateSummaryText();
+                            updateTimeSlots(isChosenToday);
                         },
-                        calendar.get(Calendar.YEAR),
-                        calendar.get(Calendar.MONTH),
-                        calendar.get(Calendar.DAY_OF_MONTH));
+                        year,
+                        month - 1,
+                        day);
                 datePicker.getDatePicker().setMinDate(System.currentTimeMillis());
                 datePicker.show();
             });
         }
     }
 
-    private void setupTimeSlots() {
-        ViewGroup slot1 = findViewById(R.id.slot_16_17);
-        ViewGroup slot2 = findViewById(R.id.slot_17_18);
-        ViewGroup slot3 = findViewById(R.id.slot_18_19);
-        ViewGroup slot4 = findViewById(R.id.slot_19_20);
-        ViewGroup slot5 = findViewById(R.id.slot_20_21);
-        ViewGroup slot6 = findViewById(R.id.slot_21_22);
+    /**
+     * Cập nhật trạng thái các khung giờ dựa theo thời gian thực:
+     * - isToday = true: So sánh giờ thực tế hiện tại. Ca nào <= giờ hiện tại sẽ thành "Đã qua giờ".
+     * - isToday = false: Ca ở ngày tương lai nên các ca trước đó được mở lại bình thường.
+     */
+    private void updateTimeSlots(boolean isToday) {
+        Calendar now = Calendar.getInstance();
+        int currentHour = now.get(Calendar.HOUR_OF_DAY);
 
-        // Khung giờ 1: 16:00 - 17:00 (Còn trống)
-        setSlotDisplay(slot1, "16:00 – 17:00", STATE_AVAILABLE);
-        registerAvailableSlot(slot1, "16:00 – 17:00");
+        boolean isSelectedStillValid = false;
+        ViewGroup firstAvailableSlot = null;
+        String firstAvailableTime = null;
 
-        // Khung giờ 2: 17:00 - 18:00 (Đang chọn mặc định)
-        setSlotDisplay(slot2, "17:00 – 18:00", STATE_SELECTED);
-        registerAvailableSlot(slot2, "17:00 – 18:00");
-        currentSelectedSlot = slot2;
+        for (int i = 0; i < slotViews.length; i++) {
+            final ViewGroup slot = slotViews[i];
+            final String timeText = timeTexts[i];
+            int startHour = startHours[i];
 
-        // Khung giờ 3 & 4: Hết chỗ (Không cho chọn)
-        setSlotDisplay(slot3, "18:00 – 19:00", STATE_BOOKED);
-        if (slot3 != null) {
-            slot3.setOnClickListener(v -> Toast.makeText(this, "Khung giờ 18:00 – 19:00 đã hết chỗ!", Toast.LENGTH_SHORT).show());
-        }
+            if (slot == null) continue;
 
-        setSlotDisplay(slot4, "19:00 – 20:00", STATE_BOOKED);
-        if (slot4 != null) {
-            slot4.setOnClickListener(v -> Toast.makeText(this, "Khung giờ 19:00 – 20:00 đã hết chỗ!", Toast.LENGTH_SHORT).show());
-        }
-
-        // Khung giờ 5: 20:00 - 21:00 (Còn trống)
-        setSlotDisplay(slot5, "20:00 – 21:00", STATE_AVAILABLE);
-        registerAvailableSlot(slot5, "20:00 – 21:00");
-
-        // Khung giờ 6: 21:00 - 22:00 (Còn trống)
-        setSlotDisplay(slot6, "21:00 – 22:00", STATE_AVAILABLE);
-        registerAvailableSlot(slot6, "21:00 – 22:00");
-    }
-
-    private void registerAvailableSlot(ViewGroup slot, String timeText) {
-        if (slot == null) return;
-        availableSlotsMap.put(slot, timeText);
-
-        slot.setOnClickListener(v -> {
-            // Đưa ô đang chọn trước đó về trạng thái còn trống
-            if (currentSelectedSlot != null && currentSelectedSlot != slot) {
-                String prevTime = availableSlotsMap.get(currentSelectedSlot);
-                setSlotDisplay(currentSelectedSlot, prevTime != null ? prevTime : "", STATE_AVAILABLE);
+            // 1. Kiểm tra nếu là ngày hôm nay và khung giờ đã qua so với giờ hiện tại
+            if (isToday && startHour <= currentHour) {
+                setSlotDisplay(slot, timeText, STATE_PAST);
+                slot.setOnClickListener(v ->
+                        Toast.makeText(this, "Khung giờ " + timeText + " đã qua trong ngày hôm nay!", Toast.LENGTH_SHORT).show()
+                );
+                if (slot == currentSelectedSlot) {
+                    currentSelectedSlot = null;
+                }
             }
+            // 2. Giả lập một khung giờ đã có người khác đặt trước (ví dụ 19:00 - 20:00)
+            else if (startHour == 19) {
+                setSlotDisplay(slot, timeText, STATE_BOOKED);
+                slot.setOnClickListener(v ->
+                        Toast.makeText(this, "Khung giờ " + timeText + " đã có người đặt trước!", Toast.LENGTH_SHORT).show()
+                );
+                if (slot == currentSelectedSlot) {
+                    currentSelectedSlot = null;
+                }
+            }
+            // 3. Khung giờ còn trống và hợp lệ để đặt
+            else {
+                if (firstAvailableSlot == null) {
+                    firstAvailableSlot = slot;
+                    firstAvailableTime = timeText;
+                }
 
-            // Đặt ô vừa bấm thành ô đang chọn
-            currentSelectedSlot = slot;
-            selectedTime = timeText;
-            setSlotDisplay(slot, timeText, STATE_SELECTED);
-            updateSummaryText();
-        });
+                // Nếu khung giờ này đang được chọn trước đó và vẫn hợp lệ
+                if (timeText.equals(selectedTime)) {
+                    isSelectedStillValid = true;
+                    currentSelectedSlot = slot;
+                    setSlotDisplay(slot, timeText, STATE_SELECTED);
+                } else {
+                    setSlotDisplay(slot, timeText, STATE_AVAILABLE);
+                }
+
+                // Gán sự kiện bấm chọn cho ô còn trống
+                slot.setOnClickListener(v -> {
+                    // Nếu đang có ô được chọn khác thì trả ô đó về trạng thái còn trống
+                    if (currentSelectedSlot != null && currentSelectedSlot != slot) {
+                        for (int j = 0; j < slotViews.length; j++) {
+                            if (slotViews[j] == currentSelectedSlot) {
+                                setSlotDisplay(currentSelectedSlot, timeTexts[j], STATE_AVAILABLE);
+                                break;
+                            }
+                        }
+                    }
+
+                    currentSelectedSlot = slot;
+                    selectedTime = timeText;
+                    setSlotDisplay(slot, timeText, STATE_SELECTED);
+                    updateSummaryText();
+                });
+            }
+        }
+
+        // Tự động chọn khung giờ còn trống đầu tiên nếu lựa chọn trước đó không còn hợp lệ
+        if (!isSelectedStillValid && firstAvailableSlot != null) {
+            currentSelectedSlot = firstAvailableSlot;
+            selectedTime = firstAvailableTime;
+            setSlotDisplay(firstAvailableSlot, firstAvailableTime, STATE_SELECTED);
+        } else if (!isSelectedStillValid) {
+            currentSelectedSlot = null;
+            selectedTime = "Đã hết giờ nhận đặt trong ngày";
+        }
+
+        updateSummaryText();
     }
 
     private void setSlotDisplay(ViewGroup slot, String time, int state) {
@@ -212,6 +306,11 @@ public class SelectTimeSlotActivity extends AppCompatActivity {
             tvTime.setTextColor(ContextCompat.getColor(this, R.color.sportmatch_text_primary));
             tvStatus.setText("Còn trống");
             tvStatus.setTextColor(ContextCompat.getColor(this, R.color.sportmatch_success));
+        } else if (state == STATE_PAST) {
+            slot.setBackgroundResource(R.drawable.bg_slot_booked);
+            tvTime.setTextColor(ContextCompat.getColor(this, R.color.sportmatch_text_tertiary));
+            tvStatus.setText("Đã qua giờ");
+            tvStatus.setTextColor(ContextCompat.getColor(this, R.color.sportmatch_text_tertiary));
         } else { // STATE_BOOKED
             slot.setBackgroundResource(R.drawable.bg_slot_booked);
             tvTime.setTextColor(ContextCompat.getColor(this, R.color.sportmatch_text_tertiary));

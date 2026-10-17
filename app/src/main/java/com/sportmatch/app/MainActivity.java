@@ -151,6 +151,7 @@ public class MainActivity extends AppCompatActivity {
             intent.putExtra("VENUE_NAME", venue.getName());
             intent.putExtra("VENUE_ADDRESS", venue.getAddress());
             intent.putExtra("PRICE", court.getPricePerHour());
+            intent.putExtra("SPORT_ID", court.getSportId());
             startActivity(intent);
         });
     }
