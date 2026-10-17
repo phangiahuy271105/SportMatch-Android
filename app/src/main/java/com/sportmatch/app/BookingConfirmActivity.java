@@ -2,6 +2,8 @@ package com.sportmatch.app;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -15,15 +17,19 @@ import java.util.Locale;
 
 /**
  * Màn hình 4: Xác nhận đặt sân
- * Trình độ sinh viên năm 3: Kiểm tra thông tin đặt sân và xác nhận hoàn tất.
+ * Trình độ sinh viên năm 3: Kiểm tra thông tin đặt sân, nhập thông tin khách hàng và hoàn tất.
  */
 public class BookingConfirmActivity extends AppCompatActivity {
 
-    private String venueName = "Sân bóng đá Chảo Lửa";
+    private String venueName = "Sân bóng Bình Thạnh";
     private String courtName = "Sân số 1 (5 người)";
     private String selectedDate = "Hôm nay, 18/10/2026";
-    private String selectedTime = "18:00 – 19:00";
-    private int price = 180000;
+    private String selectedTime = "17:00 – 18:00";
+    private int price = 220000;
+
+    private EditText edtCustomerName;
+    private EditText edtCustomerPhone;
+    private EditText edtBookingNote;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +56,7 @@ public class BookingConfirmActivity extends AppCompatActivity {
             selectedTime = getIntent().getStringExtra("SELECTED_TIME");
         }
         if (getIntent().hasExtra("PRICE")) {
-            price = getIntent().getIntExtra("PRICE", 180000);
+            price = getIntent().getIntExtra("PRICE", 220000);
         }
 
         // 3. Đổ dữ liệu lên các View
@@ -73,10 +79,34 @@ public class BookingConfirmActivity extends AppCompatActivity {
         TextView tvTotal = findViewById(R.id.tv_confirm_total_price);
         if (tvTotal != null) tvTotal.setText(priceStr);
 
-        // 4. Nút "Xác nhận đặt sân" -> Chuyển sang Màn hình 6 (Chi tiết lịch đặt thành công)
+        edtCustomerName = findViewById(R.id.edt_customer_name);
+        edtCustomerPhone = findViewById(R.id.edt_customer_phone);
+        edtBookingNote = findViewById(R.id.edt_booking_note);
+
+        // 4. Nút bấm gọi hotline hỗ trợ khách hàng
+        View btnSupport = findViewById(R.id.btn_support_call);
+        if (btnSupport != null) {
+            btnSupport.setOnClickListener(v -> {
+                Toast.makeText(this, "Đang kết nối hotline chủ sân: 0901 234 567", Toast.LENGTH_SHORT).show();
+            });
+        }
+
+        // 5. Nút "Xác nhận đặt sân" -> Chuyển sang Màn hình 6 (Chi tiết lịch đặt thành công)
         MaterialButton btnConfirm = findViewById(R.id.btn_confirm_booking);
         if (btnConfirm != null) {
             btnConfirm.setOnClickListener(v -> {
+                String name = edtCustomerName != null ? edtCustomerName.getText().toString().trim() : "";
+                String phone = edtCustomerPhone != null ? edtCustomerPhone.getText().toString().trim() : "";
+
+                if (name.isEmpty()) {
+                    Toast.makeText(this, "Vui lòng nhập họ tên người đặt sân!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if (phone.isEmpty()) {
+                    Toast.makeText(this, "Vui lòng nhập số điện thoại liên hệ!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
                 Toast.makeText(BookingConfirmActivity.this, "Đặt sân thành công!", Toast.LENGTH_SHORT).show();
 
                 Intent intent = new Intent(BookingConfirmActivity.this, BookingDetailActivity.class);
@@ -84,6 +114,8 @@ public class BookingConfirmActivity extends AppCompatActivity {
                 intent.putExtra("COURT_NAME", courtName);
                 intent.putExtra("SELECTED_DATE", selectedDate);
                 intent.putExtra("SELECTED_TIME", selectedTime);
+                intent.putExtra("CUSTOMER_NAME", name);
+                intent.putExtra("CUSTOMER_PHONE", phone);
                 intent.putExtra("PRICE", price);
                 intent.putExtra("BOOKING_CODE", "SM-2026-" + (1000 + (int)(Math.random() * 8999)));
                 startActivity(intent);

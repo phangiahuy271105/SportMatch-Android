@@ -81,6 +81,15 @@ public class BookingDetailActivity extends AppCompatActivity {
         TextView tvTotal = findViewById(R.id.tv_detail_total_amount);
         if (tvTotal != null) tvTotal.setText(priceStr);
 
+        // Hiển thị thông tin khách hàng đã nhập
+        String customerName = getIntent().getStringExtra("CUSTOMER_NAME");
+        String customerPhone = getIntent().getStringExtra("CUSTOMER_PHONE");
+        TextView tvCustName = findViewById(R.id.tv_detail_customer_name);
+        if (tvCustName != null && customerName != null) tvCustName.setText(customerName);
+
+        TextView tvCustPhone = findViewById(R.id.tv_detail_customer_phone);
+        if (tvCustPhone != null && customerPhone != null) tvCustPhone.setText(customerPhone);
+
         // 4. Nút Gọi điện hỗ trợ sân
         MaterialButton btnContact = findViewById(R.id.btn_contact_venue);
         if (btnContact != null) {

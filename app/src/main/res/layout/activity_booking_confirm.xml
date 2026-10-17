@@ -302,6 +302,7 @@
             </com.google.android.material.card.MaterialCardView>
 
             <!-- THẺ 3: THÔNG TIN NGƯỜI ĐẶT SÂN -->
+            <!-- THẺ 3: THÔNG TIN KHÁCH HÀNG & LIÊN HỆ -->
             <com.google.android.material.card.MaterialCardView
                 style="@style/SportMatchCard"
                 android:layout_width="match_parent"
@@ -316,54 +317,157 @@
 
                     <TextView
                         style="@style/SportMatchSectionTitle"
-                        android:text="@string/booking_customer_title" />
+                        android:text="Thông tin người đặt (Chủ sân liên hệ)" />
 
+                    <!-- Họ và tên -->
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:text="Họ và tên người nhận sân *"
+                        android:textColor="@color/sportmatch_text_secondary"
+                        android:textSize="13sp"
+                        android:textStyle="bold" />
+
+                    <EditText
+                        android:id="@+id/edt_customer_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:layout_marginTop="6dp"
+                        android:background="@drawable/bg_input_field"
+                        android:hint="Nhập họ và tên của bạn"
+                        android:paddingStart="12dp"
+                        android:paddingEnd="12dp"
+                        android:text="Nguyễn Văn A"
+                        android:textColor="@color/sportmatch_text_primary"
+                        android:textSize="14sp" />
+
+                    <!-- Số điện thoại -->
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:text="Số điện thoại nhận tin đặt sân *"
+                        android:textColor="@color/sportmatch_text_secondary"
+                        android:textSize="13sp"
+                        android:textStyle="bold" />
+
+                    <EditText
+                        android:id="@+id/edt_customer_phone"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:layout_marginTop="6dp"
+                        android:background="@drawable/bg_input_field"
+                        android:hint="Nhập số điện thoại liên hệ"
+                        android:inputType="phone"
+                        android:paddingStart="12dp"
+                        android:paddingEnd="12dp"
+                        android:text="0901 234 567"
+                        android:textColor="@color/sportmatch_text_primary"
+                        android:textSize="14sp" />
+
+                    <!-- Ghi chú cho chủ sân -->
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:text="Ghi chú cho chủ sân (không bắt buộc)"
+                        android:textColor="@color/sportmatch_text_secondary"
+                        android:textSize="13sp" />
+
+                    <EditText
+                        android:id="@+id/edt_booking_note"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:layout_marginTop="6dp"
+                        android:background="@drawable/bg_input_field"
+                        android:hint="Vd: Chuẩn bị thêm áo bít, lấy thêm 1 chai nước..."
+                        android:paddingStart="12dp"
+                        android:paddingEnd="12dp"
+                        android:textColor="@color/sportmatch_text_primary"
+                        android:textSize="13sp" />
+
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- THẺ 4: HỖ TRỢ KHÁCH HÀNG & QUY ĐỊNH SÂN -->
+            <com.google.android.material.card.MaterialCardView
+                style="@style/SportMatchCard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView
+                        style="@style/SportMatchSectionTitle"
+                        android:text="Hỗ trợ khách hàng &amp; Quy định" />
+
+                    <!-- Hotline hỗ trợ -->
                     <LinearLayout
+                        android:id="@+id/btn_support_call"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="12dp"
-                        android:orientation="horizontal">
+                        android:background="@drawable/bg_input_field"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:foreground="?attr/selectableItemBackground"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:padding="12dp">
 
-                        <TextView
-                            android:layout_width="100dp"
-                            android:layout_height="wrap_content"
-                            android:text="@string/booking_label_customer_name"
-                            android:textColor="@color/sportmatch_text_secondary"
-                            android:textSize="14sp" />
+                        <ImageView
+                            android:layout_width="22dp"
+                            android:layout_height="22dp"
+                            android:contentDescription="@null"
+                            android:src="@drawable/ic_phone"
+                            app:tint="@color/sportmatch_primary" />
 
-                        <TextView
-                            android:id="@+id/tv_customer_name"
+                        <LinearLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
                             android:layout_weight="1"
-                            android:textColor="@color/sportmatch_text_primary"
-                            android:textSize="14sp"
-                            android:textStyle="bold"
-                            tools:text="Nguyễn Văn A" />
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Hotline hỗ trợ trực tiếp chủ sân"
+                                android:textColor="@color/sportmatch_text_secondary"
+                                android:textSize="12sp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="0901 234 567 (Bấm để gọi)"
+                                android:textColor="@color/sportmatch_primary"
+                                android:textSize="14sp"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+
+                        <ImageView
+                            android:layout_width="16dp"
+                            android:layout_height="16dp"
+                            android:contentDescription="@null"
+                            android:src="@drawable/ic_arrow_forward"
+                            app:tint="@color/sportmatch_text_tertiary" />
                     </LinearLayout>
 
-                    <LinearLayout
+                    <!-- Quy định -->
+                    <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:layout_width="100dp"
-                            android:layout_height="wrap_content"
-                            android:text="@string/booking_label_customer_phone"
-                            android:textColor="@color/sportmatch_text_secondary"
-                            android:textSize="14sp" />
-
-                        <TextView
-                            android:id="@+id/tv_customer_phone"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:textColor="@color/sportmatch_text_primary"
-                            android:textSize="14sp"
-                            tools:text="0901 234 567" />
-                    </LinearLayout>
+                        android:layout_marginTop="10dp"
+                        android:lineSpacingExtra="3dp"
+                        android:text="• Đổi/hủy giờ đặt sân miễn phí trước tối thiểu 2 tiếng qua hotline.\n• Vui lòng đến trước 10 phút để nhận sân đúng giờ thi đấu."
+                        android:textColor="@color/sportmatch_text_secondary"
+                        android:textSize="12sp" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 

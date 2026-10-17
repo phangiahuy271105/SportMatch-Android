@@ -1,11 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- THẺ SÂN CON TRONG DANH SÁCH BẢNG GIÁ (Hỗ trợ bấm chọn trực quan) -->
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/card_sub_court"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="10dp"
-    app:cardBackgroundColor="@color/sportmatch_surface_variant"
+    android:layout_marginBottom="12dp"
+    android:clickable="true"
+    android:focusable="true"
+    android:foreground="?attr/selectableItemBackground"
+    app:cardBackgroundColor="@color/sportmatch_surface"
     app:cardCornerRadius="12dp"
     app:cardElevation="0dp"
     app:strokeColor="@color/sportmatch_stroke"
@@ -16,24 +21,17 @@
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:padding="14dp">
+        android:padding="16dp">
 
-        <!-- Court Icon Container -->
-        <FrameLayout
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:background="@drawable/bg_amenity_item">
+        <!-- Nút chọn Radio trực quan -->
+        <ImageView
+            android:id="@+id/iv_court_radio"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:contentDescription="@null"
+            android:src="@drawable/ic_radio_unchecked" />
 
-            <ImageView
-                android:layout_width="22dp"
-                android:layout_height="22dp"
-                android:layout_gravity="center"
-                android:contentDescription="@null"
-                android:src="@drawable/ic_court"
-                app:tint="@color/sportmatch_primary" />
-        </FrameLayout>
-
-        <!-- Court details: name and status -->
+        <!-- Chi tiết sân con -->
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -48,13 +46,23 @@
                 android:textColor="@color/sportmatch_text_primary"
                 android:textSize="15sp"
                 android:textStyle="bold"
-                tools:text="Sân số 1 (5 người)" />
+                tools:text="Sân số 1 (Sân 5 người)" />
 
+            <TextView
+                android:id="@+id/tv_court_desc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:textColor="@color/sportmatch_text_secondary"
+                android:textSize="12sp"
+                tools:text="Cỏ nhân tạo tiêu chuẩn • Đèn chiếu sáng" />
+
+            <!-- Trạng thái hoạt động -->
             <TextView
                 android:id="@+id/tv_court_status"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="3dp"
+                android:layout_marginTop="4dp"
                 android:drawableStart="@drawable/ic_check_circle"
                 android:drawablePadding="4dp"
                 android:text="@string/venue_detail_court_status_ready"
@@ -63,14 +71,17 @@
                 android:textStyle="bold" />
         </LinearLayout>
 
-        <!-- Court price tag -->
+        <!-- Giá thuê sân con -->
         <TextView
             android:id="@+id/tv_court_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
             android:textColor="@color/sportmatch_primary"
             android:textSize="15sp"
             android:textStyle="bold"
-            tools:text="180.000đ/giờ" />
+            tools:text="220.000đ/giờ" />
+
     </LinearLayout>
+
 </com.google.android.material.card.MaterialCardView>

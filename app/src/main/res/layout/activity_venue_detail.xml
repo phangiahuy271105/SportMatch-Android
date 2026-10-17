@@ -54,43 +54,76 @@
             android:orientation="vertical"
             android:paddingBottom="24dp">
 
-            <!-- Hero Image Banner -->
+            <!-- Hero Image Banner with Stadium Illustration -->
             <FrameLayout
                 android:id="@+id/venue_detail_banner"
                 android:layout_width="match_parent"
-                android:layout_height="180dp"
-                android:background="@drawable/bg_banner_detail">
+                android:layout_height="180dp">
 
-                <!-- Decorative overlay -->
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:contentDescription="@null"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ic_stadium_banner" />
+
+                <!-- Gradient overlay -->
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:alpha="0.08"
-                    android:background="@color/white" />
+                    android:background="@drawable/bg_banner_detail" />
 
-                <!-- Sport Tag Badge -->
+                <!-- Badges on banner -->
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="bottom|start"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginBottom="16dp"
-                    android:background="@drawable/bg_badge_sport"
+                    android:layout_gravity="bottom"
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
-                    android:paddingStart="12dp"
-                    android:paddingTop="6dp"
-                    android:paddingEnd="14dp"
-                    android:paddingBottom="6dp">
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp"
+                    android:paddingBottom="16dp">
 
-                    <TextView
-                        android:id="@+id/venue_detail_sport"
+                    <!-- Sport Tag Badge -->
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:background="@drawable/bg_badge_sport"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:paddingStart="10dp"
+                        android:paddingTop="5dp"
+                        android:paddingEnd="12dp"
+                        android:paddingBottom="5dp">
+
+                        <TextView
+                            android:id="@+id/venue_detail_sport"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/white"
+                            android:textSize="13sp"
+                            android:textStyle="bold"
+                            tools:text="Bóng đá mini" />
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_weight="1" />
+
+                    <!-- Rating badge -->
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/bg_badge_sport"
+                        android:paddingStart="10dp"
+                        android:paddingTop="5dp"
+                        android:paddingEnd="12dp"
+                        android:paddingBottom="5dp"
+                        android:text="⭐ 4.8 (120+ đánh giá)"
                         android:textColor="@color/white"
-                        android:textSize="14sp"
-                        android:textStyle="bold"
-                        tools:text="Bóng đá mini" />
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
                 </LinearLayout>
             </FrameLayout>
 
@@ -318,11 +351,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="14dp"
-                        android:orientation="vertical">
-
-                        <!-- Sample Court 1 included for immediate layout preview -->
-                        <include layout="@layout/item_sub_court" />
-                    </LinearLayout>
+                        android:orientation="vertical" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
