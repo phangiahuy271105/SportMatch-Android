@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -140,6 +141,7 @@ public class MainActivity extends AppCompatActivity {
         int bannerColor = football ? R.color.sportmatch_football : R.color.sportmatch_badminton;
         FrameLayout banner = card.findViewById(R.id.venue_banner);
         banner.setBackgroundColor(ContextCompat.getColor(this, bannerColor));
+        ((ImageView) card.findViewById(R.id.venue_photo)).setImageResource(venue.getImageResId());
 
         TextView sport = card.findViewById(R.id.venue_sport);
         TextView name = card.findViewById(R.id.venue_name);
@@ -148,6 +150,8 @@ public class MainActivity extends AppCompatActivity {
         sport.setText(football ? R.string.sport_football : R.string.sport_badminton);
         name.setText(venue.getName());
         address.setText(venue.getAddress());
+        ((TextView) card.findViewById(R.id.venue_hours))
+                .setText(getString(R.string.select_slot_opening_hours, venue.getOpeningHours()));
         String formattedPrice = NumberFormat.getNumberInstance(Locale.forLanguageTag("vi-VN"))
                 .format(court.getPricePerHour()) + "đ";
         price.setText(getString(R.string.price_from, formattedPrice));

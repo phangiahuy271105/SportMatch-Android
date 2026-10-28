@@ -22,7 +22,7 @@ Ba mục điều hướng chính sau khi vào app: **Sân**, **Tìm người**, 
 | S1 | Danh sách sân, lọc môn/khu vực/ngày | Chi tiết sân (S2), Tìm người (P1), Cá nhân (U1) |
 | S2 | Chi tiết sân | Chọn ngày và khung giờ (S3) |
 | S3 | Chọn một ngày và một khung giờ | Xác nhận đặt sân (S4) |
-| S4 | Xác nhận đặt sân | Lịch đặt của tôi (S5) khi đặt thành công |
+| S4 | Xác nhận đặt sân | Chi tiết lịch đặt (S6) khi lưu thành công |
 | S5 | Lịch đặt của tôi | Chi tiết lịch đặt (S6) |
 | S6 | Chi tiết lịch đặt | Lịch đặt của tôi (S5) |
 | P1 | Danh sách bài tìm người | Chi tiết bài (P2), Tạo bài (P3), Bài của tôi (P4) |
@@ -43,10 +43,10 @@ Tên trường dùng tiếng Anh trong Java; nhãn trên giao diện dùng tiế
 | --- | --- | --- |
 | `UserProfile` | `id`, `displayName`, `email`, `phone`, `favoriteSportIds` | Thông tin hiển thị; không lưu mật khẩu trong hồ sơ |
 | `Sport` | `id`, `name` | Hai giá trị mẫu: bóng đá mini, cầu lông |
-| `Venue` | `id`, `name`, `district`, `address`, `description`, `imageName` | Địa điểm/cụm sân để hiển thị và lọc |
-| `Court` | `id`, `venueId`, `sportId`, `name`, `pricePerHour` | Sân cụ thể có thể đặt; một địa điểm có thể có nhiều sân |
-| `TimeSlot` | `id`, `startTime`, `endTime` | Một khung giờ có giờ bắt đầu nhỏ hơn giờ kết thúc |
-| `Booking` | `id`, `userId`, `courtId`, `playDate`, `timeSlotId`, `totalPrice`, `status`, `createdAt` | Một người đặt một sân trong một khung giờ |
+| `Venue` | `id`, `name`, `district`, `address`, `description`, `openingHour`, `closingHour`, `rules`, `amenities`, `imageResId` | Địa điểm/cụm sân để hiển thị và lọc; giờ là số nguyên 0–23 |
+| `Court` | `id`, `venueId`, `sportId`, `name`, `description`, `pricePerHour` | Sân cụ thể có thể đặt; một địa điểm có thể có nhiều sân |
+| Khung giờ | `startHour` | Bản mẫu tạo các khung 1 giờ từ `openingHour` đến trước `closingHour`; chưa có lớp `TimeSlot` riêng |
+| `Booking` | `id`, `userId`, `courtId`, `playDate`, `startHour`, `customerName`, `customerPhone`, `note`, `totalPrice`, `status` | Một người đặt một sân trong một khung giờ |
 | `MatchPost` | `id`, `ownerId`, `sportId`, `title`, `locationText`, `playDate`, `startTime`, `endTime`, `neededPlayers`, `description`, `status` | Bài tìm thêm người chơi hoặc đối thủ |
 | `JoinRequest` | `id`, `postId`, `requesterId`, `message`, `status`, `createdAt` | Yêu cầu tham gia một bài |
 
@@ -64,8 +64,8 @@ Dữ liệu sân mẫu: bốn địa điểm hư cấu (hai địa điểm bóng
 
 ### Đặt sân
 
-- Không chọn ngày/giờ đã qua. Một booking chọn đúng một `Court`, một ngày và một `TimeSlot`.
-- Không tạo hai booking còn hiệu lực cho cùng `courtId` + `playDate` + `timeSlotId`.
+- Không chọn ngày/giờ đã qua hoặc ngoài giờ mở cửa. Một booking chọn đúng một `Court`, một ngày và một khung 1 giờ.
+- Không tạo hai booking còn hiệu lực cho cùng `courtId` + `playDate` + `startHour`.
 - Sau khi đặt thành công, booking xuất hiện ở lịch của đúng `userId` và chi tiết hiển thị cùng thông tin đã xác nhận.
 - Khi dùng dữ liệu chung trên mạng, việc kiểm tra trùng phải xảy ra ở nguồn dữ liệu chung trong thao tác đặt, vì hai người có thể bấm xác nhận gần như cùng lúc. Cách triển khai sẽ chốt cùng giải pháp lưu trữ.
 
