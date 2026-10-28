@@ -23,15 +23,37 @@
         <FrameLayout
             android:id="@+id/venue_banner"
             android:layout_width="match_parent"
-            android:layout_height="92dp"
+            android:layout_height="136dp"
             android:background="@color/sportmatch_football">
 
-            <!-- Decorative court lines / subtle sport pattern overlay -->
+            <ImageView
+                android:id="@+id/venue_photo"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:contentDescription="@null"
+                android:scaleType="centerCrop"
+                tools:src="@drawable/venue_binh_thanh" />
+
+            <!-- Lớp phủ nhẹ để nhãn môn thể thao dễ đọc trên ảnh. -->
             <View
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:alpha="0.08"
-                android:background="@color/white" />
+                android:background="#22000000" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top|end"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="12dp"
+                android:background="@drawable/bg_badge_sport"
+                android:paddingStart="8dp"
+                android:paddingTop="4dp"
+                android:paddingEnd="8dp"
+                android:paddingBottom="4dp"
+                android:text="@string/sample_photo_label"
+                android:textColor="@color/white"
+                android:textSize="11sp" />
 
             <!-- Sport tag badge -->
             <LinearLayout
@@ -86,6 +108,15 @@
                 android:textColor="@color/sportmatch_text_secondary"
                 android:textSize="14sp"
                 tools:text="Bình Thạnh, TP.HCM" />
+
+            <TextView
+                android:id="@+id/venue_hours"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:textColor="@color/sportmatch_text_secondary"
+                android:textSize="13sp"
+                tools:text="Giờ mở cửa: 06:00 – 23:00" />
 
             <!-- Divider -->
             <View
