@@ -198,9 +198,6 @@
                 android:layout_marginTop="16dp"
                 android:text="@string/matches_feature_preview_title" />
 
-            <TextView
-                style="@style/SportMatchEmptyMessage"
-                android:text="@string/matches_empty_message" />
         </LinearLayout>
 
         <!-- ========================================== -->

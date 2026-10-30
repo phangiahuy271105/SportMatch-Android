@@ -93,10 +93,18 @@ public class MainActivity extends AppCompatActivity {
             int selectedId = item.getItemId();
             findViewById(R.id.venues_panel).setVisibility(
                     selectedId == R.id.nav_venues ? View.VISIBLE : View.GONE);
-            findViewById(R.id.matches_panel).setVisibility(
-                    selectedId == R.id.nav_matches ? View.VISIBLE : View.GONE);
             findViewById(R.id.profile_panel).setVisibility(
                     selectedId == R.id.nav_profile ? View.VISIBLE : View.GONE);
+
+            // Khi bấm vào Tab Tìm người (Matches)
+            if (selectedId == R.id.nav_matches) {
+                findViewById(R.id.matches_panel).setVisibility(View.VISIBLE);
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.matches_panel, new TimNguoiFragment())
+                        .commit();
+            } else {
+                findViewById(R.id.matches_panel).setVisibility(View.GONE);
+            }
 
             if (selectedId == R.id.nav_profile) {
                 updateProfileTabState();

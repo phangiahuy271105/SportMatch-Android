@@ -60,6 +60,17 @@
             android:name=".ProfileActivity"
             android:exported="false" />
 
+        <!-- Phân hệ Tìm người chơi (Thành viên 3) -->
+        <activity
+            android:name=".CreatePostActivity"
+            android:exported="false" />
+        <activity
+            android:name=".PostDetailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ManageRequestsActivity"
+            android:exported="false" />
+
     </application>
 
 </manifest>
