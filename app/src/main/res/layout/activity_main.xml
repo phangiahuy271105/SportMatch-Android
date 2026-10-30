@@ -206,41 +206,111 @@
         <!-- ========================================== -->
         <!-- TAB 3: PROFILE PANEL (Cá nhân)             -->
         <!-- ========================================== -->
-        <LinearLayout
+        <ScrollView
             android:id="@+id/profile_panel"
-            style="@style/SportMatchEmptyPanel"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true"
             android:visibility="gone">
 
-            <ImageView
-                android:layout_width="72dp"
-                android:layout_height="72dp"
-                android:contentDescription="@null"
-                android:src="@drawable/ic_profile"
-                app:tint="@color/sportmatch_primary" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                android:padding="24dp">
 
-            <TextView
-                style="@style/SportMatchEmptyTitle"
-                android:layout_marginTop="16dp"
-                android:text="@string/profile_feature_preview_title" />
+                <!-- Avatar -->
+                <ImageView
+                    android:id="@+id/iv_profile_avatar"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_marginTop="20dp"
+                    android:contentDescription="@null"
+                    android:src="@drawable/ic_profile"
+                    app:tint="@color/sportmatch_primary" />
 
-            <TextView
-                style="@style/SportMatchEmptyMessage"
-                android:text="@string/profile_empty_message" />
+                <!-- Tên người dùng -->
+                <TextView
+                    android:id="@+id/tv_profile_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:text="Khách"
+                    android:textColor="@color/sportmatch_text_primary"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_open_my_bookings"
-                android:layout_width="wrap_content"
-                android:layout_height="48dp"
-                android:layout_marginTop="20dp"
-                android:backgroundTint="@color/sportmatch_primary"
-                android:text="@string/my_bookings_title"
-                android:textAllCaps="false"
-                android:textColor="@color/white"
-                android:textSize="14sp"
-                app:cornerRadius="12dp"
-                app:icon="@drawable/ic_calendar"
-                app:iconTint="@color/white" />
-        </LinearLayout>
+                <!-- Email -->
+                <TextView
+                    android:id="@+id/tv_profile_email"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="Chưa đăng nhập"
+                    android:textColor="@color/sportmatch_text_secondary"
+                    android:textSize="14sp" />
+
+                <!-- Nút ĐĂNG NHẬP / ĐĂNG KÝ (khi chưa đăng nhập) -->
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_profile_login"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="28dp"
+                    android:backgroundTint="@color/sportmatch_primary"
+                    android:text="Đăng nhập / Đăng ký"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    app:cornerRadius="12dp" />
+
+                <!-- Nút XEM HỒ SƠ (khi đã đăng nhập) -->
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_profile_detail"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="28dp"
+                    android:backgroundTint="@color/sportmatch_primary"
+                    android:text="Xem &amp; Chỉnh sửa hồ sơ"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    android:visibility="gone"
+                    app:cornerRadius="12dp" />
+
+                <!-- Nút LỊCH ĐẶT CỦA TÔI -->
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_open_my_bookings"
+                    style="@style/Widget.Material3.Button.OutlinedButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="12dp"
+                    android:text="@string/my_bookings_title"
+                    android:textAllCaps="false"
+                    android:textColor="@color/sportmatch_primary"
+                    android:textSize="15sp"
+                    app:cornerRadius="12dp"
+                    app:icon="@drawable/ic_calendar"
+                    app:iconTint="@color/sportmatch_primary"
+                    app:strokeColor="@color/sportmatch_primary" />
+
+                <!-- Nút ĐĂNG XUẤT (khi đã đăng nhập) -->
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_profile_logout"
+                    style="@style/Widget.Material3.Button.TextButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:layout_marginTop="12dp"
+                    android:text="Đăng xuất"
+                    android:textAllCaps="false"
+                    android:textColor="#E53935"
+                    android:textSize="15sp"
+                    android:visibility="gone" />
+
+            </LinearLayout>
+        </ScrollView>
     </FrameLayout>
 
     <!-- Bottom Navigation Bar (Sân - Tìm người - Cá nhân) -->

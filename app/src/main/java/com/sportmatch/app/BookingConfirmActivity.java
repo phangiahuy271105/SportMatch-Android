@@ -22,6 +22,8 @@ import com.sportmatch.app.model.Venue;
 import java.util.Locale;
 import java.util.UUID;
 
+import com.sportmatch.app.model.User;
+import com.sportmatch.app.utils.SharedPrefManager;
 /** Kiểm tra lại thông tin trước khi lưu một lịch đặt mẫu trên máy. */
 public class BookingConfirmActivity extends AppCompatActivity {
     private Venue venue;
@@ -64,6 +66,15 @@ public class BookingConfirmActivity extends AppCompatActivity {
         nameInput = findViewById(R.id.edt_customer_name);
         phoneInput = findViewById(R.id.edt_customer_phone);
         noteInput = findViewById(R.id.edt_booking_note);
+        // Tự động điền thông tin nếu tài khoản đã đăng nhập
+        SharedPrefManager pref = SharedPrefManager.getInstance(this);
+        if (pref.isLoggedIn()) {
+            User currentUser = pref.getCurrentUser();
+            if (currentUser != null) {
+                if (currentUser.getFullName() != null) nameInput.setText(currentUser.getFullName());
+                if (currentUser.getPhoneNumber() != null) phoneInput.setText(currentUser.getPhoneNumber());
+            }
+        }
         // Địa điểm đều hư cấu nên không hiển thị số điện thoại chủ sân.
         findViewById(R.id.btn_support_call).setVisibility(View.GONE);
         MaterialButton confirmButton = findViewById(R.id.btn_confirm_booking);
@@ -96,7 +107,11 @@ public class BookingConfirmActivity extends AppCompatActivity {
         // UUID tạo mã khác nhau cho các lượt đặt mẫu.
         String id = "SM-" + UUID.randomUUID().toString().substring(0, 8)
                 .toUpperCase(Locale.ROOT);
-        Booking booking = new Booking(id, CurrentUser.getId(), court.getId(), playDate,
+        // DÒNG MỚI (Lấy đúng email tài khoản đang đăng nhập):
+        SharedPrefManager pref = SharedPrefManager.getInstance(this);
+        String bookerId = pref.isLoggedIn() ? pref.getCurrentUserEmail() : CurrentUser.getId();
+
+        Booking booking = new Booking(id, bookerId, court.getId(), playDate,
                 startHour, name, phone, note, court.getPricePerHour(), Booking.CONFIRMED);
         button.setEnabled(false);
         if (!bookingStore.save(booking)) {

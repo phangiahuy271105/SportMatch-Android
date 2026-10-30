@@ -11,6 +11,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.SportMatch">
+
         <activity
             android:name=".MainActivity"
             android:exported="true"
@@ -41,6 +42,24 @@
         <activity
             android:name=".MyBookingsActivity"
             android:exported="false" />
+
+        <!-- Phân hệ Tài khoản & Hồ sơ (Khoa) -->
+        <activity
+            android:name=".LoginActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".RegisterActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".ForgotPasswordActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".ProfileActivity"
+            android:exported="false" />
+
     </application>
 
 </manifest>

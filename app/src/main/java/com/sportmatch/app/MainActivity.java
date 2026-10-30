@@ -8,6 +8,7 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,7 +21,9 @@ import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.navigation.NavigationBarView;
 import com.sportmatch.app.data.SampleData;
 import com.sportmatch.app.model.Court;
+import com.sportmatch.app.model.User;
 import com.sportmatch.app.model.Venue;
+import com.sportmatch.app.utils.SharedPrefManager;
 
 import java.text.NumberFormat;
 import java.util.Locale;
@@ -31,6 +34,13 @@ public class MainActivity extends AppCompatActivity {
     private TextView emptyVenues;
     private Spinner districtFilter;
     private String selectedSportId;
+
+    // View cho Tab Cá nhân
+    private TextView tvProfileName;
+    private TextView tvProfileEmail;
+    private View btnProfileLogin;
+    private View btnProfileDetail;
+    private View btnProfileLogout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +61,7 @@ public class MainActivity extends AppCompatActivity {
         setupNavigation();
         setupFilters();
         renderVenues();
+        setupProfileTab();
 
         View btnMyBookings = findViewById(R.id.btn_open_my_bookings);
         if (btnMyBookings != null) {
@@ -59,6 +70,13 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             });
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // Cập nhật lại giao diện Tab Cá nhân mỗi khi quay lại màn hình chính
+        updateProfileTabState();
     }
 
     @Override
@@ -79,8 +97,83 @@ public class MainActivity extends AppCompatActivity {
                     selectedId == R.id.nav_matches ? View.VISIBLE : View.GONE);
             findViewById(R.id.profile_panel).setVisibility(
                     selectedId == R.id.nav_profile ? View.VISIBLE : View.GONE);
+
+            if (selectedId == R.id.nav_profile) {
+                updateProfileTabState();
+            }
             return true;
         });
+    }
+
+    /**
+     * Khởi tạo các sự kiện cho Tab Cá nhân (Profile Panel)
+     */
+    private void setupProfileTab() {
+        tvProfileName = findViewById(R.id.tv_profile_name);
+        tvProfileEmail = findViewById(R.id.tv_profile_email);
+        btnProfileLogin = findViewById(R.id.btn_profile_login);
+        btnProfileDetail = findViewById(R.id.btn_profile_detail);
+        btnProfileLogout = findViewById(R.id.btn_profile_logout);
+
+        // Nút Đăng nhập / Đăng ký
+        if (btnProfileLogin != null) {
+            btnProfileLogin.setOnClickListener(v -> {
+                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                startActivity(intent);
+            });
+        }
+
+        // Nút Xem & Chỉnh sửa hồ sơ
+        if (btnProfileDetail != null) {
+            btnProfileDetail.setOnClickListener(v -> {
+                Intent intent = new Intent(MainActivity.this, ProfileActivity.class);
+                startActivity(intent);
+            });
+        }
+
+        // Nút Đăng xuất
+        if (btnProfileLogout != null) {
+            btnProfileLogout.setOnClickListener(v -> {
+                SharedPrefManager.getInstance(MainActivity.this).logout();
+                Toast.makeText(MainActivity.this, "Đã đăng xuất thành công!", Toast.LENGTH_SHORT).show();
+                updateProfileTabState();
+            });
+        }
+
+        updateProfileTabState();
+    }
+
+    /**
+     * Cập nhật trạng thái hiển thị của Tab Cá nhân theo phiên đăng nhập
+     */
+    private void updateProfileTabState() {
+        if (tvProfileName == null || tvProfileEmail == null) return;
+
+        SharedPrefManager pref = SharedPrefManager.getInstance(this);
+        if (pref.isLoggedIn()) {
+            User user = pref.getCurrentUser();
+            if (user != null) {
+                tvProfileName.setText(user.getFullName());
+                tvProfileEmail.setText(user.getEmail());
+            } else {
+                tvProfileName.setText("Người dùng SportMatch");
+                tvProfileEmail.setText(pref.getCurrentUserEmail());
+            }
+
+            // Đã đăng nhập: Hiện nút xem hồ sơ & đăng xuất, ẩn nút đăng nhập
+            if (btnProfileLogin != null) btnProfileLogin.setVisibility(View.GONE);
+            if (btnProfileDetail != null) btnProfileDetail.setVisibility(View.VISIBLE);
+            if (btnProfileLogout != null) btnProfileLogout.setVisibility(View.VISIBLE);
+        } else {
+            // Chưa đăng nhập: Hiện trạng thái Khách
+            tvProfileName.setText("Khách");
+            tvProfileEmail.setText("Chưa đăng nhập");
+
+            // Chưa đăng nhập: Hiện nút đăng nhập, ẩn nút hồ sơ & đăng xuất
+            if (btnProfileLogin != null) btnProfileLogin.setVisibility(View.VISIBLE);
+            if (btnProfileDetail != null) btnProfileDetail.setVisibility(View.GONE);
+            if (btnProfileLogout != null) btnProfileLogout.setVisibility(View.GONE);
+        }
     }
 
     private void setupFilters() {
