@@ -72,7 +72,21 @@ public class SelectTimeSlotActivity extends AppCompatActivity {
         todayChip.setOnClickListener(v -> chooseDate(BookingTime.today()));
         tomorrowChip.setOnClickListener(v -> chooseDate(BookingTime.tomorrow()));
         otherDateChip.setOnClickListener(v -> showDatePicker());
-        chooseDate(BookingTime.today());
+        String dateFromList = getIntent().getStringExtra("PLAY_DATE");
+        if (dateFromList == null || dateFromList.compareTo(BookingTime.today()) < 0) {
+            chooseDate(BookingTime.today());
+            todayChip.setChecked(true);
+        } else {
+            chooseDate(dateFromList);
+            if (dateFromList.equals(BookingTime.today())) {
+                todayChip.setChecked(true);
+            } else if (dateFromList.equals(BookingTime.tomorrow())) {
+                tomorrowChip.setChecked(true);
+            } else {
+                otherDateChip.setText(BookingTime.displayDate(dateFromList));
+                otherDateChip.setChecked(true);
+            }
+        }
 
         continueButton.setOnClickListener(v -> {
             if (selectedHour < 0) {

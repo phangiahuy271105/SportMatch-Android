@@ -67,11 +67,13 @@ public class VenueDetailActivity extends AppCompatActivity {
         showCourts();
         updatePrice();
 
+        String playDateFromList = getIntent().getStringExtra("PLAY_DATE");
         MaterialButton button = findViewById(R.id.btn_select_time_slot);
         button.setOnClickListener(v -> {
             Intent intent = new Intent(this, SelectTimeSlotActivity.class);
             intent.putExtra("VENUE_ID", venue.getId());
             intent.putExtra("COURT_ID", selectedCourt.getId());
+            if (playDateFromList != null) intent.putExtra("PLAY_DATE", playDateFromList);
             startActivity(intent);
         });
     }

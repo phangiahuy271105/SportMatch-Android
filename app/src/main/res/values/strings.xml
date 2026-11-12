@@ -14,9 +14,15 @@
     <string name="venue_list_subtitle">Khám phá sân bóng và cầu lông gần bạn tại TP.HCM</string>
     <string name="filter_all_sports">Tất cả</string>
     <string name="filter_district_label">Khu vực</string>
+    <string name="filter_venue_name_label">Tên sân</string>
+    <string name="filter_venue_name_hint">Nhập tên sân cần tìm</string>
+    <string name="filter_date_label">Ngày chơi</string>
+    <string name="filter_any_date">Chọn ngày chơi</string>
+    <string name="filter_clear_date">Xóa</string>
     <string name="sport_football">Bóng đá mini</string>
     <string name="sport_badminton">Cầu lông</string>
-    <string name="empty_venues">Không có sân phù hợp. Hãy thử chọn môn hoặc khu vực khác.</string>
+    <string name="empty_venues">Không có sân còn giờ trống phù hợp. Hãy thử đổi tên sân, môn, khu vực hoặc ngày chơi.</string>
+    <string name="empty_venues_without_date">Không tìm thấy sân phù hợp. Hãy thử đổi tên sân, môn hoặc khu vực.</string>
     <string name="empty_venues_title">Không tìm thấy sân phù hợp</string>
     <string name="empty_venues_hint">Thử đổi môn thể thao hoặc chọn khu vực khác bạn nhé.</string>
     <string name="venue_count">%1$d sân phù hợp</string>
