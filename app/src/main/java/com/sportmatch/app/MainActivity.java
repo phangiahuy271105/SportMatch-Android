@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -28,7 +29,9 @@ import com.sportmatch.app.data.BookingStore;
 import com.sportmatch.app.data.BookingTime;
 import com.sportmatch.app.data.SampleData;
 import com.sportmatch.app.model.Court;
+import com.sportmatch.app.model.User;
 import com.sportmatch.app.model.Venue;
+import com.sportmatch.app.utils.SharedPrefManager;
 
 import java.text.NumberFormat;
 import java.util.Calendar;
@@ -41,10 +44,20 @@ public class MainActivity extends AppCompatActivity {
     private Spinner districtFilter;
     private EditText searchInput;
     private MaterialButton dateButton;
+    private MaterialButton filterToggleButton;
+    private LinearLayout filterDetails;
+    private TextView filterSummary;
     private TextView clearDateButton;
     private BookingStore bookingStore;
     private String selectedSportId;
     private String selectedDate;
+
+    // View cho Tab Cá nhân
+    private TextView tvProfileName;
+    private TextView tvProfileEmail;
+    private View btnProfileLogin;
+    private View btnProfileDetail;
+    private View btnProfileLogout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,6 +89,7 @@ public class MainActivity extends AppCompatActivity {
         setupNavigation();
         setupFilters();
         renderVenues();
+        setupProfileTab();
 
         View btnMyBookings = findViewById(R.id.btn_open_my_bookings);
         if (btnMyBookings != null) {
@@ -97,6 +111,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        // Cập nhật lại giao diện Tab Cá nhân mỗi khi quay lại màn hình chính.
+        updateProfileTabState();
         if (venueContainer == null) return;
         // Nếu app mở qua ngày mới, bỏ ngày lọc đã qua và cập nhật giờ còn trống.
         if (selectedDate != null && selectedDate.compareTo(BookingTime.today()) < 0) {
@@ -118,15 +134,109 @@ public class MainActivity extends AppCompatActivity {
             int selectedId = item.getItemId();
             findViewById(R.id.venues_panel).setVisibility(
                     selectedId == R.id.nav_venues ? View.VISIBLE : View.GONE);
-            findViewById(R.id.matches_panel).setVisibility(
-                    selectedId == R.id.nav_matches ? View.VISIBLE : View.GONE);
             findViewById(R.id.profile_panel).setVisibility(
                     selectedId == R.id.nav_profile ? View.VISIBLE : View.GONE);
+
+            // Khi bấm vào Tab Tìm người (Matches)
+            if (selectedId == R.id.nav_matches) {
+                findViewById(R.id.matches_panel).setVisibility(View.VISIBLE);
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.matches_panel, new TimNguoiFragment())
+                        .commit();
+            } else {
+                findViewById(R.id.matches_panel).setVisibility(View.GONE);
+            }
+
+            if (selectedId == R.id.nav_profile) {
+                updateProfileTabState();
+            }
             return true;
         });
     }
 
+    /**
+     * Khởi tạo các sự kiện cho Tab Cá nhân (Profile Panel)
+     */
+    private void setupProfileTab() {
+        tvProfileName = findViewById(R.id.tv_profile_name);
+        tvProfileEmail = findViewById(R.id.tv_profile_email);
+        btnProfileLogin = findViewById(R.id.btn_profile_login);
+        btnProfileDetail = findViewById(R.id.btn_profile_detail);
+        btnProfileLogout = findViewById(R.id.btn_profile_logout);
+
+        // Nút Đăng nhập / Đăng ký
+        if (btnProfileLogin != null) {
+            btnProfileLogin.setOnClickListener(v -> {
+                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                startActivity(intent);
+            });
+        }
+
+        // Nút Xem & Chỉnh sửa hồ sơ
+        if (btnProfileDetail != null) {
+            btnProfileDetail.setOnClickListener(v -> {
+                Intent intent = new Intent(MainActivity.this, ProfileActivity.class);
+                startActivity(intent);
+            });
+        }
+
+        // Nút Đăng xuất
+        if (btnProfileLogout != null) {
+            btnProfileLogout.setOnClickListener(v -> {
+                SharedPrefManager.getInstance(MainActivity.this).logout();
+                Toast.makeText(MainActivity.this, "Đã đăng xuất thành công!", Toast.LENGTH_SHORT).show();
+                updateProfileTabState();
+            });
+        }
+
+        updateProfileTabState();
+    }
+
+    /**
+     * Cập nhật trạng thái hiển thị của Tab Cá nhân theo phiên đăng nhập
+     */
+    private void updateProfileTabState() {
+        if (tvProfileName == null || tvProfileEmail == null) return;
+
+        SharedPrefManager pref = SharedPrefManager.getInstance(this);
+        if (pref.isLoggedIn()) {
+            User user = pref.getCurrentUser();
+            if (user != null) {
+                tvProfileName.setText(user.getFullName());
+                tvProfileEmail.setText(user.getEmail());
+            } else {
+                tvProfileName.setText("Người dùng SportMatch");
+                tvProfileEmail.setText(pref.getCurrentUserEmail());
+            }
+
+            // Đã đăng nhập: Hiện nút xem hồ sơ & đăng xuất, ẩn nút đăng nhập
+            if (btnProfileLogin != null) btnProfileLogin.setVisibility(View.GONE);
+            if (btnProfileDetail != null) btnProfileDetail.setVisibility(View.VISIBLE);
+            if (btnProfileLogout != null) btnProfileLogout.setVisibility(View.VISIBLE);
+        } else {
+            // Chưa đăng nhập: Hiện trạng thái Khách
+            tvProfileName.setText("Khách");
+            tvProfileEmail.setText("Chưa đăng nhập");
+
+            // Chưa đăng nhập: Hiện nút đăng nhập, ẩn nút hồ sơ & đăng xuất
+            if (btnProfileLogin != null) btnProfileLogin.setVisibility(View.VISIBLE);
+            if (btnProfileDetail != null) btnProfileDetail.setVisibility(View.GONE);
+            if (btnProfileLogout != null) btnProfileLogout.setVisibility(View.GONE);
+        }
+    }
+
     private void setupFilters() {
+        filterToggleButton = findViewById(R.id.btn_toggle_filters);
+        filterDetails = findViewById(R.id.filter_details);
+        filterSummary = findViewById(R.id.tv_filter_summary);
+
+        filterToggleButton.setOnClickListener(v -> {
+            boolean filtersAreVisible = filterDetails.getVisibility() == View.VISIBLE;
+            filterDetails.setVisibility(filtersAreVisible ? View.GONE : View.VISIBLE);
+            filterToggleButton.setText(filtersAreVisible
+                    ? R.string.filter_toggle_show : R.string.filter_toggle_hide);
+        });
+
         searchInput.addTextChangedListener(new TextWatcher() {
             @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
             @Override public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -147,20 +257,45 @@ public class MainActivity extends AppCompatActivity {
             } else {
                 selectedSportId = null;
             }
+            updateFilterSummary();
             renderVenues();
         });
 
         districtFilter.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                updateFilterSummary();
                 renderVenues();
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
+                updateFilterSummary();
                 renderVenues();
             }
         });
+
+        updateFilterSummary();
+    }
+
+    private void updateFilterSummary() {
+        String sportName = getString(R.string.filter_all_sports);
+        if (SampleData.SPORT_FOOTBALL.equals(selectedSportId)) {
+            sportName = getString(R.string.sport_football);
+        } else if (SampleData.SPORT_BADMINTON.equals(selectedSportId)) {
+            sportName = getString(R.string.sport_badminton);
+        }
+
+        Object selectedDistrict = districtFilter.getSelectedItem();
+        String districtName = selectedDistrict == null
+                ? getString(R.string.filter_all_districts_summary)
+                : selectedDistrict.toString();
+        String dateName = selectedDate == null
+                ? getString(R.string.filter_any_day_summary)
+                : BookingTime.displayDate(selectedDate);
+
+        filterSummary.setText(getString(R.string.filter_summary,
+                sportName, districtName, dateName));
     }
 
     private void renderVenues() {
@@ -213,6 +348,7 @@ public class MainActivity extends AppCompatActivity {
             selectedDate = BookingTime.toIsoDate(chosen);
             dateButton.setText(BookingTime.displayDate(selectedDate));
             clearDateButton.setVisibility(View.VISIBLE);
+            updateFilterSummary();
             renderVenues();
         }, today.get(Calendar.YEAR), today.get(Calendar.MONTH), today.get(Calendar.DAY_OF_MONTH));
 
@@ -227,6 +363,7 @@ public class MainActivity extends AppCompatActivity {
         selectedDate = null;
         dateButton.setText(R.string.filter_any_date);
         clearDateButton.setVisibility(View.GONE);
+        updateFilterSummary();
         renderVenues();
     }
 

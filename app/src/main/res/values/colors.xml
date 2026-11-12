@@ -2,7 +2,13 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-
+    <!-- Bảng màu Phân hệ Tài khoản (Khoa) -->
+    <color name="primary_blue">#0062D2</color>
+    <color name="primary_blue_dark">#004EB0</color>
+    <color name="accent_orange">#FF8500</color>
+    <color name="bg_light">#F8FAFC</color>
+    <color name="text_primary">#1E293B</color>
+    <color name="text_secondary">#64748B</color>
     <!-- Brand & Sports Identity -->
     <color name="sportmatch_primary">#1565C0</color>
     <color name="sportmatch_primary_dark">#0D47A1</color>

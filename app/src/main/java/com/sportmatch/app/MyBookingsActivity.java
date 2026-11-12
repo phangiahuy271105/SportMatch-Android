@@ -18,6 +18,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.button.MaterialButton;
 import com.sportmatch.app.data.BookingStore;
 import com.sportmatch.app.data.BookingTime;
+import com.google.android.material.button.MaterialButton;
+import com.sportmatch.app.utils.SharedPrefManager;
 import com.sportmatch.app.data.CurrentUser;
 import com.sportmatch.app.data.SampleData;
 import com.sportmatch.app.model.Booking;
@@ -75,7 +77,12 @@ public class MyBookingsActivity extends AppCompatActivity {
         upcoming.clear();
         past.clear();
         BookingStore store = new BookingStore(this);
-        for (Booking booking : store.getBookingsForUser(CurrentUser.getId())) {
+
+        // Lấy ID/Email của tài khoản đang đăng nhập hiện tại
+        SharedPrefManager pref = SharedPrefManager.getInstance(this);
+        String currentUserId = pref.isLoggedIn() ? pref.getCurrentUserEmail() : CurrentUser.getId();
+
+        for (Booking booking : store.getBookingsForUser(currentUserId)) {
             if (BookingTime.hasEnded(booking.getPlayDate(), booking.getStartHour())) {
                 past.add(booking);
             } else {
