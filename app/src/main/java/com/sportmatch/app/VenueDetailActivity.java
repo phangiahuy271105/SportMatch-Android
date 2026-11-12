@@ -59,7 +59,7 @@ public class VenueDetailActivity extends AppCompatActivity {
 
         boolean badminton = SampleData.SPORT_BADMINTON.equals(selectedCourt.getSportId());
         ((ImageView) findViewById(R.id.iv_venue_banner_img)).setImageResource(
-                badminton ? R.drawable.ic_badminton_banner : R.drawable.ic_stadium_banner);
+                venue.getImageResId());
         ((TextView) findViewById(R.id.venue_detail_sport)).setText(
                 badminton ? R.string.sport_badminton : R.string.sport_football);
 
@@ -67,11 +67,13 @@ public class VenueDetailActivity extends AppCompatActivity {
         showCourts();
         updatePrice();
 
+        String playDateFromList = getIntent().getStringExtra("PLAY_DATE");
         MaterialButton button = findViewById(R.id.btn_select_time_slot);
         button.setOnClickListener(v -> {
             Intent intent = new Intent(this, SelectTimeSlotActivity.class);
             intent.putExtra("VENUE_ID", venue.getId());
             intent.putExtra("COURT_ID", selectedCourt.getId());
+            if (playDateFromList != null) intent.putExtra("PLAY_DATE", playDateFromList);
             startActivity(intent);
         });
     }

@@ -14,9 +14,15 @@
     <string name="venue_list_subtitle">Khám phá sân bóng và cầu lông gần bạn tại TP.HCM</string>
     <string name="filter_all_sports">Tất cả</string>
     <string name="filter_district_label">Khu vực</string>
+    <string name="filter_venue_name_label">Tên sân</string>
+    <string name="filter_venue_name_hint">Nhập tên sân cần tìm</string>
+    <string name="filter_date_label">Ngày chơi</string>
+    <string name="filter_any_date">Chọn ngày chơi</string>
+    <string name="filter_clear_date">Xóa</string>
     <string name="sport_football">Bóng đá mini</string>
     <string name="sport_badminton">Cầu lông</string>
-    <string name="empty_venues">Không có sân phù hợp. Hãy thử chọn môn hoặc khu vực khác.</string>
+    <string name="empty_venues">Không có sân còn giờ trống phù hợp. Hãy thử đổi tên sân, môn, khu vực hoặc ngày chơi.</string>
+    <string name="empty_venues_without_date">Không tìm thấy sân phù hợp. Hãy thử đổi tên sân, môn hoặc khu vực.</string>
     <string name="empty_venues_title">Không tìm thấy sân phù hợp</string>
     <string name="empty_venues_hint">Thử đổi môn thể thao hoặc chọn khu vực khác bạn nhé.</string>
     <string name="venue_count">%1$d sân phù hợp</string>
@@ -33,7 +39,8 @@
 
     <!-- Màn 2: Chi tiết sân -->
     <string name="venue_detail_title">Chi tiết sân</string>
-    <string name="sample_venue_badge">Sân mẫu</string>
+    <string name="sample_venue_badge">Sân mẫu · Ảnh minh họa</string>
+    <string name="sample_photo_label">Ảnh minh họa</string>
     <string name="venue_detail_overview_title">Thông tin tổng quan</string>
     <string name="venue_detail_hours_label">Giờ mở cửa:</string>
     <string name="venue_detail_hours_val">06:00 – 23:00 hàng ngày</string>
@@ -67,9 +74,11 @@
     <string name="select_slot_tomorrow">Ngày mai</string>
     <string name="select_slot_other_date">Ngày khác</string>
     <string name="select_slot_time_label">Chọn khung giờ (1 tiếng/lượt)</string>
+    <string name="select_slot_opening_hours">Giờ mở cửa: %1$s</string>
     <string name="status_available">Còn trống</string>
     <string name="status_selected">Đang chọn</string>
     <string name="status_booked">Hết chỗ</string>
+    <string name="status_past">Đã qua giờ</string>
     <string name="slot_summary_prefix">Đã chọn:</string>
     <string name="slot_summary_default">Vui lòng chọn 1 khung giờ</string>
     <string name="btn_continue">Tiếp tục</string>

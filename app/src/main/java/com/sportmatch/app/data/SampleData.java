@@ -1,5 +1,6 @@
 package com.sportmatch.app.data;
 
+import com.sportmatch.app.R;
 import com.sportmatch.app.model.Court;
 import com.sportmatch.app.model.Venue;
 
@@ -16,27 +17,31 @@ public final class SampleData {
             new Venue("venue_1", "Sân bóng Bình Thạnh", "Bình Thạnh",
                     "Bình Thạnh, TP.HCM",
                     "Cụm sân bóng đá mini có hai sân cỏ nhân tạo. Sân số 1 phù hợp trận 5 người; sân số 2 rộng hơn cho nhóm 7 người.",
-                    "06:00 – 23:00",
+                    6, 23,
                     "Mang giày phù hợp mặt cỏ nhân tạo. Giữ vệ sinh và đến trước giờ chơi 10 phút.",
-                    new String[]{"Đèn chiếu sáng", "Bãi giữ xe", "Khu chờ", "Nước uống", "Thuê bóng"}),
+                    new String[]{"Đèn chiếu sáng", "Bãi giữ xe", "Khu chờ", "Nước uống", "Thuê bóng"},
+                    R.drawable.venue_binh_thanh),
             new Venue("venue_2", "Sân mini Linh Trung", "Thủ Đức",
                     "Linh Trung, Thủ Đức, TP.HCM",
                     "Khu sân mini dành cho các nhóm bạn ở Thủ Đức. Có sân 5 người cho trận ngắn và sân 7 người cho đội đông hơn.",
-                    "15:00 – 22:00",
+                    15, 22,
                     "Không dùng giày đinh sắt trên mặt cỏ. Tự giữ đồ cá nhân và trả sân đúng giờ.",
-                    new String[]{"Đèn buổi tối", "Bãi giữ xe", "Ghế nghỉ", "Nước uống", "Thuê bóng"}),
+                    new String[]{"Đèn buổi tối", "Bãi giữ xe", "Ghế nghỉ", "Nước uống", "Thuê bóng"},
+                    R.drawable.venue_linh_trung),
             new Venue("venue_3", "Sân cầu lông Tân Bình", "Tân Bình",
                     "Tân Bình, TP.HCM",
                     "Cụm sân cầu lông trong nhà với mặt thảm PVC. Hai sân phù hợp đánh đơn hoặc đánh đôi, có khu ngồi chờ giữa các lượt.",
-                    "06:00 – 22:00",
+                    6, 22,
                     "Mang giày đế không để lại vệt trên thảm. Không mang thức ăn vào khu vực thi đấu.",
-                    new String[]{"Sân trong nhà", "Thảm PVC", "Bãi giữ xe", "Khu chờ", "Thuê vợt"}),
+                    new String[]{"Sân trong nhà", "Thảm PVC", "Bãi giữ xe", "Khu chờ", "Thuê vợt"},
+                    R.drawable.venue_tan_binh),
             new Venue("venue_4", "Sân cầu lông Quận 7", "Quận 7",
                     "Quận 7, TP.HCM",
                     "Địa điểm cầu lông trong nhà ở Quận 7. Sân số 1 dùng sàn gỗ, sân số 2 dùng thảm PVC để người chơi chọn theo sở thích.",
-                    "07:00 – 23:00",
+                    7, 23,
                     "Mang giày cầu lông đế mềm. Giữ vệ sinh mặt sân và thu dọn đồ sau khi chơi.",
-                    new String[]{"Sân trong nhà", "Sàn gỗ", "Thảm PVC", "Bãi giữ xe", "Nước uống"})
+                    new String[]{"Sân trong nhà", "Sàn gỗ", "Thảm PVC", "Bãi giữ xe", "Nước uống"},
+                    R.drawable.venue_quan_7)
     );
 
     private static final List<Court> COURTS = Arrays.asList(
