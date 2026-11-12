@@ -98,13 +98,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        // Cập nhật lại giao diện Tab Cá nhân mỗi khi quay lại màn hình chính
-        updateProfileTabState();
-    }
-
-    @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         // Từ lịch đặt quay lại đúng tab Sân.
@@ -115,6 +108,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        // Cập nhật lại giao diện Tab Cá nhân mỗi khi quay lại màn hình chính.
+        updateProfileTabState();
         if (venueContainer == null) return;
         // Nếu app mở qua ngày mới, bỏ ngày lọc đã qua và cập nhật giờ còn trống.
         if (selectedDate != null && selectedDate.compareTo(BookingTime.today()) < 0) {
