@@ -44,7 +44,8 @@ public class BookingConfirmActivity extends AppCompatActivity {
         playDate = getIntent().getStringExtra("PLAY_DATE");
         startHour = getIntent().getIntExtra("START_HOUR", -1);
         if (venue == null || court == null || !court.getVenueId().equals(venue.getId())
-                || playDate == null || startHour < 16 || startHour > 21) {
+                || playDate == null || startHour < venue.getOpeningHour()
+                || startHour >= venue.getClosingHour()) {
             Toast.makeText(this, "Thông tin đặt sân không hợp lệ", Toast.LENGTH_SHORT).show();
             finish();
             return;

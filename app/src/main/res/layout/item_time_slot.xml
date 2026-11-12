@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Một ô giờ: Java tạo nhiều ô từ giờ mở đến giờ đóng của từng sân. -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:minHeight="64dp"
+    android:background="@drawable/bg_slot_available"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:padding="12dp">
+
+    <TextView
+        android:id="@+id/tv_slot_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/sportmatch_text_primary"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        tools:text="06:00 – 07:00" />
+
+    <TextView
+        android:id="@+id/tv_slot_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="3dp"
+        android:text="@string/status_available"
+        android:textColor="@color/sportmatch_success"
+        android:textSize="12sp" />
+</LinearLayout>

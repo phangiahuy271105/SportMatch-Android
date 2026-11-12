@@ -33,7 +33,8 @@
 
     <!-- Màn 2: Chi tiết sân -->
     <string name="venue_detail_title">Chi tiết sân</string>
-    <string name="sample_venue_badge">Sân mẫu</string>
+    <string name="sample_venue_badge">Sân mẫu · Ảnh minh họa</string>
+    <string name="sample_photo_label">Ảnh minh họa</string>
     <string name="venue_detail_overview_title">Thông tin tổng quan</string>
     <string name="venue_detail_hours_label">Giờ mở cửa:</string>
     <string name="venue_detail_hours_val">06:00 – 23:00 hàng ngày</string>
@@ -67,9 +68,11 @@
     <string name="select_slot_tomorrow">Ngày mai</string>
     <string name="select_slot_other_date">Ngày khác</string>
     <string name="select_slot_time_label">Chọn khung giờ (1 tiếng/lượt)</string>
+    <string name="select_slot_opening_hours">Giờ mở cửa: %1$s</string>
     <string name="status_available">Còn trống</string>
     <string name="status_selected">Đang chọn</string>
     <string name="status_booked">Hết chỗ</string>
+    <string name="status_past">Đã qua giờ</string>
     <string name="slot_summary_prefix">Đã chọn:</string>
     <string name="slot_summary_default">Vui lòng chọn 1 khung giờ</string>
     <string name="btn_continue">Tiếp tục</string>

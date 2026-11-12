@@ -4,8 +4,10 @@ import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,12 +22,14 @@ import com.sportmatch.app.data.SampleData;
 import com.sportmatch.app.model.Court;
 import com.sportmatch.app.model.Venue;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 /** Chọn một ngày và một khung giờ cho sân con đã chọn. */
 public class SelectTimeSlotActivity extends AppCompatActivity {
-    private final int[] hours = {16, 17, 18, 19, 20, 21};
-    private ViewGroup[] slots;
+    private final List<Integer> hours = new ArrayList<>();
+    private final List<ViewGroup> slots = new ArrayList<>();
     private String selectedDate;
     private int selectedHour = -1;
     private Venue venue;
@@ -56,13 +60,11 @@ public class SelectTimeSlotActivity extends AppCompatActivity {
         ((TextView) findViewById(R.id.tv_court_name)).setText(court.getName());
         ((TextView) findViewById(R.id.tv_court_price_rate))
                 .setText(BookingTime.displayPrice(court.getPricePerHour()) + "/giờ");
+        ((TextView) findViewById(R.id.tv_opening_hours))
+                .setText(getString(R.string.select_slot_opening_hours, venue.getOpeningHours()));
         summary = findViewById(R.id.tv_selection_summary);
         continueButton = findViewById(R.id.btn_continue);
-        slots = new ViewGroup[]{
-                findViewById(R.id.slot_16_17), findViewById(R.id.slot_17_18),
-                findViewById(R.id.slot_18_19), findViewById(R.id.slot_19_20),
-                findViewById(R.id.slot_20_21), findViewById(R.id.slot_21_22)
-        };
+        createSlots();
 
         todayChip = findViewById(R.id.chip_today);
         tomorrowChip = findViewById(R.id.chip_tomorrow);
@@ -131,22 +133,22 @@ public class SelectTimeSlotActivity extends AppCompatActivity {
     }
 
     private void showSlots() {
-        for (int i = 0; i < slots.length; i++) {
-            final int hour = hours[i];
-            ViewGroup slot = slots[i];
+        for (int i = 0; i < slots.size(); i++) {
+            final int hour = hours.get(i);
+            ViewGroup slot = slots.get(i);
             boolean past = BookingTime.hasStarted(selectedDate, hour);
             boolean booked = bookingStore.isSlotBooked(court.getId(), selectedDate, hour);
             if ((past || booked) && selectedHour == hour) selectedHour = -1;
 
-            TextView time = (TextView) slot.getChildAt(0);
-            TextView status = (TextView) slot.getChildAt(1);
+            TextView time = slot.findViewById(R.id.tv_slot_time);
+            TextView status = slot.findViewById(R.id.tv_slot_status);
             time.setText(BookingTime.displaySlot(hour));
             slot.setOnClickListener(null);
 
             if (past || booked) {
                 slot.setBackgroundResource(R.drawable.bg_slot_booked);
                 time.setTextColor(ContextCompat.getColor(this, R.color.sportmatch_text_tertiary));
-                status.setText(past ? "Đã qua giờ" : "Hết chỗ");
+                status.setText(past ? R.string.status_past : R.string.status_booked);
                 status.setTextColor(ContextCompat.getColor(this, R.color.sportmatch_text_tertiary));
             } else if (selectedHour == hour) {
                 slot.setBackgroundResource(R.drawable.bg_slot_selected);
@@ -175,6 +177,49 @@ public class SelectTimeSlotActivity extends AppCompatActivity {
             summary.setText(BookingTime.displaySlot(selectedHour) + " | "
                     + BookingTime.displayDate(selectedDate));
         }
-        continueButton.setEnabled(selectedHour >= 0);
+        boolean hasSelection = selectedHour >= 0;
+        continueButton.setEnabled(hasSelection);
+        continueButton.setAlpha(hasSelection ? 1f : 0.5f);
+    }
+
+    private void createSlots() {
+        LinearLayout container = findViewById(R.id.slots_container);
+        container.removeAllViews();
+        LinearLayout row = null;
+
+        for (int hour = venue.getOpeningHour(); hour < venue.getClosingHour(); hour++) {
+            int position = hour - venue.getOpeningHour();
+            if (position % 2 == 0) {
+                row = new LinearLayout(this);
+                row.setOrientation(LinearLayout.HORIZONTAL);
+                LinearLayout.LayoutParams rowParams = new LinearLayout.LayoutParams(
+                        ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                if (position > 0) rowParams.topMargin = dp(10);
+                container.addView(row, rowParams);
+            }
+
+            ViewGroup slot = (ViewGroup) getLayoutInflater()
+                    .inflate(R.layout.item_time_slot, row, false);
+            LinearLayout.LayoutParams slotParams = new LinearLayout.LayoutParams(
+                    0, ViewGroup.LayoutParams.WRAP_CONTENT, 1);
+            if (position % 2 == 0) slotParams.setMarginEnd(dp(6));
+            else slotParams.setMarginStart(dp(6));
+            row.addView(slot, slotParams);
+            hours.add(hour);
+            slots.add(slot);
+        }
+
+        // Khi số khung giờ lẻ, giữ ô cuối rộng bằng các ô phía trên.
+        if (hours.size() % 2 != 0 && row != null) {
+            View empty = new View(this);
+            LinearLayout.LayoutParams emptyParams = new LinearLayout.LayoutParams(
+                    0, 1, 1);
+            emptyParams.setMarginStart(dp(6));
+            row.addView(empty, emptyParams);
+        }
+    }
+
+    private int dp(int value) {
+        return Math.round(value * getResources().getDisplayMetrics().density);
     }
 }

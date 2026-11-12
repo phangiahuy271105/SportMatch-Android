@@ -59,7 +59,7 @@ public class VenueDetailActivity extends AppCompatActivity {
 
         boolean badminton = SampleData.SPORT_BADMINTON.equals(selectedCourt.getSportId());
         ((ImageView) findViewById(R.id.iv_venue_banner_img)).setImageResource(
-                badminton ? R.drawable.ic_badminton_banner : R.drawable.ic_stadium_banner);
+                venue.getImageResId());
         ((TextView) findViewById(R.id.venue_detail_sport)).setText(
                 badminton ? R.string.sport_badminton : R.string.sport_football);
 
