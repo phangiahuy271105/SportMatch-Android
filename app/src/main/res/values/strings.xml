@@ -19,6 +19,11 @@
     <string name="filter_date_label">Ngày chơi</string>
     <string name="filter_any_date">Chọn ngày chơi</string>
     <string name="filter_clear_date">Xóa</string>
+    <string name="filter_toggle_show">Bộ lọc</string>
+    <string name="filter_toggle_hide">Ẩn bộ lọc</string>
+    <string name="filter_summary">%1$s · %2$s · %3$s</string>
+    <string name="filter_all_districts_summary">Tất cả khu vực</string>
+    <string name="filter_any_day_summary">Mọi ngày</string>
     <string name="sport_football">Bóng đá mini</string>
     <string name="sport_badminton">Cầu lông</string>
     <string name="empty_venues">Không có sân còn giờ trống phù hợp. Hãy thử đổi tên sân, môn, khu vực hoặc ngày chơi.</string>

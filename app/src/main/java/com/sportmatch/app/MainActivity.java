@@ -44,6 +44,9 @@ public class MainActivity extends AppCompatActivity {
     private Spinner districtFilter;
     private EditText searchInput;
     private MaterialButton dateButton;
+    private MaterialButton filterToggleButton;
+    private LinearLayout filterDetails;
+    private TextView filterSummary;
     private TextView clearDateButton;
     private BookingStore bookingStore;
     private String selectedSportId;
@@ -223,6 +226,17 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setupFilters() {
+        filterToggleButton = findViewById(R.id.btn_toggle_filters);
+        filterDetails = findViewById(R.id.filter_details);
+        filterSummary = findViewById(R.id.tv_filter_summary);
+
+        filterToggleButton.setOnClickListener(v -> {
+            boolean filtersAreVisible = filterDetails.getVisibility() == View.VISIBLE;
+            filterDetails.setVisibility(filtersAreVisible ? View.GONE : View.VISIBLE);
+            filterToggleButton.setText(filtersAreVisible
+                    ? R.string.filter_toggle_show : R.string.filter_toggle_hide);
+        });
+
         searchInput.addTextChangedListener(new TextWatcher() {
             @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
             @Override public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -243,20 +257,45 @@ public class MainActivity extends AppCompatActivity {
             } else {
                 selectedSportId = null;
             }
+            updateFilterSummary();
             renderVenues();
         });
 
         districtFilter.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                updateFilterSummary();
                 renderVenues();
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
+                updateFilterSummary();
                 renderVenues();
             }
         });
+
+        updateFilterSummary();
+    }
+
+    private void updateFilterSummary() {
+        String sportName = getString(R.string.filter_all_sports);
+        if (SampleData.SPORT_FOOTBALL.equals(selectedSportId)) {
+            sportName = getString(R.string.sport_football);
+        } else if (SampleData.SPORT_BADMINTON.equals(selectedSportId)) {
+            sportName = getString(R.string.sport_badminton);
+        }
+
+        Object selectedDistrict = districtFilter.getSelectedItem();
+        String districtName = selectedDistrict == null
+                ? getString(R.string.filter_all_districts_summary)
+                : selectedDistrict.toString();
+        String dateName = selectedDate == null
+                ? getString(R.string.filter_any_day_summary)
+                : BookingTime.displayDate(selectedDate);
+
+        filterSummary.setText(getString(R.string.filter_summary,
+                sportName, districtName, dateName));
     }
 
     private void renderVenues() {
@@ -309,6 +348,7 @@ public class MainActivity extends AppCompatActivity {
             selectedDate = BookingTime.toIsoDate(chosen);
             dateButton.setText(BookingTime.displayDate(selectedDate));
             clearDateButton.setVisibility(View.VISIBLE);
+            updateFilterSummary();
             renderVenues();
         }, today.get(Calendar.YEAR), today.get(Calendar.MONTH), today.get(Calendar.DAY_OF_MONTH));
 
@@ -323,6 +363,7 @@ public class MainActivity extends AppCompatActivity {
         selectedDate = null;
         dateButton.setText(R.string.filter_any_date);
         clearDateButton.setVisibility(View.GONE);
+        updateFilterSummary();
         renderVenues();
     }
 
