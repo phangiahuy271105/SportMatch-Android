@@ -97,6 +97,15 @@
                         android:textStyle="bold" />
 
                     <TextView
+                        android:id="@+id/tvDetailPostStatus"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:text="Đang tuyển"
+                        android:textColor="#2E7D32"
+                        android:textStyle="bold" />
+
+                    <TextView
                         android:id="@+id/tvDetailDescription"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -173,6 +182,38 @@
                             android:backgroundTint="#1877F2"
                             android:text="✋ Gửi yêu cầu"
                             android:textSize="13sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/layout_owner_actions"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:orientation="vertical"
+                        android:visibility="gone">
+
+                        <Button
+                            android:id="@+id/btn_edit_post"
+                            android:layout_width="match_parent"
+                            android:layout_height="48dp"
+                            android:text="Sửa bài đăng"
+                            android:textAllCaps="false" />
+
+                        <Button
+                            android:id="@+id/btn_manage_requests"
+                            android:layout_width="match_parent"
+                            android:layout_height="48dp"
+                            android:layout_marginTop="6dp"
+                            android:text="Quản lý yêu cầu tham gia"
+                            android:textAllCaps="false" />
+
+                        <Button
+                            android:id="@+id/btn_close_post"
+                            android:layout_width="match_parent"
+                            android:layout_height="48dp"
+                            android:layout_marginTop="6dp"
+                            android:text="Đóng bài đăng"
+                            android:textAllCaps="false" />
                     </LinearLayout>
                 </LinearLayout>
             </androidx.cardview.widget.CardView>

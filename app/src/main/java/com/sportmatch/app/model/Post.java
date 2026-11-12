@@ -10,8 +10,17 @@ public class Post {
     private int maxPlayers;
     private String description;
     private String status;
+    private String ownerId;
+    private String phoneNumber;
 
     public Post(String id, String authorName, String sport, String location, String time, int currentAccepted, int maxPlayers, String description, String status) {
+        this(id, authorName, sport, location, time, currentAccepted, maxPlayers,
+                description, status, "sample_owner", "");
+    }
+
+    public Post(String id, String authorName, String sport, String location, String time,
+                int currentAccepted, int maxPlayers, String description, String status,
+                String ownerId, String phoneNumber) {
         this.id = id;
         this.authorName = authorName;
         this.sport = sport;
@@ -21,6 +30,8 @@ public class Post {
         this.maxPlayers = maxPlayers;
         this.description = description;
         this.status = status;
+        this.ownerId = ownerId;
+        this.phoneNumber = phoneNumber;
     }
 
     public String getId() { return id; }
@@ -32,4 +43,8 @@ public class Post {
     public int getMaxPlayers() { return maxPlayers; }
     public String getDescription() { return description; }
     public String getStatus() { return status; }
+    public String getOwnerId() { return ownerId; }
+    public String getPhoneNumber() { return phoneNumber; }
+    public void setCurrentAccepted(int currentAccepted) { this.currentAccepted = currentAccepted; }
+    public void setStatus(String status) { this.status = status; }
 }

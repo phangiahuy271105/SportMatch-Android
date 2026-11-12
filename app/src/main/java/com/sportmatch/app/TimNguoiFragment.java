@@ -14,9 +14,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.sportmatch.app.adapter.PostAdapter;
+import com.sportmatch.app.data.MatchStore;
 import com.sportmatch.app.model.Post;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class TimNguoiFragment extends Fragment {
@@ -26,6 +26,7 @@ public class TimNguoiFragment extends Fragment {
     private List<Post> postList;
     private FloatingActionButton fabAddPost;
     private TextView tvQuickCreatePost;
+    private MatchStore matchStore;
 
     @Nullable
     @Override
@@ -38,24 +39,16 @@ public class TimNguoiFragment extends Fragment {
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        // Danh sách 3 bài đăng mẫu với tên Nguyễn Thắng, Nguyễn Anh Trọng, Lý Văn Phúc
-        postList = new ArrayList<>();
-        postList.add(new Post("p1", "Nguyễn Thắng", "Bóng đá mini", "Sân Bình Thạnh", "19:00 - 21:00", 8, 10, "Cần tìm thêm 2 chân đá giao hữu vui vẻ!", "OPEN"));
-        postList.add(new Post("p2", "Nguyễn Anh Trọng", "Cầu lông", "Sân Linh Trung", "18:00 - 20:00", 3, 4, "Tuyển 1 bạn trình độ trung bình đánh đôi.", "OPEN"));
-        postList.add(new Post("p3", "Lý Văn Phúc", "Tennis", "Sân An Phú Đông", "07:00 - 09:00", 2, 2, "Giao lưu đơn nam buổi sáng.", "CLOSED"));
+        matchStore = new MatchStore(requireContext());
+        postList = matchStore.getPosts();
 
         adapter = new PostAdapter(postList, post -> {
             Intent intent = new Intent(getActivity(), PostDetailActivity.class);
-            intent.putExtra("authorName", post.getAuthorName());
-            intent.putExtra("sport", post.getSport());
-            intent.putExtra("location", post.getLocation());
-            intent.putExtra("time", post.getTime());
-            intent.putExtra("current", post.getCurrentAccepted());
-            intent.putExtra("max", post.getMaxPlayers());
-            intent.putExtra("description", post.getDescription());
+            intent.putExtra("POST_ID", post.getId());
             startActivity(intent);
         });
 
+        adapter.setPosts(postList);
         recyclerView.setAdapter(adapter);
 
         if (tvQuickCreatePost != null) {
@@ -73,5 +66,11 @@ public class TimNguoiFragment extends Fragment {
         }
 
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (matchStore != null && adapter != null) adapter.setPosts(matchStore.getPosts());
     }
 }

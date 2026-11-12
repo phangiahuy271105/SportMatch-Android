@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.sportmatch.app.R;
+import com.sportmatch.app.data.MatchStore;
 import com.sportmatch.app.model.Post;
 
 import java.util.List;
@@ -44,7 +45,10 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
         holder.tvDescription.setText(post.getDescription());
         holder.tvPostLocation.setText("📍 Địa điểm: " + post.getLocation());
         holder.tvPostTime.setText("⏰ Thời gian: " + post.getTime());
-        holder.tvPostSlots.setText("👥 Cần tuyển: " + post.getCurrentAccepted() + "/" + post.getMaxPlayers() + " người");
+        holder.tvPostSlots.setText("👥 Đã có: " + post.getCurrentAccepted() + "/" + post.getMaxPlayers() + " người");
+        boolean full = post.getCurrentAccepted() >= post.getMaxPlayers();
+        holder.btnJoinFeed.setText(MatchStore.CLOSED.equals(post.getStatus()) || full
+                ? "Đã đóng" : "Xem chi tiết / gửi yêu cầu");
 
         holder.itemView.setOnClickListener(v -> listener.onItemClick(post));
         holder.btnJoinFeed.setOnClickListener(v -> listener.onItemClick(post));
@@ -53,6 +57,11 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
     @Override
     public int getItemCount() {
         return postList.size();
+    }
+
+    public void setPosts(List<Post> posts) {
+        postList = posts;
+        notifyDataSetChanged();
     }
 
     public static class PostViewHolder extends RecyclerView.ViewHolder {
