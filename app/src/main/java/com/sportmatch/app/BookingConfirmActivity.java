@@ -2,7 +2,6 @@ package com.sportmatch.app;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -76,8 +75,6 @@ public class BookingConfirmActivity extends AppCompatActivity {
                 if (currentUser.getPhoneNumber() != null) phoneInput.setText(currentUser.getPhoneNumber());
             }
         }
-        // Địa điểm đều hư cấu nên không hiển thị số điện thoại chủ sân.
-        findViewById(R.id.btn_support_call).setVisibility(View.GONE);
         MaterialButton confirmButton = findViewById(R.id.btn_confirm_booking);
         confirmButton.setOnClickListener(v -> saveBooking(confirmButton));
     }
@@ -108,12 +105,11 @@ public class BookingConfirmActivity extends AppCompatActivity {
         // UUID tạo mã khác nhau cho các lượt đặt mẫu.
         String id = "SM-" + UUID.randomUUID().toString().substring(0, 8)
                 .toUpperCase(Locale.ROOT);
-        // DÒNG MỚI (Lấy đúng email tài khoản đang đăng nhập):
-        SharedPrefManager pref = SharedPrefManager.getInstance(this);
-        String bookerId = pref.isLoggedIn() ? pref.getCurrentUserEmail() : CurrentUser.getId();
+        String bookerId = CurrentUser.getId(this);
 
         Booking booking = new Booking(id, bookerId, court.getId(), playDate,
-                startHour, name, phone, note, court.getPricePerHour(), Booking.CONFIRMED);
+                startHour, name, phone, note, court.getPricePerHour(), Booking.CONFIRMED,
+                Booking.PAY_AT_VENUE, Booking.UNPAID);
         button.setEnabled(false);
         if (!bookingStore.save(booking)) {
             button.setEnabled(true);
@@ -122,7 +118,7 @@ public class BookingConfirmActivity extends AppCompatActivity {
             return;
         }
 
-        Toast.makeText(this, "Đã lưu lịch đặt mẫu trên máy", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, R.string.booking_saved_message, Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(this, BookingDetailActivity.class);
         intent.putExtra("BOOKING_ID", booking.getId());
         startActivity(intent);

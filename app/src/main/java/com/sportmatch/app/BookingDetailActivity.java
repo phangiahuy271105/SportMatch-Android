@@ -28,7 +28,7 @@ public class BookingDetailActivity extends AppCompatActivity {
 
         BookingStore store = new BookingStore(this);
         Booking booking = store.getBooking(getIntent().getStringExtra("BOOKING_ID"),
-                CurrentUser.getId());
+                CurrentUser.getId(this));
         Court court = booking == null ? null : SampleData.getCourtById(booking.getCourtId());
         Venue venue = court == null ? null : SampleData.getVenueById(court.getVenueId());
         if (booking == null || court == null || venue == null) {
@@ -60,6 +60,13 @@ public class BookingDetailActivity extends AppCompatActivity {
         String price = BookingTime.displayPrice(booking.getTotalPrice());
         ((TextView) findViewById(R.id.tv_detail_court_fee)).setText(price);
         ((TextView) findViewById(R.id.tv_detail_total_amount)).setText(price);
+        ((TextView) findViewById(R.id.tv_detail_payment_method)).setText(
+                Booking.PAY_AT_VENUE.equals(booking.getPaymentMethod())
+                        ? R.string.payment_at_venue : R.string.payment_not_selected);
+        ((TextView) findViewById(R.id.tv_detail_payment_status)).setText(
+                getString(R.string.payment_status_line, getString(
+                        Booking.UNPAID.equals(booking.getPaymentStatus())
+                                ? R.string.payment_unpaid : R.string.payment_unknown)));
 
         TextView status = findViewById(R.id.tv_booking_detail_status);
         status.setText(ended ? R.string.booking_status_completed

@@ -73,6 +73,9 @@ public class SelectTimeSlotActivity extends AppCompatActivity {
         tomorrowChip.setOnClickListener(v -> chooseDate(BookingTime.tomorrow()));
         otherDateChip.setOnClickListener(v -> showDatePicker());
         String dateFromList = getIntent().getStringExtra("PLAY_DATE");
+        if (savedInstanceState != null) {
+            dateFromList = savedInstanceState.getString("SELECTED_DATE", dateFromList);
+        }
         if (dateFromList == null || dateFromList.compareTo(BookingTime.today()) < 0) {
             chooseDate(BookingTime.today());
             todayChip.setChecked(true);
@@ -86,6 +89,16 @@ public class SelectTimeSlotActivity extends AppCompatActivity {
                 otherDateChip.setText(BookingTime.displayDate(dateFromList));
                 otherDateChip.setChecked(true);
             }
+        }
+
+        if (savedInstanceState != null && selectedDate.equals(dateFromList)) {
+            int restoredHour = savedInstanceState.getInt("SELECTED_HOUR", -1);
+            if (restoredHour >= venue.getOpeningHour()
+                    && restoredHour < venue.getClosingHour()) {
+                selectedHour = restoredHour;
+            }
+            // showSlots kiểm tra lại giờ đã qua hoặc vừa được đặt.
+            showSlots();
         }
 
         continueButton.setOnClickListener(v -> {
@@ -113,6 +126,13 @@ public class SelectTimeSlotActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         if (bookingStore != null && selectedDate != null) showSlots();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString("SELECTED_DATE", selectedDate);
+        outState.putInt("SELECTED_HOUR", selectedHour);
     }
 
     private void chooseDate(String date) {

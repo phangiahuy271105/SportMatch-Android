@@ -13,12 +13,12 @@ Giao diện 6 màn vẫn dùng Java + XML Views theo bố cục Antigravity. Mà
 | `model/Booking.java` | Một lượt đặt: người đặt, sân con, ngày `yyyy-MM-dd`, giờ bắt đầu, giá, liên hệ. |
 | `data/BookingStore.java` | Lưu/đọc booking bằng `SharedPreferences` có sẵn của Android; kiểm tra trùng theo sân con + ngày + giờ. |
 | `data/BookingTime.java` | Hiển thị ngày/giờ/giá và kiểm tra giờ đã qua theo TP.HCM. |
-| `data/CurrentUser.java` | Tạm trả về `demo_user_1`. Đây là chỗ cần nối với đăng nhập của thành viên 2. |
+| `data/CurrentUser.java` | `getId(Context)` lấy email người hiện tại, hoặc `demo_user_1` khi dùng khách. Các màn lưu, danh sách và chi tiết dùng cùng cách lấy mã. |
 | `MainActivity.java` | Lọc theo tên sân, môn, khu vực và ngày; mở chi tiết bằng `VENUE_ID` và ngày đã chọn. |
 | `VenueDetailActivity.java` | Đọc đúng địa điểm, cho chọn sân con, truyền `VENUE_ID`, `COURT_ID` và ngày đã chọn. |
 | `SelectTimeSlotActivity.java` | Chọn ngày và một giờ; hiện giờ đã qua hoặc đã có lịch. |
 | `BookingConfirmActivity.java` | Kiểm tra tên, điện thoại, trùng giờ rồi lưu booking. |
-| `MyBookingsActivity.java` | Đọc lịch của người dùng demo; tự chia “Sắp tới” và “Đã qua”. |
+| `MyBookingsActivity.java` | Đọc lịch theo người hiện tại; tự chia “Sắp tới” và “Đã qua”. |
 | `BookingDetailActivity.java` | Đọc lại booking đã lưu bằng `BOOKING_ID`; không dùng giá/ngày giờ giả từ màn trước. |
 
 ## Quy tắc hiện có
@@ -27,8 +27,11 @@ Giao diện 6 màn vẫn dùng Java + XML Views theo bố cục Antigravity. Mà
 - Chưa chọn ngày thì danh sách hiện mọi sân phù hợp với tên, môn và khu vực. Khi chọn ngày, chỉ hiện địa điểm còn ít nhất một khung giờ chưa bắt đầu và chưa có người đặt ở một sân con. Ngày chọn ở danh sách được chuyển tới màn chọn giờ; có thể xóa lọc để xem lại mọi sân.
 - Không chọn giờ đã bắt đầu. Nếu cùng sân con + ngày + giờ đã có lịch còn hiệu lực, ô giờ hiện “Hết chỗ” và không lưu thêm lịch trùng.
 - Giá của lượt đặt lấy từ sân con đã chọn và được lưu cùng booking, nên danh sách và chi tiết luôn hiện cùng giá.
-- Tên và điện thoại phải nhập thật vào ô trống khi thử; nên dùng thông tin giả để demo.
-- Lịch chỉ lưu trên máy này. Chưa có tài khoản thật, máy chủ, thông báo cho chủ sân, thanh toán hoặc hủy lịch. Việc chống trùng giữa **nhiều điện thoại** phải làm ở nguồn dữ liệu chung sau này.
+- Nhập tên và điện thoại vào ô trống khi thử; dùng thông tin giả. Nếu đã đăng nhập, app điền sẵn thông tin hồ sơ khi có.
+- Lịch chỉ lưu trên máy này. Đã nối tài khoản cục bộ; chưa có máy chủ, thông báo cho chủ sân, giao dịch thanh toán thật hoặc hủy lịch. Việc chống trùng giữa **nhiều điện thoại** phải làm ở nguồn dữ liệu chung sau này.
+- Lịch mới lưu `paymentMethod = PAY_AT_VENUE`, `paymentStatus = UNPAID`. Lịch cũ thiếu trường đọc thành `NOT_SELECTED` và `UNPAID`. Qua giờ chơi không tự chuyển thành đã thanh toán.
+- Giữ lựa chọn sân con, ngày và giờ qua việc tạo lại Activity bằng Bundle; giờ được kiểm tra lại sau khi khôi phục.
+- Giao diện dùng nhãn “Lưu lịch đặt”, “Đã lưu”, “Mã lịch đặt”, bỏ hộp lưu ý thử nghiệm và nhãn ảnh. Giới hạn dữ liệu vẫn được ghi trong README.
 
 ## Cách thử trên emulator
 
