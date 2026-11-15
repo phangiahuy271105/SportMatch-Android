@@ -1,16 +1,23 @@
 package com.sportmatch.app.adapter;
 
+import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.sportmatch.app.LoginActivity;
 import com.sportmatch.app.R;
 import com.sportmatch.app.data.MatchStore;
 import com.sportmatch.app.model.Post;
+import com.sportmatch.app.model.User;
+import com.sportmatch.app.utils.SharedPrefManager;
 
 import java.util.List;
 
@@ -50,8 +57,20 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
         holder.btnJoinFeed.setText(MatchStore.CLOSED.equals(post.getStatus()) || full
                 ? "Đã đóng" : "Xem chi tiết / gửi yêu cầu");
 
-        holder.itemView.setOnClickListener(v -> listener.onItemClick(post));
-        holder.btnJoinFeed.setOnClickListener(v -> listener.onItemClick(post));
+        // [THÊM MỚI] Bắt buộc đăng nhập trước khi xem chi tiết hoặc gửi yêu cầu
+        View.OnClickListener checkLoginAndOpen = v -> {
+            Context context = v.getContext();
+            User currentUser = SharedPrefManager.getInstance(context).getCurrentUser();
+            if (currentUser == null) {
+                Toast.makeText(context, "Vui lòng đăng nhập hoặc đăng ký để xem chi tiết!", Toast.LENGTH_SHORT).show();
+                context.startActivity(new Intent(context, LoginActivity.class));
+                return;
+            }
+            listener.onItemClick(post);
+        };
+
+        holder.itemView.setOnClickListener(checkLoginAndOpen);
+        holder.btnJoinFeed.setOnClickListener(checkLoginAndOpen);
     }
 
     @Override

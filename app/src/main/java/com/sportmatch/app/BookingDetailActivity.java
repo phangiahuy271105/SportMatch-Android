@@ -81,6 +81,25 @@ public class BookingDetailActivity extends AppCompatActivity {
 
         // Các sân là dữ liệu hư cấu nên không có số điện thoại để gọi.
         findViewById(R.id.btn_contact_venue).setVisibility(View.GONE);
+        View btnFindTeammates = findViewById(R.id.btn_find_teammates);
+        if (ended) {
+            btnFindTeammates.setVisibility(View.GONE);
+        } else {
+            btnFindTeammates.setVisibility(View.VISIBLE);
+            btnFindTeammates.setOnClickListener(v -> {
+                Intent intent = new Intent(this, CreatePostActivity.class);
+                String sportName = SampleData.SPORT_BADMINTON.equals(court.getSportId())
+                        ? getString(R.string.sport_badminton) : getString(R.string.sport_football);
+
+                intent.putExtra("EXTRA_SPORT", sportName);
+                intent.putExtra("EXTRA_LOCATION", venue.getName() + " - " + court.getName() + " (" + venue.getAddress() + ")");
+                intent.putExtra("EXTRA_TIME", BookingTime.displaySlot(booking.getStartHour()) + " • " + BookingTime.displayDate(booking.getPlayDate()));
+                intent.putExtra("EXTRA_PHONE", booking.getCustomerPhone());
+                intent.putExtra("EXTRA_BOOKING_ID", booking.getId());
+
+                startActivity(intent);
+            });
+        }
         findViewById(R.id.btn_back_to_home).setOnClickListener(v -> {
             Intent intent = new Intent(this, MainActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
