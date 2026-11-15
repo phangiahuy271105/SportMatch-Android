@@ -583,13 +583,26 @@
 
         <!-- Nút Về trang chủ tìm sân -->
         <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_find_teammates"
+            android:layout_width="0dp"
+            android:layout_height="52dp"
+            android:layout_weight="1"
+            android:backgroundTint="#1877F2"
+            android:text="Tìm đồng đội"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            app:cornerRadius="12dp" />
+
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_back_to_home"
             android:layout_width="0dp"
             android:layout_height="52dp"
             android:layout_marginStart="8dp"
             android:layout_weight="1"
             android:backgroundTint="@color/sportmatch_primary"
-            android:text="@string/btn_back_to_home"
+            android:text="Về trang chủ tìm sân"
             android:textAllCaps="false"
             android:textColor="@color/white"
             android:textSize="14sp"

@@ -67,6 +67,20 @@ public class CreatePostActivity extends AppCompatActivity {
             edtDescription.setText(post.getDescription());
         }
         btnSubmitPost.setOnClickListener(v -> savePost());
+        // Nhận dữ liệu tự động điền khi bấm "Tìm đồng đội" từ màn hình Chi tiết đặt sân
+        if (postId == null && getIntent().hasExtra("EXTRA_LOCATION")) {
+            String extraSport = getIntent().getStringExtra("EXTRA_SPORT");
+            String extraLocation = getIntent().getStringExtra("EXTRA_LOCATION");
+            String extraTime = getIntent().getStringExtra("EXTRA_TIME");
+            String extraPhone = getIntent().getStringExtra("EXTRA_PHONE");
+
+            if (extraSport != null) edtSport.setText(extraSport);
+            if (extraLocation != null) edtLocation.setText(extraLocation);
+            if (extraTime != null) edtTime.setText(extraTime);
+            if (extraPhone != null) edtPhone.setText(extraPhone);
+
+            title.setText("Tìm đồng đội cho sân đã đặt");
+        }
     }
 
     private void savePost() {

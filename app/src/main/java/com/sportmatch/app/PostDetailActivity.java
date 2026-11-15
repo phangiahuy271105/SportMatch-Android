@@ -22,7 +22,8 @@ public class PostDetailActivity extends AppCompatActivity {
     private MatchStore matchStore;
     private Post post;
     private User currentUser;
-    private Button btnCallNow, btnSendRequest, btnEdit, btnManage, btnClose;
+    // [THÊM MỚI] Khai báo thêm btnOpenZalo
+    private Button btnCallNow, btnOpenZalo, btnSendRequest, btnEdit, btnManage, btnClose;
     private TextView tvSport, tvLocation, tvTime, tvSlots, tvDescription, tvAuthor, tvPhone, tvStatus;
 
     @Override
@@ -42,8 +43,10 @@ public class PostDetailActivity extends AppCompatActivity {
         tvPhone = findViewById(R.id.tvPhoneDetail);
         tvStatus = findViewById(R.id.tvDetailPostStatus);
         btnCallNow = findViewById(R.id.btnCallNow);
+        // [THÊM MỚI] Ánh xạ nút Zalo từ layout
+        btnOpenZalo = findViewById(R.id.btnOpenZalo);
         btnSendRequest = findViewById(R.id.btnSendRequest);
-        btnEdit = findViewById(R.id.btn_edit_post);
+        btnEdit = findViewById(R.id .btn_edit_post);
         btnManage = findViewById(R.id.btn_manage_requests);
         btnClose = findViewById(R.id.btn_close_post);
 
@@ -56,6 +59,8 @@ public class PostDetailActivity extends AppCompatActivity {
         }
 
         btnCallNow.setOnClickListener(v -> dialPhone());
+        // [THÊM MỚI] Bắt sự kiện bấm nút Zalo
+        btnOpenZalo.setOnClickListener(v -> openZalo());
         btnSendRequest.setOnClickListener(v -> sendOrWithdrawRequest());
         btnEdit.setOnClickListener(v -> {
             Intent intent = new Intent(this, CreatePostActivity.class);
@@ -94,7 +99,13 @@ public class PostDetailActivity extends AppCompatActivity {
 
         boolean owner = currentUser != null && currentUser.getId().equals(post.getOwnerId());
         findViewById(R.id.layout_owner_actions).setVisibility(owner ? View.VISIBLE : View.GONE);
-        btnCallNow.setVisibility(post.getPhoneNumber().isEmpty() || owner ? View.GONE : View.VISIBLE);
+
+        // Ẩn nút Gọi và nút Zalo nếu không có SĐT hoặc người xem chính là chủ bài
+        boolean hideContactButtons = post.getPhoneNumber().isEmpty() || owner;
+        btnCallNow.setVisibility(hideContactButtons ? View.GONE : View.VISIBLE);
+        // [THÊM MỚI] Ẩn/hiện nút Zalo đồng bộ với nút Gọi
+        btnOpenZalo.setVisibility(hideContactButtons ? View.GONE : View.VISIBLE);
+
         btnClose.setVisibility(MatchStore.CLOSED.equals(post.getStatus()) ? View.GONE : View.VISIBLE);
         if (owner) {
             btnSendRequest.setVisibility(View.GONE);
@@ -145,6 +156,21 @@ public class PostDetailActivity extends AppCompatActivity {
         startActivity(callIntent);
     }
 
+    // [THÊM MỚI] Hàm mở thẳng Zalo bằng số điện thoại của người đăng bài
+    private void openZalo() {
+        String rawPhone = post.getPhoneNumber();
+        if (rawPhone == null || rawPhone.trim().isEmpty()) return;
+
+        // Lọc chỉ giữ lại chữ số (tránh lỗi nếu người dùng nhập dấu cách hoặc dấu gạch)
+        String cleanPhone = rawPhone.replaceAll("[^0-9]", "");
+        try {
+            Intent zaloIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://zalo.me/" + cleanPhone));
+            startActivity(zaloIntent);
+        } catch (Exception e) {
+            Toast.makeText(this, "Không thể mở Zalo trên thiết bị này.", Toast.LENGTH_SHORT).show();
+        }
+    }
+
     private void sendOrWithdrawRequest() {
         if (currentUser == null) {
             Toast.makeText(this, "Đăng nhập trước khi gửi yêu cầu.", Toast.LENGTH_SHORT).show();
@@ -165,7 +191,7 @@ public class PostDetailActivity extends AppCompatActivity {
         boolean resending = request != null && (MatchStore.REJECTED.equals(request.getStatus())
                 || MatchStore.WITHDRAWN.equals(request.getStatus()));
         Toast.makeText(this, error == null
-                ? (request == null || resending ? "Đã gửi yêu cầu." : "Đã rút yêu cầu.") : error,
+                        ? (request == null || resending ? "Đã gửi yêu cầu." : "Đã rút yêu cầu.") : error,
                 Toast.LENGTH_SHORT).show();
         post = matchStore.getPost(post.getId());
         showPost();
