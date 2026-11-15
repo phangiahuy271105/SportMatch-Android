@@ -9,4 +9,4 @@ Bốn ảnh trong `app/src/main/res/drawable-nodpi/` được tạo bằng công
 | `venue_tan_binh.png` | Ảnh chụp tự nhiên, khung ngang 16:9, nhà thi đấu cầu lông Tân Bình giả định với hai sân thảm PVC xanh, lưới, ghế chờ và mái cao, ánh sáng trong nhà, không chữ/logo/người nhận diện được. |
 | `venue_quan_7.png` | Ảnh chụp tự nhiên, khung ngang 16:9, nhà cầu lông Quận 7 giả định có một sân sàn gỗ và một sân thảm PVC xanh, ghế chờ và đèn trần, không chữ/logo/người nhận diện được. |
 
-Giao diện gắn nhãn “Ảnh minh họa” để người xem không hiểu đây là ảnh của cơ sở kinh doanh thật. Nếu sau này dùng ảnh sân thật, nhóm cần có quyền sử dụng ảnh và thay nội dung sân mẫu tương ứng.
+Từ bản dọn giao diện ngày 15/11/2026, nhãn “Ảnh minh họa” được bỏ khỏi thẻ sân và ảnh chi tiết theo thống nhất của nhóm. Nguồn gốc ảnh và tính chất hư cấu vẫn được ghi ở đây và trong README. Nếu sau này dùng ảnh sân thật, nhóm cần có quyền sử dụng ảnh và thay nội dung sân mẫu tương ứng.

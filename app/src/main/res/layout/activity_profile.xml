@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_light"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp"
+        android:gravity="center_horizontal">
+
+        <!-- Tiêu đề Hồ sơ -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Hồ Sơ Cá Nhân"
+            android:textColor="@color/primary_blue"
+            android:textSize="26sp"
+            android:textStyle="bold"
+            android:layout_marginTop="20dp" />
+
+        <!-- KHUNG AVATAR TRÒN THỂ THAO -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="110dp"
+            android:layout_height="110dp"
+            android:layout_marginTop="16dp"
+            app:cardCornerRadius="55dp"
+            app:cardElevation="6dp">
+
+            <ImageView
+                android:id="@+id/imgAvatar"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:src="@drawable/avatar_male" />
+        </androidx.cardview.widget.CardView>
+
+        <!-- Tên trên Header -->
+        <TextView
+            android:id="@+id/tvProfileNameHeader"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Triệu Hoàng Đăng Khoa"
+            android:textColor="@color/text_primary"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_marginTop="12dp" />
+
+        <!-- Email trên Header -->
+        <TextView
+            android:id="@+id/tvProfileEmailHeader"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="khoa@sportmatch.vn"
+            android:textColor="@color/text_secondary"
+            android:textSize="14sp"
+            android:layout_marginTop="2dp" />
+
+        <!-- SĐT trên Header -->
+        <TextView
+            android:id="@+id/tvProfilePhoneHeader"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="SĐT: 0912345678"
+            android:textColor="@color/accent_orange"
+            android:textStyle="bold"
+            android:textSize="14sp"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="24dp" />
+
+        <!-- Card chỉnh sửa thông tin -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="3dp"
+            android:layout_marginBottom="24dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="20dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="THÔNG TIN CÁ NHÂN"
+                    android:textColor="@color/primary_blue"
+                    android:textSize="13sp"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="16dp" />
+
+                <!-- Họ và tên -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Họ và tên"
+                    android:textColor="@color/text_secondary"
+                    android:textSize="13sp" />
+
+                <EditText
+                    android:id="@+id/etProfileName"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:background="@android:drawable/edit_text"
+                    android:textColor="@color/text_primary"
+                    android:textSize="16sp"
+                    android:inputType="textPersonName"
+                    android:layout_marginBottom="14dp" />
+
+                <!-- Số điện thoại -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Số điện thoại"
+                    android:textColor="@color/text_secondary"
+                    android:textSize="13sp" />
+
+                <EditText
+                    android:id="@+id/etProfilePhone"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:background="@android:drawable/edit_text"
+                    android:textColor="@color/text_primary"
+                    android:textSize="16sp"
+                    android:inputType="phone"
+                    android:layout_marginBottom="14dp" />
+
+                <!-- GIỚI TÍNH: Nam / Nữ -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Giới tính"
+                    android:textColor="@color/text_secondary"
+                    android:textSize="13sp" />
+
+                <RadioGroup
+                    android:id="@+id/rgGender"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="14dp">
+
+                    <RadioButton
+                        android:id="@+id/rbMale"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Nam 🚹 "
+                        android:textSize="15sp"
+                        android:layout_marginEnd="24dp" />
+
+                    <RadioButton
+                        android:id="@+id/rbFemale"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Nữ 🚺 "
+                        android:textSize="15sp" />
+                </RadioGroup>
+
+                <!-- Môn thể thao yêu thích -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Môn thể thao yêu thích"
+                    android:textColor="@color/text_secondary"
+                    android:textSize="13sp"
+                    android:layout_marginBottom="4dp" />
+
+                <Spinner
+                    android:id="@+id/spProfileSport"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:background="@android:drawable/btn_dropdown"
+                    android:layout_marginBottom="20dp" />
+
+                <!-- Nút Lưu cập nhật -->
+                <Button
+                    android:id="@+id/btnUpdateProfile"
+                    android:layout_width="match_parent"
+                    android:layout_height="52dp"
+                    android:text="LƯU THAY ĐỔI"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    android:backgroundTint="@color/primary_blue"
+                    android:textColor="@color/white"
+                    app:cornerRadius="10dp" />
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <!-- Nút Đăng xuất -->
+        <Button
+            android:id="@+id/btnLogout"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="ĐĂNG XUẤT"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:backgroundTint="#EF4444"
+            android:textColor="@color/white"
+            app:cornerRadius="10dp"
+            android:layout_marginBottom="30dp" />
+
+    </LinearLayout>
+</ScrollView>

@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.button.MaterialButton;
 import com.sportmatch.app.data.BookingStore;
 import com.sportmatch.app.data.BookingTime;
+import com.google.android.material.button.MaterialButton;
 import com.sportmatch.app.data.CurrentUser;
 import com.sportmatch.app.data.SampleData;
 import com.sportmatch.app.model.Booking;
@@ -75,7 +76,11 @@ public class MyBookingsActivity extends AppCompatActivity {
         upcoming.clear();
         past.clear();
         BookingStore store = new BookingStore(this);
-        for (Booking booking : store.getBookingsForUser(CurrentUser.getId())) {
+
+        // Lấy ID/Email của tài khoản đang đăng nhập hiện tại
+        String currentUserId = CurrentUser.getId(this);
+
+        for (Booking booking : store.getBookingsForUser(currentUserId)) {
             if (BookingTime.hasEnded(booking.getPlayDate(), booking.getStartHour())) {
                 past.add(booking);
             } else {
@@ -132,13 +137,18 @@ public class MyBookingsActivity extends AppCompatActivity {
             Venue venue = court == null ? null : SampleData.getVenueById(court.getVenueId());
             boolean ended = BookingTime.hasEnded(booking.getPlayDate(), booking.getStartHour());
 
-            holder.venue.setText(venue == null ? "Sân mẫu đã thay đổi" : venue.getName());
+            holder.venue.setText(venue == null ? "Thông tin sân không còn khả dụng" : venue.getName());
             holder.court.setText(court == null ? "Không tìm thấy sân con" : court.getName());
             holder.address.setText(venue == null ? "" : venue.getAddress());
             holder.dateTime.setText(BookingTime.displaySlot(booking.getStartHour())
                     + " | " + BookingTime.displayDate(booking.getPlayDate()));
             holder.code.setText("Mã: " + booking.getId());
             holder.price.setText(BookingTime.displayPrice(booking.getTotalPrice()));
+            String method = getString(Booking.PAY_AT_VENUE.equals(booking.getPaymentMethod())
+                    ? R.string.payment_at_venue : R.string.payment_not_selected);
+            String paymentState = getString(Booking.UNPAID.equals(booking.getPaymentStatus())
+                    ? R.string.payment_unpaid : R.string.payment_unknown);
+            holder.payment.setText(getString(R.string.payment_summary, method, paymentState));
             holder.status.setText(ended
                     ? R.string.booking_status_completed : R.string.booking_status_confirmed);
             holder.status.setBackgroundResource(ended
@@ -158,7 +168,7 @@ public class MyBookingsActivity extends AppCompatActivity {
         }
 
         class Holder extends RecyclerView.ViewHolder {
-            TextView venue, court, dateTime, address, code, price, status;
+            TextView venue, court, dateTime, address, code, price, status, payment;
 
             Holder(View row) {
                 super(row);
@@ -169,6 +179,7 @@ public class MyBookingsActivity extends AppCompatActivity {
                 code = row.findViewById(R.id.tv_booking_item_code);
                 price = row.findViewById(R.id.tv_booking_item_price);
                 status = row.findViewById(R.id.tv_booking_item_status);
+                payment = row.findViewById(R.id.tv_booking_item_payment);
             }
         }
     }

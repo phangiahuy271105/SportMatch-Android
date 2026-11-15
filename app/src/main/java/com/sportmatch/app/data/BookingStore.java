@@ -66,6 +66,8 @@ public final class BookingStore {
             item.put("note", newBooking.getNote());
             item.put("totalPrice", newBooking.getTotalPrice());
             item.put("status", newBooking.getStatus());
+            item.put("paymentMethod", newBooking.getPaymentMethod());
+            item.put("paymentStatus", newBooking.getPaymentStatus());
         } catch (JSONException e) {
             return false;
         }
@@ -84,7 +86,10 @@ public final class BookingStore {
                     item.optString("courtId"), item.optString("playDate"),
                     item.optInt("startHour"), item.optString("customerName"),
                     item.optString("customerPhone"), item.optString("note"),
-                    item.optInt("totalPrice"), item.optString("status")
+                    item.optInt("totalPrice"), item.optString("status"),
+                    // Lịch cũ chưa chọn phương thức và chưa có giao dịch thanh toán.
+                    item.optString("paymentMethod", Booking.PAYMENT_NOT_SELECTED),
+                    item.optString("paymentStatus", Booking.UNPAID)
             ));
         }
         return result;

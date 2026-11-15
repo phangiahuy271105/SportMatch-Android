@@ -2,7 +2,6 @@ package com.sportmatch.app;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -22,6 +21,8 @@ import com.sportmatch.app.model.Venue;
 import java.util.Locale;
 import java.util.UUID;
 
+import com.sportmatch.app.model.User;
+import com.sportmatch.app.utils.SharedPrefManager;
 /** Kiểm tra lại thông tin trước khi lưu một lịch đặt mẫu trên máy. */
 public class BookingConfirmActivity extends AppCompatActivity {
     private Venue venue;
@@ -65,8 +66,15 @@ public class BookingConfirmActivity extends AppCompatActivity {
         nameInput = findViewById(R.id.edt_customer_name);
         phoneInput = findViewById(R.id.edt_customer_phone);
         noteInput = findViewById(R.id.edt_booking_note);
-        // Địa điểm đều hư cấu nên không hiển thị số điện thoại chủ sân.
-        findViewById(R.id.btn_support_call).setVisibility(View.GONE);
+        // Tự động điền thông tin nếu tài khoản đã đăng nhập
+        SharedPrefManager pref = SharedPrefManager.getInstance(this);
+        if (pref.isLoggedIn()) {
+            User currentUser = pref.getCurrentUser();
+            if (currentUser != null) {
+                if (currentUser.getFullName() != null) nameInput.setText(currentUser.getFullName());
+                if (currentUser.getPhoneNumber() != null) phoneInput.setText(currentUser.getPhoneNumber());
+            }
+        }
         MaterialButton confirmButton = findViewById(R.id.btn_confirm_booking);
         confirmButton.setOnClickListener(v -> saveBooking(confirmButton));
     }
@@ -97,8 +105,11 @@ public class BookingConfirmActivity extends AppCompatActivity {
         // UUID tạo mã khác nhau cho các lượt đặt mẫu.
         String id = "SM-" + UUID.randomUUID().toString().substring(0, 8)
                 .toUpperCase(Locale.ROOT);
-        Booking booking = new Booking(id, CurrentUser.getId(), court.getId(), playDate,
-                startHour, name, phone, note, court.getPricePerHour(), Booking.CONFIRMED);
+        String bookerId = CurrentUser.getId(this);
+
+        Booking booking = new Booking(id, bookerId, court.getId(), playDate,
+                startHour, name, phone, note, court.getPricePerHour(), Booking.CONFIRMED,
+                Booking.PAY_AT_VENUE, Booking.UNPAID);
         button.setEnabled(false);
         if (!bookingStore.save(booking)) {
             button.setEnabled(true);
@@ -107,7 +118,7 @@ public class BookingConfirmActivity extends AppCompatActivity {
             return;
         }
 
-        Toast.makeText(this, "Đã lưu lịch đặt mẫu trên máy", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, R.string.booking_saved_message, Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(this, BookingDetailActivity.class);
         intent.putExtra("BOOKING_ID", booking.getId());
         startActivity(intent);

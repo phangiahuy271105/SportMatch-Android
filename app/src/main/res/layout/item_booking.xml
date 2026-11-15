@@ -144,6 +144,16 @@
         </LinearLayout>
 
         <!-- ĐƯỜNG KẺ NGĂN CÁCH THANH LỊCH -->
+        <TextView
+            android:id="@+id/tv_booking_item_payment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:textColor="@color/sportmatch_text_secondary"
+            android:textSize="13sp"
+            tools:text="Thanh toán tại sân · Chưa thanh toán" />
+
+        <!-- ĐƯỜNG KẺ NGĂN CÁCH THANH LỊCH -->
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"

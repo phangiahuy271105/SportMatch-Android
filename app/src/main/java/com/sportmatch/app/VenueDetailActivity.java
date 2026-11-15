@@ -50,6 +50,12 @@ public class VenueDetailActivity extends AppCompatActivity {
             return;
         }
         selectedCourt = courts.get(0);
+        if (savedInstanceState != null) {
+            String courtId = savedInstanceState.getString("SELECTED_COURT_ID");
+            for (Court item : courts) {
+                if (item.getId().equals(courtId)) selectedCourt = item;
+            }
+        }
 
         ((TextView) findViewById(R.id.venue_detail_name)).setText(venue.getName());
         ((TextView) findViewById(R.id.venue_detail_address)).setText(venue.getAddress());
@@ -76,6 +82,14 @@ public class VenueDetailActivity extends AppCompatActivity {
             if (playDateFromList != null) intent.putExtra("PLAY_DATE", playDateFromList);
             startActivity(intent);
         });
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        if (selectedCourt != null) {
+            outState.putString("SELECTED_COURT_ID", selectedCourt.getId());
+        }
     }
 
     private void showAmenities() {

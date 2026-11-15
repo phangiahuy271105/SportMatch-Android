@@ -10,7 +10,17 @@ Hai môn của bản đầu: **bóng đá mini** và **cầu lông**.
 2. Đợi Gradle đồng bộ xong. Nếu Studio yêu cầu Gradle JDK, chọn JDK đi kèm Android Studio.
 3. Chọn Android Emulator và bấm **Run app**.
 
-Phần sân và đặt sân mẫu đã có 6 màn, lọc sân, chọn sân con/giờ, lưu lịch trên máy và xem lại lịch. Xem [hướng dẫn thử luồng sân](docs/UI_HANDOVER_GUIDE.md). Phần tài khoản và tìm người vẫn do hai thành viên còn lại thực hiện.
+Đã tích hợp phần sân/đặt sân, tài khoản/hồ sơ và tìm người vào cùng ứng dụng. Phần đặt sân có 6 màn, lọc sân, chọn sân con/giờ, lưu lịch theo người dùng và xem lại lịch. Thanh toán hiện hỗ trợ ghi nhận phương thức **Thanh toán tại sân**, trạng thái **Chưa thanh toán**; chưa xử lý giao dịch thật.
+
+Xem [hướng dẫn thử luồng sân](docs/UI_HANDOVER_GUIDE.md) và [hướng dẫn nhận bản chung](docs/05-ban-giao-ban-chung.md).
+
+## Phạm vi của bản hiện tại
+
+- Dữ liệu sân là hư cấu; ảnh sân được tạo để minh họa. Giao diện đã bỏ các nhãn thử nghiệm để gọn hơn, nhưng dữ liệu vẫn là dữ liệu phục vụ học tập.
+- Lịch, tài khoản và bài tìm người lưu trên thiết bị. Chưa đồng bộ giữa các điện thoại hoặc gửi lịch tới chủ sân.
+- “Đã lưu” chỉ xác nhận lưu trong app. Chống trùng giờ hiện áp dụng trên một thiết bị, chưa xử lý đặt đồng thời qua server.
+- Tài khoản và khôi phục mật khẩu hiện là luồng cục bộ, chưa có xác minh email/OTP hay phân quyền tại server. Không dùng thông tin hoặc mật khẩu thật để thử.
+- Chưa có đặt cọc, thanh toán online, xác nhận đã thu tiền hoặc hủy lịch.
 
 ## Làm việc nhóm
 
